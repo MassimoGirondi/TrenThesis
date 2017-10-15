@@ -1,0 +1,274 @@
+jQuery("#simulation")
+  .on("click", ".s-2f2316fb-795c-4cfd-8720-617ef7b00490 .click", function(event, data) {
+    var jEvent, jFirer, cases;
+    if(data === undefined) { data = event; }
+    jEvent = jimEvent(event);
+    jFirer = jEvent.getEventFirer();
+    if(jFirer.is("#s-Text_1")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/d12245cc-1680-458d-89dd-4f0d7fb22724"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Image_1")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimShow",
+                  "parameter": {
+                    "target": [ "#s-Rectangle_5" ]
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        },
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimShow",
+                  "parameter": {
+                    "target": [ "#s-Rectangle_6" ]
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        },
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimShow",
+                  "parameter": {
+                    "target": [ "#s-Rectangle_7" ]
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Image_2")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/86402d61-6f3a-48a7-adf0-65df180fc62b"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Image_3")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/84a9a013-680c-437a-9f16-71e0544b6c0f"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Image_4")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/3eaeb2e9-0c44-4b2b-b56a-2fbad827b260"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Image_5")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimShow",
+                  "parameter": {
+                    "target": [ "#s-Rectangle_8","#s-Rectangle_10" ]
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Rectangle_5")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/6b50f51e-4b67-43d9-9df7-c267e9164ec8"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Rectangle_6")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/2f388c76-5a45-48ee-9cc6-6b5f6a98222a"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Rectangle_8")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/fb608b3d-85f1-4748-8a99-d9665ecc16e4"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    } else if(jFirer.is("#s-Rectangle_3")) {
+      cases = [
+        {
+          "blocks": [
+            {
+              "actions": [
+                {
+                  "action": "jimNavigation",
+                  "parameter": {
+                    "target": "screens/fabeff08-f8a0-4a33-b76e-0aa37c295062"
+                  },
+                  "exectype": "serial",
+                  "delay": 0
+                }
+              ]
+            }
+          ],
+          "exectype": "serial",
+          "delay": 0
+        }
+      ];
+      event.data = data;
+      jEvent.launchCases(cases);
+    }
+  });
