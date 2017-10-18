@@ -452,6 +452,16 @@
   font-weight: 400;
   line-height: 0px;
 }
+#s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Rectangle_5 span#rtr-s-Rectangle_5_1 {
+  color: #333333;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Arial Greek',Arial;
+  font-size: 9.0pt;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0px;
+}
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Rectangle_6 {
   position: absolute;
   top: 99px;
@@ -532,6 +542,7 @@
   box-shadow: none;
   text-shadow: none;
   display: none;
+  cursor: pointer;
   line-height: 18px;
   font-size: 9.0pt;
   font-family: 'Arial Greek',Arial;
@@ -639,6 +650,7 @@
   box-shadow: none;
   text-shadow: none;
   display: none;
+  cursor: pointer;
   line-height: 18px;
   font-size: 9.0pt;
   font-family: 'Arial Greek',Arial;
@@ -696,6 +708,16 @@
   font-weight: 700;
 }
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_3 span#rtr-s-Text_3_0 {
+  color: #333333;
+  text-align: left;
+  text-decoration: none;
+  font-family: 'Arial',Arial;
+  font-size: 14.5pt;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 0px;
+}
+#s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_3 span#rtr-s-Text_3_1 {
   color: #333333;
   text-align: left;
   text-decoration: none;
@@ -847,7 +869,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_4 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -1024,7 +1046,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_6 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -1201,7 +1223,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_8 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -1417,7 +1439,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_10 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -1594,7 +1616,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_12 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -1771,7 +1793,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_14 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -1948,7 +1970,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_16 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -2125,7 +2147,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_18 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -2302,7 +2324,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_20 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -2479,7 +2501,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_22 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -2656,7 +2678,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_24 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
@@ -2833,7 +2855,7 @@
 #s-2f2316fb-795c-4cfd-8720-617ef7b00490 #s-Text_26 {
   position: absolute;
   top: 7px;
-  left: 21px;
+  left: 18px;
   width: auto;
   height: auto;
   background-color: transparent;
