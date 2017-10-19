@@ -1,7 +1,5 @@
 # TrenThesis
-<div style="text-align:center">
-<img src="docs/logo/logo.png"/>  
-</div>
+![logo](docs/logo/logo.png)
 
 This is the README file for the TrenThesis project. Further information at https://github.com/MassimoGirondi/TrenThesis/wiki.
 
