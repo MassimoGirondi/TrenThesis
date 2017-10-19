@@ -1,4 +1,5 @@
 # TrenThesis
+![logo.png](logo.png)
 This is the README file for the TrenThesis project. Further information at https://github.com/MassimoGirondi/TrenThesis/wiki.
 
 ## Project scope
