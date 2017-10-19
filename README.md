@@ -1,5 +1,5 @@
 # TrenThesis
-![docs/logo.png](docs/logo.png)
+![docs/logo/logo.png](docs/logo/logo.png)
 This is the README file for the TrenThesis project. Further information at https://github.com/MassimoGirondi/TrenThesis/wiki.
 
 ## Project scope
