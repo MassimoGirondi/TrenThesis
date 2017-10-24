@@ -1,6 +1,5 @@
 /**
-Add here the routes for the root
-
+Add here the routes for the root of the application (i.e. error message (wrong url))
 */
 
 var express = require('express'),

@@ -1,7 +1,6 @@
 /**
-Add here the routes for the bot API
-In example: the url called by Telegram
-
+* Add here the routes for the bot API
+* In example: the url called by Telegram
 */
 
 

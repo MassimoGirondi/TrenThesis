@@ -3,6 +3,7 @@
     "main": "api/router.js",
     "dependencies": {
         "body-parser": "~1.0.1",
+        "documentation": "^5.3.3",
         "esdoc": "^1.0.3",
         "esdoc-standard-plugin": "^1.0.0",
         "express": "~4.0.0",
@@ -10,13 +11,20 @@
     },
     "esdoc": {
         "source": ".",
-        "destination": "./docs/api",
+        "destination": "./docs/documentation",
         "excludes": [
-            "(node_modules|docs/api|docs/mockups)"
+            "(node_modules|docs/documentation|docs/mockups)"
         ],
         "plugins": [
             {
-                "name": "esdoc-standard-plugin"
+                "name": "esdoc-standard-plugin",
+                "brand": {
+                    "logo": "./docs/logo.png",
+                    "title": "Trenthesis",
+                    "description": "Thesis made easy!",
+                    "repository": "https://github.com/MassimoGirondi/Trenthesis",
+                    "site": "https://MassimoGirondi.github.io/Trenthesis"
+                }
             }
         ]
     }

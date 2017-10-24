@@ -1,6 +1,6 @@
 /**
-Add here the routes for the API
-
+* Add here the routes for the API
+* Each API call should have a different call (to have a CRUD API service) 
 */
 
 var express = require('express'),
