@@ -2,8 +2,10 @@
     "name": "TrenthesisAPI",
     "main": "api/router.js",
     "dependencies": {
+        "body-parser": "~1.0.1",
+        "esdoc": "^1.0.3",
+        "esdoc-standard-plugin": "^1.0.0",
         "express": "~4.0.0",
-        "mongoose": "~3.6.13",
-        "body-parser": "~1.0.1"
+        "mongoose": "~3.6.13"
     }
 }
