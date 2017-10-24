@@ -1,0 +1,38 @@
+{
+  "coverage": "23.07%",
+  "expectCount": 13,
+  "actualCount": 3,
+  "files": {
+    "TrenThesis/api/routes.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "TrenThesis/bot/routes.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "TrenThesis/router.js": {
+      "expectCount": 10,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        6,
+        7,
+        8,
+        16,
+        17,
+        18,
+        26,
+        29,
+        30
+      ]
+    },
+    "TrenThesis/routes.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    }
+  }
+}

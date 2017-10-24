@@ -7,5 +7,17 @@
         "esdoc-standard-plugin": "^1.0.0",
         "express": "~4.0.0",
         "mongoose": "~3.6.13"
+    },
+    "esdoc": {
+        "source": ".",
+        "destination": "./docs/api",
+        "excludes": [
+            "(node_modules|docs/api|docs/mockups)"
+        ],
+        "plugins": [
+            {
+                "name": "esdoc-standard-plugin"
+            }
+        ]
     }
 }
