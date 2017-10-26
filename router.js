@@ -32,7 +32,25 @@ var port = process.env.PORT || 8080;        // set our port
 //Connect to DB
 var mongoose   = require('mongoose');
 var mongodbUrl = process.env.mongoDBUrl || 'mongodb://localhost:27017/';
-mongoose.connect(mongodbUrl); // connect to our database
 
+
+// CONNECTION EVENTS
+// When successfully connected
+mongoose.connection.on('connected', function () {
+  console.log('Mongoose connection open to ' + mongodbUrl);
+});
+
+// If the connection throws an error
+mongoose.connection.on('error',function (err) {
+  console.log('Mongoose connection error: ' + mongodbUrl);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose connection disconnected');
+});
+
+mongoose.connect(mongodbUrl,{ useMongoClient: true }); // connect to our database
 
 app.listen(port);
+console.log("App started at port " + port);

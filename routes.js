@@ -9,8 +9,9 @@ var express = require('express'),
 router
   .get('/', function(req,res){
 
-    var hostname = req.headers.host; // hostname = 'localhost:8080'
-    res.json({ message: 'hooray! welcome to our api server. Please use '+hostname+'/api/ to call any API function!' });
+    var hostname = req.headers.host;
+    res.json({ message: 'hooray! Benvenuto nelle nostre API. Usa '+hostname+'/api/ per chiamare una qualsiasi API!' });
+
 
   })
 

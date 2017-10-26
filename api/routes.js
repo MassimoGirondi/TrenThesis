@@ -1,6 +1,6 @@
 /**
 * Add here the routes for the API
-* Each API call should have a different call (to have a CRUD API service) 
+* Each API call should have a different call (to have a CRUD API service)
 */
 
 var express = require('express'),
@@ -9,7 +9,7 @@ var express = require('express'),
 
 router
   .get('/', function(req,res){
-    res.json({ message: 'hooray! welcome to our api!' });
+    res.json({ message: 'hooray! Benvenuto nelle nostre API!' });
 
   })
 

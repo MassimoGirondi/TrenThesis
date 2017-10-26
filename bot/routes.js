@@ -10,7 +10,7 @@ var express = require('express'),
 
 router
   .get('/', function(req,res){
-    res.json({ message: 'hooray! welcome to our bot api!' });
+    res.json({ message: 'hooray! Benvenuto nelle nostre API per Telegram!' });
 
   })
 
