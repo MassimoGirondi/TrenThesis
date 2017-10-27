@@ -64,7 +64,7 @@ app.use((err, req, res, next) => {
 var port = process.env.PORT || 8080; // set our port
 
 //Connect to DB
-var mongodbUrl = process.env.mongoDBUrl || 'mongodb://localhost:27017/';
+var mongodbUrl = process.env.mongoDBUrl || 'mongodb://localhost:27017/Trenthesis';
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect(mongodbUrl, (err, db) => {
 

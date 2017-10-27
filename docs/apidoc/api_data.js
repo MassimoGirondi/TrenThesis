@@ -44,5 +44,28 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "./api/routes.js",
     "groupTitle": "General"
+  },
+  {
+    "type": "get",
+    "url": "/professors/",
+    "title": "Get all professors in DB",
+    "name": "_professors_",
+    "group": "Professors",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "JSON",
+            "description": "<p>array with all professors in DB.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Professors"
   }
 ] });
