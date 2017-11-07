@@ -199,5 +199,40 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "./api/routes.js",
     "groupTitle": "Professors"
+  },
+  {
+    "type": "get",
+    "url": "/api/topics/:id",
+    "title": "Get topics for specified professor_id",
+    "name": "Get_topics_by_professor_id",
+    "group": "Topics",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "JSON",
+            "description": "<p>object contain a list of objects (topics).</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "TopicNotFound",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Topics"
   }
 ] });

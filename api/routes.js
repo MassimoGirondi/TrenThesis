@@ -95,17 +95,18 @@ router
       }
     });
   })
-  /**
-   * @api {put} /api/professors/:id Update professor with specified ID
-   * @apiName Update professor by  id
-   * @apiGroup Professors
-   *
-   * @apiSuccess {status} Boolean value, true if the update was successful.
-   * @apiParam {Object} JSON object with all the fields of the professor (modified).
-   * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
-   * @apiPermission AuthenticatedProfessor
-   */
+
   .put('/professors/:id', function(req, res, next) {
+    /**
+     * @api {put} /api/professors/:id Update professor with specified ID
+     * @apiName Update professor by  id
+     * @apiGroup Professors
+     *
+     * @apiSuccess {status} Boolean value, true if the update was successful.
+     * @apiParam {Object} JSON object with all the fields of the professor (modified).
+     * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
+     * @apiPermission AuthenticatedProfessor
+     */
     var db = req.app.get("db");
 
     /*
@@ -133,16 +134,17 @@ router
       }
     })
   })
-  /**
-   * @api {delete} /api/professors/:id Delete professor with specified ID
-   * @apiName Delete professor
-   * @apiGroup Professors
-   *
-   * @apiSuccess {status} Boolean value, true if the deletion was successful.
-   * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
-   * @apiPermission AuthenticatedProfessor
-   */
+
   .delete('/professors/:id', function(req, res, next) {
+    /**
+     * @api {delete} /api/professors/:id Delete professor with specified ID
+     * @apiName Delete professor
+     * @apiGroup Professors
+     *
+     * @apiSuccess {status} Boolean value, true if the deletion was successful.
+     * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
+     * @apiPermission AuthenticatedProfessor
+     */
     var db = req.app.get("db");
 
     /*
@@ -180,9 +182,38 @@ router
         }
       }
     });
+  })
+  .get('/topics/:id', function(req, res, next) {
+    /**
+     * @api {get} /api/topics/:id Get topics for specified professor_id
+     * @apiName  Get topics by professor_id
+     * @apiGroup Topics
+     *
+     * @apiSuccess {Object} JSON object contain a list of objects (topics).
+     * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
+     */
+
+    var db = req.app.get("db");
+    var id = req.params.id;
+    db.collection("topics").find({
+      "professor_id": parseInt(id)
+    }, {
+      "_id": 0
+    }).toArray(function(err, topics) {
+      if (err) {
+        console.error("Failed to get topic with id=" + id + " : " + err.message);
+        var err = new Error('Something is broken!');
+        next(err);
+      } else if (!topics || topics.length === 0) {
+        console.error("Failed to get topic with id=" + id);
+        var err = new Error('No topic found with given id!');
+        err.status = 404;
+        next(err);
+      } else {
+        res.status(200).json(topics);
+      }
+    });
   });
-
-
 
 
 
