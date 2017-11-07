@@ -101,7 +101,7 @@ router
    * @apiGroup Professors
    *
    * @apiSuccess {status} Boolean value, true if the update was successful.
-   * @apiParameter {Object} boolean value modify, encapsulated in JSON object
+   * @apiParam {Object} JSON object with all the fields of the professor (modified).
    * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
@@ -129,9 +129,17 @@ router
           var err = new Error('Professor not updated!');
           err.status = 400;
           next(err);
+
         }
+
       }
+
     });
+
+
+
+
+
   });
 
 
