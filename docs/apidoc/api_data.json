@@ -46,8 +46,50 @@
     "groupTitle": "General"
   },
   {
+    "type": "delete",
+    "url": "/api/professors/:id",
+    "title": "Delete professor with specified ID",
+    "name": "Delete_professor",
+    "group": "Professors",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "status",
+            "optional": false,
+            "field": "Boolean",
+            "description": "<p>value, true if the deletion was successful.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ProfessorNotDeleted",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "AuthenticatedProfessor",
+        "title": "Any authenticated Professor",
+        "description": "<p>Restrict access to write, update and delete options</p>"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Professors"
+  },
+  {
     "type": "get",
-    "url": "/professors/:id",
+    "url": "/api/professors/:id",
     "title": "Get  professor with specified ID",
     "name": "Get_professor_by_id",
     "group": "Professors",
@@ -82,7 +124,7 @@
   },
   {
     "type": "get",
-    "url": "/professors/",
+    "url": "/api/professors/",
     "title": "Get all professors in DB",
     "name": "Get_professors_list",
     "group": "Professors",
@@ -105,9 +147,9 @@
   },
   {
     "type": "put",
-    "url": "/professors/:id",
+    "url": "/api/professors/:id",
     "title": "Update professor with specified ID",
-    "name": "_professors__id",
+    "name": "Update_professor_by_id",
     "group": "Professors",
     "success": {
       "fields": {

@@ -42,7 +42,7 @@ router
   })
   .get('/professors', function(req, res) {
     /**
-     * @api {get} /professors/ Get all professors in DB
+     * @api {get} /api/professors/ Get all professors in DB
      * @apiName Get professors list
      * @apiGroup Professors
      *
@@ -66,7 +66,7 @@ router
 
   .get('/professors/:id', function(req, res, next) {
     /**
-     * @api {get} /professors/:id Get  professor with specified ID
+     * @api {get} /api/professors/:id Get  professor with specified ID
      * @apiName  Get professor by id
      * @apiGroup Professors
      *
@@ -96,8 +96,8 @@ router
     });
   })
   /**
-   * @api {put} /professors/:id Update professor with specified ID
-   * @apiName /professors/:id
+   * @api {put} /api/professors/:id Update professor with specified ID
+   * @apiName Update professor by id
    * @apiGroup Professors
    *
    * @apiSuccess {status} Boolean value, true if the update was successful.
@@ -129,17 +129,44 @@ router
           var err = new Error('Professor not updated!');
           err.status = 400;
           next(err);
-
         }
-
       }
+    })
+  })
+  /**
+   * @api {delete} /api/professors/:id Delete professor with specified ID
+   * @apiName Delete professor
+   * @apiGroup Professors
+   *
+   * @apiSuccess {status} Boolean value, true if the deletion was successful.
+   * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
+   * @apiPermission AuthenticatedProfessor
+   */
+  .delete('/professors/:id', function(req, res, next) {
+    var db = req.app.get("db");
 
+    /*
+    Check if the AuthenticatedProfessor is the same of :id
+    */
+    var id = req.params.id;
+    db.collection("professors").deleteOne({
+      "id": parseInt(id)
+    }, req.body, function(err, status) {
+
+      if (err) {
+        console.error("Failed to delete professor with id=" + id + " : " + err.message);
+        var err = new Error('Something is broken!');
+        next(err);
+      } else {
+        if (status.deletedCount === 1)
+          res.status(200).json(true);
+        else {
+          var err = new Error('Professor not deleted!');
+          err.status = 400;
+          next(err);
+        }
+      }
     });
-
-
-
-
-
   });
 
 
