@@ -183,10 +183,10 @@ router
       }
     });
   })
-  .get('/topics/:id', function(req, res, next) {
+  .get('/topics', function(req, res, next) {
     /**
-     * @api {get} /api/topics/:id Get topics for specified professor_id
-     * @apiName  Get topics by professor_id
+     * @api {get} /api/topics Get topics by filters
+     * @apiName  Get topics by filters
      * @apiGroup Topics
      *
      * @apiSuccess {Object} JSON object contain a list of objects (topics).
@@ -194,19 +194,29 @@ router
      */
 
     var db = req.app.get("db");
-    var id = req.params.id;
-    db.collection("topics").find({
-      "professor_id": parseInt(id)
-    }, {
+
+    var professor_id = req.query.professor_id;
+    var category = req.query.category;
+
+    var query = {}
+
+    if (professor_id != undefined) {
+      query["professor_id"] = parseInt(professor_id)
+    }
+    if (category != undefined) {
+      query["category"] = category
+    }
+
+    db.collection("topics").find(query, {
       "_id": 0
     }).toArray(function(err, topics) {
       if (err) {
-        console.error("Failed to get topic with id=" + id + " : " + err.message);
+        console.error("Failed to get topic with filters: " + "professor_id: " + professor_id + ", category: " + category);
         var err = new Error('Something is broken!');
         next(err);
       } else if (!topics || topics.length === 0) {
-        console.error("Failed to get topic with id=" + id);
-        var err = new Error('No topic found with given id!');
+        console.error("No topic found with filters: " + "professor_id: " + professor_id + ", category: " + category);
+        var err = new Error('No topic found with given filters!');
         err.status = 404;
         next(err);
       } else {
