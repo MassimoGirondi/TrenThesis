@@ -183,12 +183,15 @@ router
       }
     });
   })
+
   .get('/topics', function(req, res, next) {
     /**
      * @api {get} /api/topics Get topics by filters
      * @apiName  Get topics by filters
      * @apiGroup Topics
      *
+     * @apiParam professor_id The professor_id whose topics we are looking for.
+     * @apiParam category The category whose topics we are looking for.
      * @apiSuccess {Object} JSON object contain a list of objects (topics).
      * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
      */
@@ -223,8 +226,51 @@ router
         res.status(200).json(topics);
       }
     });
-  });
+  })
 
+  .get('/categories', function(req, res, next) {
+    /**
+     * @api {get} /api/categories Get topics categories
+     * @apiName  Get topics categories
+     * @apiGroup Topics
+     *
+     * @apiParam max The maximum number of categories returned (default 20).
+     * @apiSuccess {Object} JSON object contain a list of topics categories.
+     * @apiError NoCategory An information message (encapsulated in a JSON Object named error).
+     */
+
+    var db = req.app.get("db");
+    var max = req.query.max;
+
+    var query = {}
+
+    if (max === undefined) {
+      max = 20;
+    }
+
+    db.collection("topics").aggregate(
+      [{
+        '$group': {
+          '_id': '$category'
+        }
+      }],
+      function(err, categories) {
+        if (err) {
+          console.error("Failed to get categories");
+          var err = new Error('Something is broken!');
+          next(err);
+        } else {
+          if (!categories) {
+            console.error(" No category found");
+            var err = new Error('No category found!');
+            err.status = 404;
+            next(err);
+          } else {
+            res.status(200).json(categories);
+          }
+        }
+      });
+  });
 
 
 module.exports = router;

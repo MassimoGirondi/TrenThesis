@@ -202,10 +202,28 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/topics/:id",
-    "title": "Get topics for specified professor_id",
-    "name": "Get_topics_by_professor_id",
+    "url": "/api/topics",
+    "title": "Get topics by filters",
+    "name": "Get_topics_by_filters",
     "group": "Topics",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "professor_id",
+            "description": "<p>The professor_id whose topics we are looking for.</p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "category",
+            "description": "<p>The category whose topics we are looking for.</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "fields": {
         "Success 200": [
@@ -226,6 +244,53 @@ define({ "api": [
             "group": "Error 4xx",
             "optional": false,
             "field": "TopicNotFound",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Topics"
+  },
+  {
+    "type": "get",
+    "url": "/api/categories",
+    "title": "Get topics categories",
+    "name": "Get_topics_categories",
+    "group": "Topics",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "max",
+            "description": "<p>The maximum number of categories returned (default 20).</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "JSON",
+            "description": "<p>object contain a list of topics categories.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "NoCategory",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
