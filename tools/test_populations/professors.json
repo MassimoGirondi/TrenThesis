@@ -1,21 +1,21 @@
 {
-	"_id": 0,
+	"id": 0,
 	"first_name": "Daniele",
 	"last_name": "Isoni"
 }{
-	"_id": 1,
+	"id": 1,
 	"first_name": "Riccardo",
 	"last_name": "Capraro"
 }{
-	"_id": 2,
+	"id": 2,
 	"first_name": "Matteo",
 	"last_name" : "Battilana"
 }{
-	"_id": 3,
+	"id": 3,
 	"first_name": "Massimo",
 	"last_name": "Girondi"
 }{
-	"_id": 4,
+	"id": 4,
 	"first_name": "Valentina",
 	"last_name": "Odorizzi"
 }

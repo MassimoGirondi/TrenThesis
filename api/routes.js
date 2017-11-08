@@ -57,6 +57,7 @@ router
         console.error("Failed to get professors." + err.message);
         //Create the error and pass it to the handler
         var err = new Error('Something is broken!');
+        err.status = 505;
         next(err);
       } else {
         res.status(200).json(profs);
@@ -84,6 +85,7 @@ router
       if (err) {
         console.error("Failed to get professor with id=" + id + " : " + err.message);
         var err = new Error('Something is broken!');
+        err.status = 505;
         next(err);
       } else if (!prof) {
         console.error("Failed to get professor with id=" + id);
@@ -120,6 +122,7 @@ router
       if (err) {
         console.error("Failed to update professor with id=" + id + " : " + err.message);
         var err = new Error('Something is broken!');
+        err.status = 505;
         next(err);
       } else {
         if (status.modifiedCount === 1)
@@ -158,6 +161,7 @@ router
       if (err) {
         console.error("Failed to delete professor with id=" + id + " : " + err.message);
         var err = new Error('Something is broken!');
+        err.status = 505;
         next(err);
       } else {
 
@@ -216,8 +220,9 @@ router
       if (err) {
         console.error("Failed to get topic with filters: " + "professor_id: " + professor_id + ", category: " + category);
         var err = new Error('Something is broken!');
+        err.status = 505;
         next(err);
-      } else if (!topics || topics.length === 0) {
+      } else if (!topics || Object.keys(topics).length === 0) {
         console.error("No topic found with filters: " + "professor_id: " + professor_id + ", category: " + category);
         var err = new Error('No topic found with given filters!');
         err.status = 404;
@@ -235,41 +240,89 @@ router
      * @apiGroup Topics
      *
      * @apiParam max The maximum number of categories returned (default 20).
+     * @apiParam get_defaults Get defaults categories
      * @apiSuccess {Object} JSON object contain a list of topics categories.
      * @apiError NoCategory An information message (encapsulated in a JSON Object named error).
      */
 
     var db = req.app.get("db");
     var max = req.query.max;
+    var get_defaults = req.query.get_defaults
 
     var query = {}
 
-    if (max === undefined) {
-      max = 20;
-    }
+    if (get_defaults != undefined) {
+      // Get default categories
+      if (get_defaults == "true") {
+        db.collection("categories").find({}, {
+          '_id': 0
+        }).toArray(function(err, docs) {
+          if (err) {
+            console.error("Failed to get default categories");
+            var err = new Error('Failed to get default categories!');
+            err.status = 505;
+            next(err);
+          } else if (!docs || Object.keys(docs).length === 0) {
+            console.error("No default categories found");
+            var err = new Error("No default categories found");
+            err.status = 404;
+            next(err);
+          } else {
+            var result = []
+            for (i = 0; i < Object.keys(docs).length; i++) {
+              result.push(docs[i].id)
+            }
+            res.status(200).json(result);
+          }
+        });
+      } else {
+        console.error("Not well-formed parameter list");
+        var err = new Error('Not well-formed parameter list');
+        err.status = 400;
+        next(err);
+      }
 
-    db.collection("topics").aggregate(
-      [{
-        '$group': {
-          '_id': '$category'
-        }
-      }],
-      function(err, categories) {
+    } else {
+      // Get topics categories only
+
+      if (max === undefined) {
+        max = 20;
+      }
+
+      db.collection("topics").aggregate(
+        [{
+          '$project': {
+            'categories': 1,
+            '_id': 0
+          }
+        }, {
+          '$unwind': '$categories'
+        }, {
+          '$group': {
+            '_id': '$categories'
+          }
+        }]).toArray(function(err, categories) {
         if (err) {
           console.error("Failed to get categories");
-          var err = new Error('Something is broken!');
+          var err = new Error('Failed to get categories!');
+          err.status = 505;
           next(err);
         } else {
-          if (!categories) {
+          if (!categories || Object.keys(categories).length === 0) {
             console.error(" No category found");
             var err = new Error('No category found!');
             err.status = 404;
             next(err);
           } else {
-            res.status(200).json(categories);
+            var result = []
+            for (i = 0; i < Object.keys(categories).length; i++) {
+              result.push(categories[i]._id)
+            }
+            res.status(200).json(result);
           }
         }
       });
+    }
   });
 
 
