@@ -267,6 +267,12 @@
             "optional": false,
             "field": "max",
             "description": "<p>The maximum number of categories returned (default 20).</p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "get_defaults",
+            "description": "<p>Get defaults categories</p>"
           }
         ]
       }

@@ -10,5 +10,10 @@ connect_to_mongo:
 upload_test_population:
 	./tools/test_populations/upload_test_population.sh
 
+push:
+	make documentation
+	git commit -a
+	git push
+
 config:
 	npm install
