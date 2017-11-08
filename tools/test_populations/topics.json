@@ -1,0 +1,22 @@
+{
+	"topic_id": "0",
+	"professor_id": "0",
+	"title": "Machine learning web micro-services",
+	"short_abstract": "Machine learning micro-services with Node.js",
+	"resource": "folder/rewritten_url",
+	"categories": ["web", "machine_learning"]
+}{
+	"topic_id": "1",
+	"professor_id": "1",
+	"title": "Clustering algorithms with sklearn",
+	"short_abstract": "Add a clustering algorithm to the scikit-learn library",
+	"resource": "folder/rewritten_url",
+	"categories": ["machine_learning"]
+}{
+	"topic_id": "2",
+	"professor_id": "1",
+	"title": "Web frameworks analysis",
+	"short_abstract": "Describe pros and cons of python web frameworks",
+	"resource": "folder/rewritten_url",
+	"categories": ["web"]
+}
