@@ -3,9 +3,10 @@
   "main": "router.js",
   "dependencies": {
     "apidoc": "^0.17.6",
-    "body-parser": "~1.0.1",
+    "body-parser": "^1.0.2",
     "express": "~4.0.0",
-    "mongodb": "^2.2.33"
+    "mongodb": "^2.2.33",
+    "node-telegram-bot-api": "^0.29.0"
   },
   "apidoc": {
     "name": "Trenthesis",
