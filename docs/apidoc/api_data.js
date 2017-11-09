@@ -201,6 +201,48 @@ define({ "api": [
     "groupTitle": "Professors"
   },
   {
+    "type": "delete",
+    "url": "/api/topics/:id",
+    "title": "Delete topic with specified ID",
+    "name": "Delete_topic",
+    "group": "Topics",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "status",
+            "optional": false,
+            "field": "Boolean",
+            "description": "<p>value, true if the deletion was successful.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "TopicNotDeleted",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "AuthenticatedProfessor",
+        "title": "Any authenticated Professor",
+        "description": "<p>Restrict access to write, update and delete options</p>"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Topics"
+  },
+  {
     "type": "get",
     "url": "/api/topics",
     "title": "Get topics by filters",
@@ -267,6 +309,12 @@ define({ "api": [
             "optional": false,
             "field": "max",
             "description": "<p>The maximum number of categories returned (default 20).</p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "get_defaults",
+            "description": "<p>Get defaults categories</p>"
           }
         ]
       }
@@ -296,6 +344,61 @@ define({ "api": [
         ]
       }
     },
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Topics"
+  },
+  {
+    "type": "put",
+    "url": "/api/topics/:id",
+    "title": "Update topic with specified id",
+    "name": "Update_topic_by_id",
+    "group": "Topics",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "status",
+            "optional": false,
+            "field": "Boolean",
+            "description": "<p>value, true if the update was successful.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "JSON",
+            "description": "<p>object with all the fields of the topic (modified).</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "TopicNotUpdated",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "AuthenticatedProfessor",
+        "title": "Any authenticated Professor",
+        "description": "<p>Restrict access to write, update and delete options</p>"
+      }
+    ],
     "version": "0.0.0",
     "filename": "./api/routes.js",
     "groupTitle": "Topics"

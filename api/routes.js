@@ -117,7 +117,9 @@ router
     var id = req.params.id;
     db.collection("professors").updateOne({
       "id": parseInt(id)
-    }, req.body, function(err, status) {
+    }, {
+      '$set': req.body
+    }, function(err, status) {
 
       if (err) {
         console.error("Failed to update professor with id=" + id + " : " + err.message);
@@ -231,6 +233,48 @@ router
         res.status(200).json(topics);
       }
     });
+  })
+
+  .put('/topics/:id', function(req, res, next) {
+    /**
+     * @api {put} /api/topics/:id Update topic with specified id
+     * @apiName Update topic by id
+     * @apiGroup Topics
+     *
+     * @apiSuccess {status} Boolean value, true if the update was successful.
+     * @apiParam {Object} JSON object with all the fields of the topic (modified).
+     * @apiError TopicNotUpdated An information message (encapsulated in a JSON Object named error).
+     * @apiPermission AuthenticatedProfessor
+     */
+    var db = req.app.get("db");
+
+    /*
+    Check if the AuthenticatedProfessor is the same of topic professor_id
+    */
+    var id = req.params.id;
+    db.collection("topics").updateOne({
+      "id": parseInt(id)
+    }, {
+      '$set': req.body
+    }, function(err, status) {
+
+      if (err) {
+        console.error("Failed to update topic with id=" + id + " : " + err.message);
+        var err = new Error('Something is broken!');
+        err.status = 505;
+        next(err);
+      } else {
+        if (status.modifiedCount === 1)
+          res.status(200).json({
+            modify: true
+          });
+        else {
+          var err = new Error('Topic not updated!');
+          err.status = 400;
+          next(err);
+        }
+      }
+    })
   })
 
   .delete('/topics/:id', function(req, res, next) {
