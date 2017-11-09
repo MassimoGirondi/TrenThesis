@@ -38,8 +38,8 @@ router
     res.json({
       message: 'hooray! Benvenuto nelle nostre API!'
     });
-
   })
+
   .get('/professors', function(req, res) {
     /**
      * @api {get} /api/professors/ Get all professors in DB
@@ -229,6 +229,40 @@ router
         next(err);
       } else {
         res.status(200).json(topics);
+      }
+    });
+  })
+
+  .delete('/topics/:id', function(req, res, next) {
+    /**
+     * @api {delete} /api/topics/:id Delete topic with specified ID
+     * @apiName Delete topic
+     * @apiGroup Topics
+     *
+     * @apiSuccess {status} Boolean value, true if the deletion was successful.
+     * @apiError TopicNotDeleted An information message (encapsulated in a JSON Object named error).
+     * @apiPermission AuthenticatedProfessor
+     */
+    var db = req.app.get("db");
+
+    var id = req.params.id;
+    db.collection("topics").deleteOne({
+      "id": parseInt(id)
+    }, req.body, function(err, status) {
+
+      if (err) {
+        console.error("Failed to delete topic with id=" + id + " : " + err.message);
+        var err = new Error('Something is broken!');
+        err.status = 505;
+        next(err);
+      } else {
+        if (status.deletedCount === 1) {
+          res.status(200).json(true);
+        } else {
+          var err = new Error('Topic not found!');
+          err.status = 404;
+          next(err);
+        }
       }
     });
   })
