@@ -4,7 +4,7 @@
  */
 
 const TOKEN = process.env.tokenTelegramBot;
-const url = 'https://telegrambottrenthesis.herokuapp.com/bot';
+const url = process.env.telegramWebHookUrl;
 const TelegramBot = require('node-telegram-bot-api');
 var express = require('express');
 const bodyParser = require('body-parser');
