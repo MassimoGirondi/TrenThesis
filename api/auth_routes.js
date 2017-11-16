@@ -7,7 +7,41 @@ var router = express.Router();
 
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
-var loggedIn = require('connect-ensure-login').ensureLoggedIn('/google');
+var loggedIn = require('connect-ensure-login').ensureLoggedIn('/auth/not_authorized');
+var jwt = require('jsonwebtoken');
+
+var jwtAuth = (req, res, next) => {
+
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+    // verifies secret and checks exp
+    jwt.verify(token, process.env.AuthSecret, function(err, decoded) {
+      if (err) {
+        return res.status(403).send({
+          message: 'The token is not valid. Try to Login again.'
+        });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decodedToken = decoded;
+        next();
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+      message: 'No token provided. Check the documentation to know how to send it in your requests.'
+    });
+
+  }
+}
+
+// Export the function to allow other modules to use the Authentication
+module.exports.authenticated = jwtAuth;
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -30,7 +64,7 @@ passport.use(new GoogleStrategy({
     var db = req.app.get("db");
 
     // Check email
-    if (profile._json.hd === 'unitn.it') {
+    if (true || profile._json.hd === 'unitn.it') { //JUST TO TEST
 
       db.collection("users").findOne({
         googleId: profile._json.id
@@ -67,7 +101,7 @@ router.use(require('body-parser').urlencoded({
   extended: true
 }));
 router.use(require('express-session')({
-  secret: 'keyboard cat',
+  secret: process.env.AuthSecret,
   resave: true,
   saveUninitialized: true
 }));
@@ -91,7 +125,7 @@ router
     function(req, res) {
 
       res.json({
-        message: '"This is the authentication api'
+        message: '"This is the authentication api. See the documentation to use it.'
       });
     })
 
@@ -110,8 +144,8 @@ router
    * @apiName Google authentication
    * @apiGroup Authentication
    * @apiPrivate
-   *
-   * @apiSuccess {None} Redirect to token API
+   * @apiPermission AuthenticatedProfessor
+   * @apiSuccess {None} Should redirect to /token if success, /not_authorized in case of failure
    */
   .get('/google/callback',
     passport.authenticate('google', {
@@ -123,25 +157,53 @@ router
     })
 
   /**
-   * @api {get} /auth/login Login pa
-   * @apiName Google authentication
+   * @api {get} /auth/login Get informations on how to login
+   * @apiName Google Login Instructions
    * @apiGroup Authentication
    *
-   * @apiSuccess {None} Redirect ...
+   * @apiSuccess {String} message An instruction message
+   * @apiSuccess {String} url The URL to visit to authenticate
+   *
    */
   .get('/login', function(req, res) {
 
-    if (!req.user) {
-      res.send({
-        message: "To login visit this URL",
-        url: req.protocol + "://" + req.get('host') + "/auth/google"
-      });
-    } else {
-      res.send({
-        message: "Already loggedIn!!"
-      });
+    var msg = "To login visit this URL:";
+    if (req.user) {
+      msg += " Note that you are already loggedIn."
     }
+    res.send({
+      message: msg,
+      url: req.protocol + "://" + req.get('host') + "/auth/google"
+    });
+
   })
+
+  /**
+   * @api {get} /auth/token Get the token to use APIs
+   * @apiName Token generator
+   * @apiGroup Authentication
+   *
+   * @apiSuccess {String} token The token generated
+   * @apiPermission AuthenticatedProfessor
+   */
+  .get('/token', loggedIn, function(req, res) {
+
+    return res.json({
+      token: jwt.sign({
+        googleId: req.user._json.id,
+        googleJson: req.user._json
+      }, process.env.AuthSecret, {
+        expiresIn: '1d'
+      })
+    });
+  })
+
+  .get('/test', jwtAuth, (req, res) => {
+    console.log("AUTHENTICATHED: " + JSON.stringify(req.decodedToken));
+    res.send("OK");
+
+  })
+
 
   /**
    * @api {get} /auth/logout Logout

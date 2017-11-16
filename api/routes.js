@@ -22,10 +22,15 @@ function IsJsonString(str) {
 var express = require('express');
 var router = express.Router();
 
-
+/*
+Import the isAutheticated method from the authentication routes
+It verifies the token and provide an error message if there is any error
+*/
+var isAuthenticated = require('./auth_routes.js');
 
 
 router
+
   /**
    * @api {get} /api/ Welcome message
    * @apiName /api/
@@ -149,13 +154,17 @@ router
    * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/professors/:id', function(req, res, next) {
+  .delete('/professors/:id', isAuthenticated, function(req, res, next) {
     var db = req.app.get("db");
 
     /*
     Check if the AuthenticatedProfessor is the same of :id
+    Accessing req.decodedToken.user.googleId to check it
     */
     var id = req.params.id;
+    /*
+    Check if the AuthenticatedProfessor is the same of topic professor_id
+    */
     db.collection("professors").deleteOne({
       "id": parseInt(id)
     }, req.body, function(err, status) {
@@ -245,7 +254,7 @@ router
    * @apiError TopicNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .put('/topics/:id', function(req, res, next) {
+  .put('/topics/:id', isAuthenticated, function(req, res, next) {
     var db = req.app.get("db");
 
     /*
@@ -286,9 +295,11 @@ router
    * @apiError TopicNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/topics/:id', function(req, res, next) {
+  .delete('/topics/:id', isAuthenticated, function(req, res, next) {
     var db = req.app.get("db");
-
+    /*
+    Check if the AuthenticatedProfessor is the same of topic professor_id
+    */
     var id = req.params.id;
     db.collection("topics").deleteOne({
       "id": parseInt(id)
