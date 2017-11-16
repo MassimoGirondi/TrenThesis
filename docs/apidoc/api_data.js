@@ -1,10 +1,10 @@
 define({ "api": [
   {
     "type": "get",
-    "url": "/",
-    "title": "General information on URL",
-    "name": "_",
-    "group": "General",
+    "url": "/auth/login",
+    "title": "Get informations on how to login",
+    "name": "Google_Login_Instructions",
+    "group": "Authentication",
     "success": {
       "fields": {
         "Success 200": [
@@ -13,14 +13,114 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "message",
-            "description": "<p>message informing about wich URL to call for API.</p>"
+            "description": "<p>An instruction message</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>The URL to visit to authenticate</p>"
           }
         ]
       }
     },
     "version": "0.0.0",
-    "filename": "./routes.js",
-    "groupTitle": "General"
+    "filename": "api/auth_routes.js",
+    "groupTitle": "Authentication"
+  },
+  {
+    "type": "get",
+    "url": "/auth/google",
+    "title": "Authenticate via Google service",
+    "name": "Google_authentication",
+    "group": "Authentication",
+    "version": "0.0.0",
+    "filename": "api/auth_routes.js",
+    "groupTitle": "Authentication"
+  },
+  {
+    "type": "get",
+    "url": "/auth/logout",
+    "title": "Logout",
+    "name": "Logout",
+    "group": "Authentication",
+    "permission": [
+      {
+        "name": "GoogleAuthenticatedProfessor",
+        "title": "Any authenticated Professor, loggedIn with Google",
+        "description": "<p>Restrict access to token generation.</p>"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "None",
+            "optional": false,
+            "field": "You",
+            "description": "<p>are successfully logged out.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "api/auth_routes.js",
+    "groupTitle": "Authentication"
+  },
+  {
+    "type": "get",
+    "url": "/auth/token",
+    "title": "Get the token to use APIs",
+    "name": "Token_generator",
+    "group": "Authentication",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token generated</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "GoogleAuthenticatedProfessor",
+        "title": "Any authenticated Professor, loggedIn with Google",
+        "description": "<p>Restrict access to token generation.</p>"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "api/auth_routes.js",
+    "groupTitle": "Authentication"
+  },
+  {
+    "type": "get",
+    "url": "/auth",
+    "title": "Welcome message",
+    "name": "_auth",
+    "group": "Authentication",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>message informing the service is working.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "api/auth_routes.js",
+    "groupTitle": "Authentication"
   },
   {
     "type": "get",
@@ -42,7 +142,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "General"
   },
   {
@@ -80,11 +180,11 @@ define({ "api": [
       {
         "name": "AuthenticatedProfessor",
         "title": "Any authenticated Professor",
-        "description": "<p>Restrict access to write, update and delete options</p>"
+        "description": "<p>Restrict access to write, update and delete options. Read the Wiki to know how to include a token in your request</p>"
       }
     ],
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Professors"
   },
   {
@@ -119,7 +219,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Professors"
   },
   {
@@ -142,7 +242,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Professors"
   },
   {
@@ -193,11 +293,11 @@ define({ "api": [
       {
         "name": "AuthenticatedProfessor",
         "title": "Any authenticated Professor",
-        "description": "<p>Restrict access to write, update and delete options</p>"
+        "description": "<p>Restrict access to write, update and delete options. Read the Wiki to know how to include a token in your request</p>"
       }
     ],
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Professors"
   },
   {
@@ -235,11 +335,11 @@ define({ "api": [
       {
         "name": "AuthenticatedProfessor",
         "title": "Any authenticated Professor",
-        "description": "<p>Restrict access to write, update and delete options</p>"
+        "description": "<p>Restrict access to write, update and delete options. Read the Wiki to know how to include a token in your request</p>"
       }
     ],
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Topics"
   },
   {
@@ -292,7 +392,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Topics"
   },
   {
@@ -345,7 +445,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Topics"
   },
   {
@@ -396,11 +496,11 @@ define({ "api": [
       {
         "name": "AuthenticatedProfessor",
         "title": "Any authenticated Professor",
-        "description": "<p>Restrict access to write, update and delete options</p>"
+        "description": "<p>Restrict access to write, update and delete options. Read the Wiki to know how to include a token in your request</p>"
       }
     ],
     "version": "0.0.0",
-    "filename": "./api/routes.js",
+    "filename": "api/routes.js",
     "groupTitle": "Topics"
   }
 ] });

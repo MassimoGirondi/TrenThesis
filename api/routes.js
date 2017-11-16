@@ -5,7 +5,8 @@
 
 /**
  * @apiDefine AuthenticatedProfessor Any authenticated Professor
- * Restrict access to write, update and delete options
+ * Restrict access to write, update and delete options.
+ * Read the Wiki to know how to include a token in your request
  */
 
 function IsJsonString(str) {

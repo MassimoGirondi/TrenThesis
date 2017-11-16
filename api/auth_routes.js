@@ -2,6 +2,10 @@
  * This file contains the authenticaton API
  */
 
+/**
+ * @apiDefine GoogleAuthenticatedProfessor Any authenticated Professor, loggedIn with Google
+ * Restrict access to token generation.
+ */
 var express = require('express');
 var router = express.Router();
 
@@ -183,7 +187,7 @@ router
    * @apiGroup Authentication
    *
    * @apiSuccess {String} token The token generated
-   * @apiPermission AuthenticatedProfessor
+   * @apiPermission GoogleAuthenticatedProfessor
    */
   .get('/token', loggedIn, function(req, res) {
 
@@ -209,6 +213,7 @@ router
    * @apiName Logout
    * @apiGroup Authentication
    *
+   * @apiPermission GoogleAuthenticatedProfessor
    * @apiSuccess {None} You are successfully logged out.
    */
   .get('/logout', function(req, res) {
