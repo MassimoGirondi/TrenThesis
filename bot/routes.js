@@ -42,7 +42,7 @@ function parseProfessors(json, chatId) {
 
     var professorName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
-      //Pair for callback_data in inline button
+        //Pair for callback_data in inline button
         professorName_id.push([profEmoji + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
     }
 
@@ -50,71 +50,121 @@ function parseProfessors(json, chatId) {
         reply_markup: JSON.stringify({
             inline_keyboard: professorName_id.map((x) => ([{
                 text: x[0],
-                callback_data: String("p"+x[1]),
+                callback_data: String("p" + x[1]),
             }])),
         }),
     };
 
-    bot.sendMessage(chatId, "Seleziona il professore che più ti interessa e ti forniremo una lista delle tesi disponibili", options);
+    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona il professore che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono professori", options);
 }
 
-function showProfThesis(json, chatId){
+function showProfessor_CategoryThesis(json, chatId) {
 
     var jsonobj = JSON.parse(JSON.stringify(json));
     var thesisName_id = []
-    for(var i = 0; i < jsonobj.length; i++) {
+    for (var i = 0; i < jsonobj.length; i++) {
         thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
     }
-    
+
     var options = {
         reply_markup: JSON.stringify({
             inline_keyboard: thesisName_id.map((x) => ([{
                 text: x[0],
-                callback_data: String("t"+x[1]),
+                callback_data: String("t" + x[1]),
             }])),
         }),
     };
-    
-    bot.sendMessage(chatId, "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati", options);
+
+    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
 }
 
-function showThesisInfo(json, chatId){
+function parseCategories(json, chatId) {
+    var jsonobj = JSON.parse(JSON.stringify(json));
+
+    var categoriesName_id = [];
+    for (var i = 0; i < jsonobj.length; i++) {
+        //Pair for callback_data in inline button
+        categoriesName_id.push([jsonobj[i].name, jsonobj[i].id]);
+    }
+
+    var options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: categoriesName_id.map((x) => ([{
+                text: x[0],
+                callback_data: String("c" + x[1]),
+            }])),
+        }),
+    };
+
+    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la categoria che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono categorie", options);
+}
+
+function showAllThesis(json, chatId) {
 
     var jsonobj = JSON.parse(JSON.stringify(json));
-    
-    var thesis = 
-    
-    
-    bot.sendMessage(chatId, "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati");
+    var thesisName_id = []
+    for (var i = 0; i < jsonobj.length; i++) {
+        thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
+    }
+
+    var options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: thesisName_id.map((x) => ([{
+                text: x[0],
+                callback_data: String("t" + x[1]),
+            }])),
+        }),
+    };
+
+    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
+}
+
+function showThesisInfo(json, chatId) {
+
+    var jsonobj = JSON.parse(JSON.stringify(json));
+
+    var thesis = "Titolo: " + jsonobj.title +
+        "\nAnteprima: " + jsonobj.short_abstract +
+        "\nDescrizione: " + jsonobj.description +
+        "\nUrl: " + jsonobj.resource;
+
+
+    bot.sendMessage(chatId, thesis);
 }
 
 // Inline button callback queries
 bot.on("callback_query", (callbackQuery) => {
-  //JSON parsing
-  const msg = callbackQuery.message;
-  var jsonobj = JSON.parse(JSON.stringify(callbackQuery));
+    //JSON parsing
+    const msg = callbackQuery.message;
+    var jsonobj = JSON.parse(JSON.stringify(callbackQuery));
     var requrl = "";
-        
-  console.log("ID numero: "+requrl); // msg.data refers to the callback_data
-  switch (jsonobj.data.charAt(0)) {
-    case 'p':
-        requrl = String(apiUrl+"/topics?professor_id="+jsonobj.data.substring(1));
-      //professore
-      bot.answerCallbackQuery(callbackQuery.id)
-        .then(() => getJsonFromUrl(requrl, showProfThesis, msg.chat.id));
-      break;
-          case 't':
-          requrl = String(apiUrl+"topics?"+jsonobj.data.substring(1)))
-      //clicked on topic
-      bot.answerCallbackQuery(callbackQuery.id)
-        .then(() => getJsonFromUrl(requrl, showThesisInfo, msg.chat.id));
-      break;
-    default:
-    bot.answerCallbackQuery(callbackQuery.id)
-          .then(() => bot.sendMessage(msg.chat.id, "Error!"));
-    break;
 
-  }
+    console.log("ID numero: " + requrl); // msg.data refers to the callback_data
+    switch (jsonobj.data.charAt(0)) {
+        case 'p':
+            requrl = String(apiUrl + "/topics?professor_id=" + jsonobj.data.substring(1));
+            //professore
+            bot.answerCallbackQuery(callbackQuery.id)
+                .then(() => getJsonFromUrl(requrl, showProfessor_CategoryThesis, msg.chat.id));
+            break;
+        case 't':
+            requrl = String(apiUrl + "topics/" + jsonobj.data.substring(1));
+            //clicked on topic
+            bot.answerCallbackQuery(callbackQuery.id)
+                .then(() => getJsonFromUrl(requrl, showThesisInfo, msg.chat.id));
+            break;
+        case 'c':
+            requrl = String(apiUrl + "topics?category=" + jsonobj.data.substring(1));
+            //clicked on topic
+            bot.answerCallbackQuery(callbackQuery.id)
+                .then(() => getJsonFromUrl(requrl, showProfessor_CategoryThesis, msg.chat.id));
+            break;
+        default:
+            bot.answerCallbackQuery(callbackQuery.id)
+                .then(() => bot.sendMessage(msg.chat.id, "Error!"));
+            break;
+
+    }
 });
 
 //Message
@@ -133,16 +183,8 @@ bot.on('message', msg => {
             });
             break;
         case "Un argomento":
-            bot.sendMessage(msg.chat.id, "Seleziona uno dei principali argomenti e ti forniremo una lista delle testi disponibili", {
-                "reply_markup": {
-                    "keyboard": [
-                        ["Tesi1"],
-                        ["Tesi2"],
-                        ["Tesi3"],
-                        ["Torna alle opzioni principali"]
-                    ]
-                }
-            });
+            var requrl = apiUrl + "/topics";
+            getJsonFromUrl(requrl, showAllThesis, msg.chat.id);
             break;
 
         case "Il professore che preferisci":
@@ -152,32 +194,11 @@ bot.on('message', msg => {
             break;
 
         case "L'ambito di studi che preferisci":
-            bot.sendMessage(msg.chat.id, "Seleziona l'ambito di studi che preferisci e ti forniremo una lista di testi disponibili", {
-                "reply_markup": {
-                    "keyboard": [
-                        ["Tesi1"],
-                        ["Tesi2"],
-                        ["Tesi3"],
-                        ["Torna alle opzioni principali"]
-                    ]
-                }
-            });
+            var requrl = apiUrl + "/categories";
+            getJsonFromUrl(requrl, parseCategories, msg.chat.id);
             break;
         default:
-            bot.sendMessage(msg.chat.id, "Non ho capito "+msg.text.toString());
-            if (msg.text.toString().length >= 5) {
-                switch (msg.text.toString().substring(0, 5)) {
-                    case profEmoji:
-                        bot.sendMessage(msg.chat.id, "Professore");
-                        break;
-                    default:
-                        bot.sendMessage(msg.chat.id, "Non ho capito");
-                        break;
-                }
-            } else {
-                bot.sendMessage(msg.chat.id, "Non ho capito");
-            }
-
+            bot.sendMessage(msg.chat.id, "Non ho capito");
             break;
     }
 });
