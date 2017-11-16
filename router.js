@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 
 //Import routes
 var apiRoutes = require('./api/routes');
+var authRoutes = require('./api/auth_routes');
 var botRoutes = require('./bot/routes');
 var rootRoutes = require('./routes');
 
@@ -40,6 +41,7 @@ app.use(function(req, res, next) {
 
 //Add routes from files
 app.use('/api', apiRoutes);
+app.use('/auth', authRoutes);
 app.use('/bot', botRoutes);
 app.use('/', rootRoutes);
 

@@ -3,21 +3,6 @@
 clear
 
 #######################
-# GENERATE POPULATION #
-#######################
-
-# echo --------------------------------------------------------------
-# echo Do you want to generate the population? Y/y/yes [Default = No]
-# echo --------------------------------------------------------------
-
-# read generate
-
-# if [ "$generate" = "Y" ]  || [ "$generate" ]; then
-# 	echo ">>> Population generated"
-# fi
-
-
-#######################
 #  UPLOAD POPULATION  #
 #######################
 
@@ -41,18 +26,20 @@ if [ "$upload" == "Y" ] || [ "$upload"  == "y" ] || [ $upload == "yes" ]; then
 		mongoimport --host localhost --port 27017 --db trenthesis --collection professors --drop --maintainInsertionOrder --file tools/test_populations/professors.json
 		mongoimport --host localhost --port 27017 --db trenthesis --collection topics --drop --maintainInsertionOrder --file tools/test_populations/topics.json
 		mongoimport --host localhost --port 27017 --db trenthesis --collection categories --drop --maintainInsertionOrder --file tools/test_populations/categories.json
+		mongoimport --host localhost --port 27017 --db trenthesis --collection users --drop --maintainInsertionOrder --file tools/test_populations/users.json
 		echo ">>> Local data upload completed"
 
 	else
 
 		echo -----------------------------------
-		echo Insert the password of the database
+		echo Insert the password of the databasew
 		echo -----------------------------------
 
 		read -s password
 		mongoimport --host ds233895.mlab.com --port 33895 --username trenthesisDB --password $password --db trenthesis --collection professors --drop --maintainInsertionOrder --file tools/test_populations/professors.json
 		mongoimport --host ds233895.mlab.com --port 33895 --username trenthesisDB --password $password --db trenthesis --collection topics --drop --maintainInsertionOrder --file tools/test_populations/topics.json
 		mongoimport --host ds233895.mlab.com --port 33895 --username trenthesisDB --password $password --db trenthesis --collection categories --drop --maintainInsertionOrder --file tools/test_populations/categories.json
+		mongoimport --host ds233895.mlab.com --port 33895 --username trenthesisDB --password $password --db trenthesis --collection users --drop --maintainInsertionOrder --file tools/test_populations/users.json
 		echo ">>> Remote data upload completed"
 
 	fi

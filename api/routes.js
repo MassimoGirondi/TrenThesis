@@ -26,28 +26,28 @@ var router = express.Router();
 
 
 router
+  /**
+   * @api {get} /api/ Welcome message
+   * @apiName /api/
+   * @apiGroup General
+   *
+   * @apiSuccess {String} message message informing the service is working.
+   */
   .get('/', function(req, res) {
-    /**
-     * @api {get} /api/ Welcome message
-     * @apiName /api/
-     * @apiGroup General
-     *
-     * @apiSuccess {String} message message informing the service is working.
-     */
 
     res.json({
       message: 'hooray! Benvenuto nelle nostre API!'
     });
   })
 
+  /**
+   * @api {get} /api/professors/ Get all professors in DB
+   * @apiName Get professors list
+   * @apiGroup Professors
+   *
+   * @apiSuccess {Object[]} JSON array with all professors in DB.
+   */
   .get('/professors', function(req, res) {
-    /**
-     * @api {get} /api/professors/ Get all professors in DB
-     * @apiName Get professors list
-     * @apiGroup Professors
-     *
-     * @apiSuccess {Object[]} JSON array with all professors in DB.
-     */
 
     var db = req.app.get("db");
     db.collection("professors").find({}, {
@@ -65,15 +65,15 @@ router
     });
   })
 
+  /**
+   * @api {get} /api/professors/:id Get  professor with specified ID
+   * @apiName  Get professor by id
+   * @apiGroup Professors
+   *
+   * @apiSuccess {Object} JSON object reppresenting the professor.
+   * @apiError ProfessorNotFound An information message (encapsulated in a JSON Object named error).
+   */
   .get('/professors/:id', function(req, res, next) {
-    /**
-     * @api {get} /api/professors/:id Get  professor with specified ID
-     * @apiName  Get professor by id
-     * @apiGroup Professors
-     *
-     * @apiSuccess {Object} JSON object reppresenting the professor.
-     * @apiError ProfessorNotFound An information message (encapsulated in a JSON Object named error).
-     */
 
     var db = req.app.get("db");
     var id = req.params.id;
@@ -98,17 +98,17 @@ router
     });
   })
 
+  /**
+   * @api {put} /api/professors/:id Update professor with specified ID
+   * @apiName Update professor by  id
+   * @apiGroup Professors
+   *
+   * @apiSuccess {status} Boolean value, true if the update was successful.
+   * @apiParam {Object} JSON object with all the fields of the professor (modified).
+   * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
+   * @apiPermission AuthenticatedProfessor
+   */
   .put('/professors/:id', function(req, res, next) {
-    /**
-     * @api {put} /api/professors/:id Update professor with specified ID
-     * @apiName Update professor by  id
-     * @apiGroup Professors
-     *
-     * @apiSuccess {status} Boolean value, true if the update was successful.
-     * @apiParam {Object} JSON object with all the fields of the professor (modified).
-     * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
-     * @apiPermission AuthenticatedProfessor
-     */
     var db = req.app.get("db");
 
     /*
@@ -140,16 +140,16 @@ router
     })
   })
 
+  /**
+   * @api {delete} /api/professors/:id Delete professor with specified ID
+   * @apiName Delete professor
+   * @apiGroup Professors
+   *
+   * @apiSuccess {status} Boolean value, true if the deletion was successful.
+   * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
+   * @apiPermission AuthenticatedProfessor
+   */
   .delete('/professors/:id', function(req, res, next) {
-    /**
-     * @api {delete} /api/professors/:id Delete professor with specified ID
-     * @apiName Delete professor
-     * @apiGroup Professors
-     *
-     * @apiSuccess {status} Boolean value, true if the deletion was successful.
-     * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
-     * @apiPermission AuthenticatedProfessor
-     */
     var db = req.app.get("db");
 
     /*
@@ -190,17 +190,17 @@ router
     });
   })
 
+  /**
+   * @api {get} /api/topics Get topics by filters
+   * @apiName  Get topics by filters
+   * @apiGroup Topics
+   *
+   * @apiParam professor_id The professor_id whose topics we are looking for.
+   * @apiParam category The category whose topics we are looking for.
+   * @apiSuccess {Object} JSON object contain a list of objects (topics).
+   * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
+   */
   .get('/topics', function(req, res, next) {
-    /**
-     * @api {get} /api/topics Get topics by filters
-     * @apiName  Get topics by filters
-     * @apiGroup Topics
-     *
-     * @apiParam professor_id The professor_id whose topics we are looking for.
-     * @apiParam category The category whose topics we are looking for.
-     * @apiSuccess {Object} JSON object contain a list of objects (topics).
-     * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
-     */
 
     var db = req.app.get("db");
 
@@ -235,17 +235,17 @@ router
     });
   })
 
+  /**
+   * @api {put} /api/topics/:id Update topic with specified id
+   * @apiName Update topic by id
+   * @apiGroup Topics
+   *
+   * @apiSuccess {status} Boolean value, true if the update was successful.
+   * @apiParam {Object} JSON object with all the fields of the topic (modified).
+   * @apiError TopicNotUpdated An information message (encapsulated in a JSON Object named error).
+   * @apiPermission AuthenticatedProfessor
+   */
   .put('/topics/:id', function(req, res, next) {
-    /**
-     * @api {put} /api/topics/:id Update topic with specified id
-     * @apiName Update topic by id
-     * @apiGroup Topics
-     *
-     * @apiSuccess {status} Boolean value, true if the update was successful.
-     * @apiParam {Object} JSON object with all the fields of the topic (modified).
-     * @apiError TopicNotUpdated An information message (encapsulated in a JSON Object named error).
-     * @apiPermission AuthenticatedProfessor
-     */
     var db = req.app.get("db");
 
     /*
@@ -277,16 +277,16 @@ router
     })
   })
 
+  /**
+   * @api {delete} /api/topics/:id Delete topic with specified ID
+   * @apiName Delete topic
+   * @apiGroup Topics
+   *
+   * @apiSuccess {status} Boolean value, true if the deletion was successful.
+   * @apiError TopicNotDeleted An information message (encapsulated in a JSON Object named error).
+   * @apiPermission AuthenticatedProfessor
+   */
   .delete('/topics/:id', function(req, res, next) {
-    /**
-     * @api {delete} /api/topics/:id Delete topic with specified ID
-     * @apiName Delete topic
-     * @apiGroup Topics
-     *
-     * @apiSuccess {status} Boolean value, true if the deletion was successful.
-     * @apiError TopicNotDeleted An information message (encapsulated in a JSON Object named error).
-     * @apiPermission AuthenticatedProfessor
-     */
     var db = req.app.get("db");
 
     var id = req.params.id;
@@ -311,17 +311,17 @@ router
     });
   })
 
+  /**
+   * @api {get} /api/categories Get topics categories
+   * @apiName  Get topics categories
+   * @apiGroup Topics
+   *
+   * @apiParam max The maximum number of categories returned (default 20).
+   * @apiParam get_defaults Get defaults categories
+   * @apiSuccess {Object} JSON object contain a list of topics categories.
+   * @apiError NoCategory An information message (encapsulated in a JSON Object named error).
+   */
   .get('/categories', function(req, res, next) {
-    /**
-     * @api {get} /api/categories Get topics categories
-     * @apiName  Get topics categories
-     * @apiGroup Topics
-     *
-     * @apiParam max The maximum number of categories returned (default 20).
-     * @apiParam get_defaults Get defaults categories
-     * @apiSuccess {Object} JSON object contain a list of topics categories.
-     * @apiError NoCategory An information message (encapsulated in a JSON Object named error).
-     */
 
     var db = req.app.get("db");
     var max = req.query.max;
