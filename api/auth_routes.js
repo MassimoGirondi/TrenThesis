@@ -23,9 +23,9 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback",
     userProfileURL: "https://www.googleapis.com/oauth2/v2/userinfo",
     proxy: true,
-    passReqToCallback: true
+    passReqToCallback: true,
   },
-  function(req, accessToken, refreshToken, profile, cb) {
+  function(req, token, tokenSecret, profile, cb) {
 
     var db = req.app.get("db");
 
@@ -89,9 +89,8 @@ router
    */
   .get('/',
     function(req, res) {
-
       res.json({
-        message: '"This is the authentication api'
+        message: 'This is the authentication api'
       });
     })
 
@@ -102,8 +101,11 @@ router
    */
   .get('/google',
     passport.authenticate('google', {
-      scope: ['profile', 'email']
-    }))
+      scope: ['profile', 'email'],
+      prompt: 'consent'
+    })
+  )
+
 
   /**
    * @api {get} /auth/google Authenticate via Google service
@@ -115,12 +117,9 @@ router
    */
   .get('/google/callback',
     passport.authenticate('google', {
+      successRedirect: '/auth/token',
       failureRedirect: '/auth/not_authorized'
-    }),
-    function(req, res) {
-      // Successful authentication, redirect home.
-      res.redirect('/auth/token');
-    })
+    }))
 
   /**
    * @api {get} /auth/login Login pa
@@ -130,17 +129,10 @@ router
    * @apiSuccess {None} Redirect ...
    */
   .get('/login', function(req, res) {
-
-    if (!req.user) {
-      res.send({
-        message: "To login visit this URL",
-        url: req.protocol + "://" + req.get('host') + "/auth/google"
-      });
-    } else {
-      res.send({
-        message: "Already loggedIn!!"
-      });
-    }
+    res.send({
+      message: "To login visit this URL",
+      url: req.protocol + "://" + req.get('host') + "/auth/google"
+    });
   })
 
   /**
@@ -152,7 +144,9 @@ router
    */
   .get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    req.session.destroy(() => {
+      res.redirect("/auth/login");
+    })
   })
 
   /**
