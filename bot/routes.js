@@ -84,7 +84,7 @@ function parseCategories(json, chatId) {
     var categoriesName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
         //Pair for callback_data in inline button
-        categoriesName_id.push([jsonobj[i].name, jsonobj[i].id]);
+        categoriesName_id.push([jsonobj[i], jsonobj[i]]);
     }
 
     var options = {
@@ -148,13 +148,13 @@ bot.on("callback_query", (callbackQuery) => {
                 .then(() => getJsonFromUrl(requrl, showProfessor_CategoryThesis, msg.chat.id));
             break;
         case 't':
-            requrl = String(apiUrl + "topics/" + jsonobj.data.substring(1));
+            requrl = String(apiUrl + "/topics/" + jsonobj.data.substring(1));
             //clicked on topic
             bot.answerCallbackQuery(callbackQuery.id)
                 .then(() => getJsonFromUrl(requrl, showThesisInfo, msg.chat.id));
             break;
         case 'c':
-            requrl = String(apiUrl + "topics?category=" + jsonobj.data.substring(1));
+            requrl = String(apiUrl + "/topics?category=" + jsonobj.data.substring(1));
             //clicked on topic
             bot.answerCallbackQuery(callbackQuery.id)
                 .then(() => getJsonFromUrl(requrl, showProfessor_CategoryThesis, msg.chat.id));
