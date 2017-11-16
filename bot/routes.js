@@ -37,12 +37,7 @@ function getJsonFromUrl(url, cb, chatId) {
     });
 }
 
-function parseJSON(url){
-  return fetchJSON(url, {method : 'GET'}).then(r => {return r.json})
-}
-
 function parseProfessors(json, chatId) {
-    console.log(json);
     var jsonobj = JSON.parse(JSON.stringify(json));
 
     var professorName_id = [];
@@ -63,20 +58,56 @@ function parseProfessors(json, chatId) {
     bot.sendMessage(chatId, "Seleziona il professore che più ti interessa e ti forniremo una lista delle tesi disponibili", options);
 }
 
+function showProfThesis(json, chatId){
 
+    var jsonobj = JSON.parse(JSON.stringify(json));
+    var thesisName_id = []
+    for(var i = 0; i < jsonobj.length; i++) {
+        thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
+    }
+    
+    var options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: thesisName_id.map((x) => ([{
+                text: x[0],
+                callback_data: String("t"+x[1]),
+            }])),
+        }),
+    };
+    
+    bot.sendMessage(chatId, "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati", options);
+}
+
+function showThesisInfo(json, chatId){
+
+    var jsonobj = JSON.parse(JSON.stringify(json));
+    
+    var thesis = 
+    
+    
+    bot.sendMessage(chatId, "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati");
+}
 
 // Inline button callback queries
 bot.on("callback_query", (callbackQuery) => {
   //JSON parsing
   const msg = callbackQuery.message;
   var jsonobj = JSON.parse(JSON.stringify(callbackQuery));
-
-  console.log("ID numero"+jsonobj.data); // msg.data refers to the callback_data
+    var requrl = "";
+        
+  console.log("ID numero: "+requrl); // msg.data refers to the callback_data
   switch (jsonobj.data.charAt(0)) {
     case 'p':
+        requrl = String(apiUrl+"/topics?professor_id="+jsonobj.data.substring(1));
       //professore
       bot.answerCallbackQuery(callbackQuery.id)
-        .then(() => bot.sendMessage(msg.chat.id, "You clicked!"));
+        .then(() => getJsonFromUrl(requrl, showProfThesis, msg.chat.id));
+      break;
+          case 't':
+          requrl = String(apiUrl+"topics?"+jsonobj.data.substring(1)))
+      //clicked on topic
+      bot.answerCallbackQuery(callbackQuery.id)
+        .then(() => getJsonFromUrl(requrl, showThesisInfo, msg.chat.id));
       break;
     default:
     bot.answerCallbackQuery(callbackQuery.id)
@@ -116,9 +147,7 @@ bot.on('message', msg => {
 
         case "Il professore che preferisci":
             var requrl = apiUrl + '/professors';
-            console.log(parseJSON("http://echo.jsontest.com/key/value/one/two"));
-            //getJsonFromUrl(requrl, parseProfessors, msg.chat.id);
-            //fetchProfessors(requrl, msg.chat.id);
+            getJsonFromUrl(requrl, parseProfessors, msg.chat.id);
 
             break;
 
