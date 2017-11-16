@@ -1,0 +1,21 @@
+.navbar{
+    height: 60px;
+    background-color: rgba(12, 60, 96, 1)!important;
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar-links ul{
+    height: 60px;
+    display: block;
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar-links ul li{
+    display: inline-block;
+    border: 0px;
+    color: white;
+    line-height: 60px;
+    margin-right: 20px;
+}
