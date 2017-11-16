@@ -244,6 +244,41 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/api/topics/:id",
+    "title": "Get  topic with specified id",
+    "name": "Get_topic_by_id",
+    "group": "Topics",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "JSON",
+            "description": "<p>object reppresenting the topic.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "TopicNotFound",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./api/routes.js",
+    "groupTitle": "Topics"
+  },
+  {
+    "type": "get",
     "url": "/api/topics",
     "title": "Get topics by filters",
     "name": "Get_topics_by_filters",
@@ -253,13 +288,15 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "optional": false,
+            "type": "int",
+            "optional": true,
             "field": "professor_id",
             "description": "<p>The professor_id whose topics we are looking for.</p>"
           },
           {
             "group": "Parameter",
-            "optional": false,
+            "type": "String",
+            "optional": true,
             "field": "category",
             "description": "<p>The category whose topics we are looking for.</p>"
           }
