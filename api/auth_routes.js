@@ -57,9 +57,9 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback",
     userProfileURL: "https://www.googleapis.com/oauth2/v2/userinfo",
     proxy: true,
-    passReqToCallback: true
+    passReqToCallback: true,
   },
-  function(req, accessToken, refreshToken, profile, cb) {
+  function(req, token, tokenSecret, profile, cb) {
 
     var db = req.app.get("db");
 
@@ -123,9 +123,12 @@ router
    */
   .get('/',
     function(req, res) {
-
       res.json({
+<<<<<<< HEAD
         message: '"This is the authentication api. See the documentation to use it.'
+=======
+        message: 'This is the authentication api'
+>>>>>>> 8331d9bb4a91668503a599b9e9e2a107a0b1b904
       });
     })
 
@@ -136,8 +139,11 @@ router
    */
   .get('/google',
     passport.authenticate('google', {
-      scope: ['profile', 'email']
-    }))
+      scope: ['profile', 'email'],
+      prompt: 'consent'
+    })
+  )
+
 
   /**
    * @api {get} /auth/google Authenticate via Google service
@@ -149,12 +155,9 @@ router
    */
   .get('/google/callback',
     passport.authenticate('google', {
+      successRedirect: '/auth/token',
       failureRedirect: '/auth/not_authorized'
-    }),
-    function(req, res) {
-      // Successful authentication, redirect home.
-      res.redirect('/auth/token');
-    })
+    }))
 
   /**
    * @api {get} /auth/login Get informations on how to login
@@ -166,6 +169,7 @@ router
    *
    */
   .get('/login', function(req, res) {
+<<<<<<< HEAD
 
     var msg = "To login visit this URL:";
     if (req.user) {
@@ -176,6 +180,12 @@ router
       url: req.protocol + "://" + req.get('host') + "/auth/google"
     });
 
+=======
+    res.send({
+      message: "To login visit this URL",
+      url: req.protocol + "://" + req.get('host') + "/auth/google"
+    });
+>>>>>>> 8331d9bb4a91668503a599b9e9e2a107a0b1b904
   })
 
   /**
@@ -214,7 +224,9 @@ router
    */
   .get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    req.session.destroy(() => {
+      res.redirect("/auth/login");
+    })
   })
 
   /**
