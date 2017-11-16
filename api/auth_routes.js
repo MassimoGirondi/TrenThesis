@@ -124,11 +124,7 @@ router
   .get('/',
     function(req, res) {
       res.json({
-<<<<<<< HEAD
         message: '"This is the authentication api. See the documentation to use it.'
-=======
-        message: 'This is the authentication api'
->>>>>>> 8331d9bb4a91668503a599b9e9e2a107a0b1b904
       });
     })
 
@@ -169,7 +165,6 @@ router
    *
    */
   .get('/login', function(req, res) {
-<<<<<<< HEAD
 
     var msg = "To login visit this URL:";
     if (req.user) {
@@ -180,12 +175,6 @@ router
       url: req.protocol + "://" + req.get('host') + "/auth/google"
     });
 
-=======
-    res.send({
-      message: "To login visit this URL",
-      url: req.protocol + "://" + req.get('host') + "/auth/google"
-    });
->>>>>>> 8331d9bb4a91668503a599b9e9e2a107a0b1b904
   })
 
   /**
