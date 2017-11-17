@@ -68,7 +68,7 @@ passport.use(new GoogleStrategy({
     var db = req.app.get("db");
 
     // Check email
-    if (true || profile._json.hd === 'unitn.it') { //JUST TO TEST
+    if (process.env.debug || profile._json.hd === 'unitn.it') {
 
       db.collection("users").findOne({
         googleId: profile._json.id
@@ -193,34 +193,11 @@ router
 
     return res.json({
       token: jwt.sign({
-        googleId: req.user._json.id,
-        googleJson: req.user._json
+        googleId: req.user._json.id
       }, process.env.AuthSecret, {
         expiresIn: '1d'
       })
     });
-  })
-
-  .get('/test', jwtAuth, (req, res) => {
-    console.log("AUTHENTICATHED: " + JSON.stringify(req.decodedToken));
-    res.send("OK");
-
-  })
-
-
-  /**
-   * @api {get} /auth/logout Logout
-   * @apiName Logout
-   * @apiGroup Authentication
-   *
-   * @apiPermission GoogleAuthenticatedProfessor
-   * @apiSuccess {None} You are successfully logged out.
-   */
-  .get('/logout', function(req, res) {
-    req.logout();
-    req.session.destroy(() => {
-      res.redirect("/auth/login");
-    })
   })
 
   /**

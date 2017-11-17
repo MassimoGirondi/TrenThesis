@@ -41,36 +41,6 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/auth/logout",
-    "title": "Logout",
-    "name": "Logout",
-    "group": "Authentication",
-    "permission": [
-      {
-        "name": "GoogleAuthenticatedProfessor",
-        "title": "Any authenticated Professor, loggedIn with Google",
-        "description": "<p>Restrict access to token generation.</p>"
-      }
-    ],
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "None",
-            "optional": false,
-            "field": "You",
-            "description": "<p>are successfully logged out.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "api/auth_routes.js",
-    "groupTitle": "Authentication"
-  },
-  {
-    "type": "get",
     "url": "/auth/token",
     "title": "Get the token to use APIs",
     "name": "Token_generator",

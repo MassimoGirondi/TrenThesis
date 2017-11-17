@@ -114,37 +114,38 @@ router
    * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .put('/professors/:id', function(req, res, next) {
-    var db = req.app.get("db");
+  .put('/professors/:id', isAuthenticated,
+    function(req, res, next) {
+      var db = req.app.get("db");
 
-    /*
-    Check if the AuthenticatedProfessor is the same of :id
-    */
-    var id = req.params.id;
-    db.collection("professors").updateOne({
-      "id": parseInt(id)
-    }, {
-      '$set': req.body
-    }, function(err, status) {
+      /*
+      Check if the AuthenticatedProfessor is the same of :id
+      */
+      var id = req.params.id;
+      db.collection("professors").updateOne({
+        "id": parseInt(id)
+      }, {
+        '$set': req.body
+      }, function(err, status) {
 
-      if (err) {
-        console.error("Failed to update professor with id=" + id + " : " + err.message);
-        var err = new Error('Something is broken!');
-        err.status = 505;
-        next(err);
-      } else {
-        if (status.modifiedCount === 1)
-          res.status(200).json({
-            modify: true
-          });
-        else {
-          var err = new Error('Professor not updated!');
-          err.status = 400;
+        if (err) {
+          console.error("Failed to update professor with id=" + id + " : " + err.message);
+          var err = new Error('Something is broken!');
+          err.status = 505;
           next(err);
+        } else {
+          if (status.modifiedCount === 1)
+            res.status(200).json({
+              modify: true
+            });
+          else {
+            var err = new Error('Professor not updated!');
+            err.status = 400;
+            next(err);
+          }
         }
-      }
+      })
     })
-  })
 
   /**
    * @api {delete} /api/professors/:id Delete professor with specified ID
