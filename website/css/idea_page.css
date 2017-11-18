@@ -1,0 +1,103 @@
+html{
+    padding: 0px;
+    margin: 0px;
+}
+
+body{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+    #overflow-x: hidden;
+}
+
+.container-fluid-fix{
+    padding: 0px!important;
+}
+
+.idea-management{
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: rgb(16, 84, 135);
+}
+
+#idea-information-title{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#idea-information-date{
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.idea-information{
+    font-size: 0.9em;
+}
+
+.idea-informations-header{
+    text-decoration: underline;
+}
+
+.idea-content{
+    font: normal normal normal 1em raleway,sans-serif;
+    padding-top: 15px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 15px;
+    text-align: justify
+}
+
+.btn-right{
+    float:right;
+}
+
+.btn-edit{
+    width: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: rgba(52, 152, 219,1.0);
+    display: inline-block;
+    margin: 0px;
+    z-index: 1;
+    
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    
+    cursor: pointer;
+}
+
+.btn-edit:hover{
+    background-color: rgba(52, 152, 219,0.7);
+}
+
+.btn-remove{
+    width: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: rgba(192, 57, 43,1.0);
+    display: inline-block;
+    margin:0px;
+    z-index: 1;
+    
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+    cursor: pointer;
+}
+
+.btn-remove:hover{
+    background-color: rgba(192, 57, 43,0.8);
+}

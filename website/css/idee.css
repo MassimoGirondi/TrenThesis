@@ -23,6 +23,10 @@ body{
     background-color: rgb(16, 84, 135);
 }
 
+#section-title{
+    font-size: 1.1em;
+}
+
 .idee-container{
     #padding-left: 20px;
     #padding-right: 20px;
@@ -53,16 +57,24 @@ body{
 }
 
 .btn-add{
-    margin-left: 10px;
-    background-color: #eeeeee;
+    background-color: rgba(39, 174, 96,1.0);
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    padding:5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+
     cursor: pointer;
     
 }
 
 .btn-add:hover{
-    background-color: rgba(12, 60, 96, 1);
-    color: white;
-    border: 0px;
+    background-color: rgba(39, 174, 96,0.8)
 }
 
 .btn-search{
@@ -95,4 +107,41 @@ body{
     display: table-cell;
     vertical-align: middle;
     
+}
+
+.idea-element{
+    background-color: rgba(12, 60, 96, 1);
+    color: white;
+    font: normal normal normal 1.1em raleway,sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 15px;
+    margin-left: 5px!important;
+    margin-right: 5px!important;
+    cursor: pointer;
+}
+
+.idea-element:hover{
+    background-color: rgb(16, 84, 135);
+}
+
+.idea-element-title{    
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+.idea-element-data{    
+    text-align: center;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+
+.idea-element-text{
+    padding-top: 5px;
+    text-align: justify;
+    font-size: 0.8em;
 }

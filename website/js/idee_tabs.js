@@ -10,6 +10,16 @@ function openTab(name) {
         $(this).hide();
     });
     
+    if(name == "all"){
+        all();
+    }
+    else if(name == "available"){
+        available();
+    }
+    else if(name == "assigned"){
+        assigned();
+    }
+    
     $(tabName).addClass("tab-selected");
     $(containerName).show();
 }
