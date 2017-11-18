@@ -1,0 +1,98 @@
+html{
+    padding: 0px;
+    margin: 0px;
+}
+
+body{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+    #overflow-x: hidden;
+}
+
+.container-fluid-fix{
+    padding: 0px!important;
+}
+
+.idee-management{
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: rgb(16, 84, 135);
+}
+
+.idee-container{
+    #padding-left: 20px;
+    #padding-right: 20px;
+}
+
+.row{
+    #width: 100%!important;
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+.tab{
+    border-bottom: 5px solid lightgray;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    padding-left: 30px;
+}
+
+.tab:hover{
+    background-color: #eeeeee;
+
+}
+
+.tab-selected{
+    border-bottom-color: rgba(12, 60, 96, 1);
+    font-weight: bold;
+}
+
+.btn-add{
+    margin-left: 10px;
+    background-color: #eeeeee;
+    cursor: pointer;
+    
+}
+
+.btn-add:hover{
+    background-color: rgba(12, 60, 96, 1);
+    color: white;
+    border: 0px;
+}
+
+.btn-search{
+    display: table;
+    height: 37.08px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #eeeeee;
+    border: 1px solid lightgray;
+    border-left: 0px;
+    
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    
+    color: black;
+    cursor: pointer;
+}
+
+.btn-search:hover{
+    background-color: rgba(12, 60, 96, 1);
+    color: white;
+    border: 0px;
+}
+
+.btn-search span{
+    display: table-cell;
+    vertical-align: middle;
+    
+}
