@@ -9,26 +9,15 @@
  * Read the Wiki to know how to include a token in your request
  */
 
-function IsJsonString(str) {
-  try {
-    JSON.parse(str);
-  } catch (e) {
-    console.log(e.message);
-    return false;
-  }
-  return true;
-}
-
-
 var express = require('express');
 var router = express.Router();
 
 /*
-Import the isAutheticated method from the authentication routes
-It verifies the token and provide an error message if there is any error
+Import utils for requst authentication and authorization
 */
-var isAuthenticated = require('./auth_routes.js');
-
+var isAuthenticated = require('./utils.js').isAuthenticated;
+var isAuthorized = require('./utils.js').isAuthorized;
+var isUpdateSafe = require('./utils.js').isUpdateSafe;
 
 router
 
@@ -114,14 +103,11 @@ router
    * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .put('/professors/:id', isAuthenticated,
+  .put('/professors/:id', isAuthenticated, isAuthorized, isUpdateSafe,
     function(req, res, next) {
       var db = req.app.get("db");
-
-      /*
-      Check if the AuthenticatedProfessor is the same of :id
-      */
       var id = req.params.id;
+
       db.collection("professors").updateOne({
         "id": parseInt(id)
       }, {
@@ -156,61 +142,57 @@ router
    * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/professors/:id', isAuthenticated, function(req, res, next) {
-    var db = req.app.get("db");
+  .delete('/professors/:id', isAuthenticated, isAuthorized,
+    function(req, res, next) {
+      var db = req.app.get("db");
+      var id = req.params.id;
+      /*
+      Check if the AuthenticatedProfessor is the same of topic professor_id
+      */
+      db.collection("professors").deleteOne({
+        "id": parseInt(id)
+      }, req.body, function(err, status) {
 
-    /*
-    Check if the AuthenticatedProfessor is the same of :id
-    Accessing req.decodedToken.user.googleId to check it
-    */
-    var id = req.params.id;
-    /*
-    Check if the AuthenticatedProfessor is the same of topic professor_id
-    */
-    db.collection("professors").deleteOne({
-      "id": parseInt(id)
-    }, req.body, function(err, status) {
-
-      if (err) {
-        console.error("Failed to delete professor with id=" + id + " : " + err.message);
-        var err = new Error('Something is broken!');
-        err.status = 505;
-        next(err);
-      } else {
-
-        if (status.deletedCount === 1)
-          // The professor was registered => delete all related topics
-          db.collection("topics").deleteMany({
-            "professor_id": parseInt(id)
-          }, req.body, function(err, status) {
-
-            if (err) {
-              console.error("Failed to delete professor's topics; professor_id=" + id + " : " + err.message);
-              var err = new Error('Something is broken!');
-              next(err); // Should check here for inconsistency
-            } else {
-              res.status(200).json(true);
-            }
-          });
-        else {
-          var err = new Error('Professor not deleted!');
-          err.status = 400;
+        if (err) {
+          console.error("Failed to delete professor with id=" + id + " : " + err.message);
+          var err = new Error('Something is broken!');
+          err.status = 505;
           next(err);
+        } else {
+
+          if (status.deletedCount === 1)
+            // The professor was registered => delete all related topics
+            db.collection("topics").deleteMany({
+              "professor_id": parseInt(id)
+            }, req.body, function(err, status) {
+
+              if (err) {
+                console.error("Failed to delete professor's topics; professor_id=" + id + " : " + err.message);
+                var err = new Error('Something is broken!');
+                next(err); // Should check here for inconsistency
+              } else {
+                res.status(200).json(true);
+              }
+            });
+          else {
+            var err = new Error('Professor not deleted!');
+            err.status = 400;
+            next(err);
+          }
         }
-      }
-    });
-  })
+      });
+    })
 
 
+  /**
+   * @api {get} /api/topics/:id Get  topic with specified id
+   * @apiName Get topic by id
+   * @apiGroup Topics
+   *
+   * @apiSuccess {Object} JSON object reppresenting the topic.
+   * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
+   */
   .get('/topics/:id', function(req, res, next) {
-    /**
-     * @api {get} /api/topics/:id Get  topic with specified id
-     * @apiName Get topic by id
-     * @apiGroup Topics
-     *
-     * @apiSuccess {Object} JSON object reppresenting the topic.
-     * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
-     */
     var db = req.app.get("db");
     var id = req.params.id;
     db.collection("topics").findOne({
@@ -292,37 +274,35 @@ router
    * @apiError TopicNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .put('/topics/:id', isAuthenticated, function(req, res, next) {
-    var db = req.app.get("db");
+  .put('/topics/:id', isAuthenticated, isAuthorized, isUpdateSafe,
+    function(req, res, next) {
+      var db = req.app.get("db");
+      var id = req.params.id;
 
-    /*
-    Check if the AuthenticatedProfessor is the same of topic professor_id
-    */
-    var id = req.params.id;
-    db.collection("topics").updateOne({
-      "id": parseInt(id)
-    }, {
-      '$set': req.body
-    }, function(err, status) {
+      db.collection("topics").updateOne({
+        "id": parseInt(id)
+      }, {
+        '$set': req.body
+      }, function(err, status) {
 
-      if (err) {
-        console.error("Failed to update topic with id=" + id + " : " + err.message);
-        var err = new Error('Something is broken!');
-        err.status = 505;
-        next(err);
-      } else {
-        if (status.modifiedCount === 1)
-          res.status(200).json({
-            modify: true
-          });
-        else {
-          var err = new Error('Topic not updated!');
-          err.status = 400;
+        if (err) {
+          console.error("Failed to update topic with id=" + id + " : " + err.message);
+          var err = new Error('Something is broken!');
+          err.status = 505;
           next(err);
+        } else {
+          if (status.modifiedCount === 1)
+            res.status(200).json({
+              modify: true
+            });
+          else {
+            var err = new Error('Topic not updated!');
+            err.status = 400;
+            next(err);
+          }
         }
-      }
+      })
     })
-  })
 
   /**
    * @api {delete} /api/topics/:id Delete topic with specified ID
@@ -333,32 +313,31 @@ router
    * @apiError TopicNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/topics/:id', isAuthenticated, function(req, res, next) {
-    var db = req.app.get("db");
-    /*
-    Check if the AuthenticatedProfessor is the same of topic professor_id
-    */
-    var id = req.params.id;
-    db.collection("topics").deleteOne({
-      "id": parseInt(id)
-    }, req.body, function(err, status) {
+  .delete('/topics/:id', isAuthenticated, isAuthorized,
+    function(req, res, next) {
+      var db = req.app.get("db");
+      var id = req.params.id;
 
-      if (err) {
-        console.error("Failed to delete topic with id=" + id + " : " + err.message);
-        var err = new Error('Something is broken!');
-        err.status = 505;
-        next(err);
-      } else {
-        if (status.deletedCount === 1) {
-          res.status(200).json(true);
-        } else {
-          var err = new Error('Topic not found!');
-          err.status = 404;
+      db.collection("topics").deleteOne({
+        "id": parseInt(id)
+      }, req.body, function(err, status) {
+
+        if (err) {
+          console.error("Failed to delete topic with id=" + id + " : " + err.message);
+          var err = new Error('Something is broken!');
+          err.status = 505;
           next(err);
+        } else {
+          if (status.deletedCount === 1) {
+            res.status(200).json(true);
+          } else {
+            var err = new Error('Topic not found!');
+            err.status = 404;
+            next(err);
+          }
         }
-      }
-    });
-  })
+      });
+    })
 
   /**
    * @api {get} /api/categories Get topics categories

@@ -12,40 +12,6 @@ var router = express.Router();
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var loggedIn = require('connect-ensure-login').ensureLoggedIn('/auth/not_authorized');
-var jwt = require('jsonwebtoken');
-
-var jwtAuth = (req, res, next) => {
-
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-  // decode token
-  if (token) {
-    // verifies secret and checks exp
-    jwt.verify(token, process.env.AuthSecret, function(err, decoded) {
-      if (err) {
-        return res.status(403).send({
-          message: 'The token is not valid. Try to Login again.'
-        });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decodedToken = decoded;
-        next();
-      }
-    });
-
-  } else {
-
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-      message: 'No token provided. Check the documentation to know how to send it in your requests.'
-    });
-
-  }
-}
-
-// Export the function to allow other modules to use the Authentication
-module.exports.authenticated = jwtAuth;
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -128,7 +94,7 @@ router
   .get('/',
     function(req, res) {
       res.json({
-        message: '"This is the authentication api. See the documentation to use it.'
+        message: 'This is the authentication api. See the documentation to use it.'
       });
     })
 

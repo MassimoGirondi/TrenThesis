@@ -73,5 +73,6 @@ MongoClient.connect(mongodbUrl, (err, db) => {
   app.set('db', db);
   app.listen(port);
   console.log("App started at port " + port);
+  console.log('Debug: ' + process.env.debug);
 
 });
