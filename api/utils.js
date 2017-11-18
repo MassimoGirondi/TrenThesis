@@ -3,8 +3,13 @@ var jwt = require('jsonwebtoken');
 /**
  * Check if the id contained in the parameters of the request is authorized
  */
-module.exports.isAuthorized = (req, res, next) => {
-  if (!req.decodedToken || (req.decodedToken.googleId != req.params.id)) {
+module.exports.isAuthorized = (req, res, next, id) => {
+  if (id === undefined) {
+    res.status(400).send({
+      message: 'Malformed request: missing authentication id.'
+    })
+  }
+  if ((!req.decodedToken) || (req.decodedToken.professor_id != id)) {
     res.status(403).send({
       message: 'Id mismatch: you are not authorized to modify other people data'
     });
@@ -19,7 +24,7 @@ module.exports.isAuthorized = (req, res, next) => {
 if (process.env.debug) {
   var jwtAuth = (req, res, next) => {
     req.decodedToken = {
-      'googleId': 1
+      'professor_id': 1
     };
     next();
   }
@@ -37,17 +42,32 @@ if (process.env.debug) {
             message: 'The token is not valid. Try to Login again.'
           });
         } else {
-          // if everything is good, save to request for use in other routes
-          req.decodedToken = decoded;
-          next();
+          // if everything is good, find the professor id and save it into the request for use in other routes
+          if (decoded.googleId != undefined) {
+            let db = req.app.get('db');
+            db.collection('users').find({
+              'googleId': decoded.googleId
+            }, {
+              'id': 1
+            }, function(err, data) {
+              if (err) {
+                res.status(505).send({
+                  message: 'Id mismatch in token recognition: please contact the support team.'
+                });
+              } else {
+                req.decodedToken = decoded;
+                req.decodedToken.professor_id = data.googleId;
+                next();
+              }
+            })
+          }
         }
       });
 
     } else {
 
-      // if there is no token
-      // return an error
-      return res.status(403).send({
+      // if there is no token send an error
+      res.status(403).send({
         message: 'No token provided. Check the documentation to know how to send it in your requests.'
       });
 

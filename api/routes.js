@@ -103,7 +103,7 @@ router
    * @apiError ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .put('/professors/:id', isAuthenticated, isAuthorized, isUpdateSafe,
+  .put('/professors/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.params.id), isUpdateSafe,
     function(req, res, next) {
       var db = req.app.get("db");
       var id = req.params.id;
@@ -142,7 +142,7 @@ router
    * @apiError ProfessorNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/professors/:id', isAuthenticated, isAuthorized,
+  .delete('/professors/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.params.id),
     function(req, res, next) {
       var db = req.app.get("db");
       var id = req.params.id;
@@ -244,7 +244,6 @@ router
         '$in': [category]
       }
     }
-    console.log(query);
     db.collection("topics").find(query, {
       "_id": 0
     }).toArray(function(err, topics) {
@@ -274,13 +273,16 @@ router
    * @apiError TopicNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .put('/topics/:id', isAuthenticated, isAuthorized, isUpdateSafe,
+  .put('/topics/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.body.professor_id), isUpdateSafe,
+
     function(req, res, next) {
       var db = req.app.get("db");
       var id = req.params.id;
+      var professor_id = req.body.professor_id;
 
       db.collection("topics").updateOne({
-        "id": parseInt(id)
+        "id": parseInt(id),
+        'professor_id': professor_id
       }, {
         '$set': req.body
       }, function(err, status) {
@@ -313,13 +315,15 @@ router
    * @apiError TopicNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/topics/:id', isAuthenticated, isAuthorized,
+  .delete('/topics/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.body.professor_id),
     function(req, res, next) {
       var db = req.app.get("db");
       var id = req.params.id;
+      var professor_id = req.body.professor_id;
 
       db.collection("topics").deleteOne({
-        "id": parseInt(id)
+        "id": parseInt(id),
+        'professor_id': professor_id
       }, req.body, function(err, status) {
 
         if (err) {
