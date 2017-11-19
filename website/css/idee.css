@@ -7,7 +7,7 @@ body{
     padding: 0px;
     margin: 0px;
     font-family: 'Roboto', sans-serif;
-    #overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 .container-fluid-fix{
@@ -38,77 +38,6 @@ body{
     margin: 0px!important;
 }
 
-.tab{
-    border-bottom: 5px solid lightgray;
-    height: 40px;
-    line-height: 40px;
-    cursor: pointer;
-    padding-left: 30px;
-}
-
-.tab:hover{
-    background-color: #eeeeee;
-
-}
-
-.tab-selected{
-    border-bottom-color: rgba(12, 60, 96, 1);
-    font-weight: bold;
-}
-
-.btn-add{
-    background-color: rgba(39, 174, 96,1.0);
-    color: white;
-    cursor: pointer;
-    display: inline-block;
-    padding:5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-
-    cursor: pointer;
-    
-}
-
-.btn-add:hover{
-    background-color: rgba(39, 174, 96,0.8)
-}
-
-.btn-search{
-    display: table;
-    height: 37.08px;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: #eeeeee;
-    border: 1px solid lightgray;
-    border-left: 0px;
-    
-    -webkit-border-top-right-radius: 5px;
-    -webkit-border-bottom-right-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    -moz-border-radius-bottomright: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    
-    color: black;
-    cursor: pointer;
-}
-
-.btn-search:hover{
-    background-color: rgba(12, 60, 96, 1);
-    color: white;
-    border: 0px;
-}
-
-.btn-search span{
-    display: table-cell;
-    vertical-align: middle;
-    
-}
-
 .idea-element{
     background-color: rgba(12, 60, 96, 1);
     color: white;
@@ -132,13 +61,11 @@ body{
     text-transform: uppercase;
 }
 
-
 .idea-element-data{    
     text-align: center;
     font-style: italic;
     font-size: 0.8em;
 }
-
 
 .idea-element-text{
     padding-top: 5px;
