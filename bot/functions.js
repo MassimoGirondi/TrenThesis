@@ -23,11 +23,7 @@ exports.getJsonFromUrl = function(url, cb, chatId, bot) {
         } else {
             //must check json
             var jsonobj = JSON.parse(JSON.stringify(json));
-            if (jsonobj.hasOwnProperty('error')) {
-                console.log("Json has error property");
-                throw "Wrong url";
-            } else
-                cb(chatId, jsonobj, bot);
+            cb(chatId, jsonobj, bot);
         }
     });
 };
