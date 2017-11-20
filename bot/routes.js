@@ -32,18 +32,23 @@ function getJsonFromUrl(url, cb, chatId) {
         if (err) {
             throw err;
         } else {
-            cb(json, chatId);
+          //must check json
+          var jsonobj = JSON.parse(JSON.stringify(json));
+          if(jsonobj.hasOwnProperty('error'))
+            throw "Wrong url";
+          else
+            cb(json, chatId, jsonobj);
         }
     });
 }
 
-function parseProfessors(json, chatId) {
-    var jsonobj = JSON.parse(JSON.stringify(json));
-
+function parseProfessors(json, chatId, jsonobj) {
     var professorName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
         //Pair for callback_data in inline button
-        professorName_id.push([profEmoji + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
+        //Check also if jsonobj has the right properties
+        if(jsonobj[i].hasOwnProperty('first_name') && jsonobj[i].hasOwnProperty('first_name'))
+          professorName_id.push([profEmoji + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
     }
 
     var options = {
@@ -58,9 +63,8 @@ function parseProfessors(json, chatId) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona il professore che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono professori", options);
 }
 
-function showProfessor_CategoryThesis(json, chatId) {
+function showProfessor_CategoryThesis(json, chatId, jsonobj) {
 
-    var jsonobj = JSON.parse(JSON.stringify(json));
     var thesisName_id = []
     for (var i = 0; i < jsonobj.length; i++) {
         thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
@@ -78,8 +82,7 @@ function showProfessor_CategoryThesis(json, chatId) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
 }
 
-function parseCategories(json, chatId) {
-    var jsonobj = JSON.parse(JSON.stringify(json));
+function parseCategories(json, chatId, jsonobj) {
 
     var categoriesName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
@@ -99,9 +102,7 @@ function parseCategories(json, chatId) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la categoria che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono categorie", options);
 }
 
-function showAllThesis(json, chatId) {
-
-    var jsonobj = JSON.parse(JSON.stringify(json));
+function showAllThesis(json, chatId, jsonobj) {
     var thesisName_id = []
     for (var i = 0; i < jsonobj.length; i++) {
         thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
@@ -119,9 +120,7 @@ function showAllThesis(json, chatId) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
 }
 
-function showThesisInfo(json, chatId) {
-
-    var jsonobj = JSON.parse(JSON.stringify(json));
+function showThesisInfo(json, chatId, jsonobj) {
 
     var thesis = "Titolo: " + jsonobj.title +
         "\nAnteprima: " + jsonobj.short_abstract +
