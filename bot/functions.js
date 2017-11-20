@@ -9,7 +9,6 @@
 var request = require('request');
 
 exports.getJsonFromUrl = function(url, cb, chatId) {
-    console.log("Called url "+url);
     request({
         url: url,
         json: true

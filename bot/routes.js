@@ -42,7 +42,6 @@ module.exports = router;
 
 
 function parseProfessors(chatId, jsonobj) {
-    console.log("Entrato");
     var professorName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
         //Pair for callback_data in inline button
@@ -147,7 +146,7 @@ bot.on("callback_query", (callbackQuery) => {
             requrl = String(apiUrl + "/topics?professor_id=" + jsonobj.data.substring(1));
             //professore
             bot.answerCallbackQuery(callbackQuery.id)
-                .then(() => functions.getsonFromUrl(requrl, showProfessor_CategoryThesis, msg.chat.id));
+                .then(() => functions.getJsonFromUrl(requrl, showProfessor_CategoryThesis, msg.chat.id));
             break;
         case 't':
             requrl = String(apiUrl + "/topics/" + jsonobj.data.substring(1));
@@ -186,7 +185,7 @@ bot.on('message', msg => {
             break;
         case "Il professore che preferisci":
             var requrl = apiUrl + "/professors";
-            functions.getsonFromUrl(requrl, parseProfessors, msg.chat.id);
+            functions.getJsonFromUrl(requrl, parseProfessors, msg.chat.id);
 
             break;
         case "Un argomento":
@@ -198,7 +197,7 @@ bot.on('message', msg => {
 
         case "L'ambito di studi che preferisci":
             var requrl = apiUrl + "/categories";
-            functions.getsonFromUrl(requrl, parseCategories, msg.chat.id);
+            functions.getJsonFromUrl(requrl, parseCategories, msg.chat.id);
             break;
         default:
             bot.sendMessage(msg.chat.id, "Non ho capito");
