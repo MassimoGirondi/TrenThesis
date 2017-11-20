@@ -13,9 +13,7 @@ exports.getJsonFromUrl = function(url, cb, chatId) {
         url: url,
         json: true
     }, function(err, res, json) {
-      console.log("Called getJsonFromUrl on url "+ url);
         if (err) {
-          console.log("Error "+err);
             throw err;
         } else {
             //must check json
@@ -23,7 +21,7 @@ exports.getJsonFromUrl = function(url, cb, chatId) {
             if (jsonobj.hasOwnProperty('error'))
                 throw "Wrong url";
             else
-                cb(json, chatId, jsonobj);
+                cb(chatId, jsonobj);
         }
     });
 };

@@ -41,7 +41,7 @@ router
 module.exports = router;
 
 
-function parseProfessors(json, chatId, jsonobj) {
+function parseProfessors(chatId, jsonobj) {
     var professorName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
         //Pair for callback_data in inline button
@@ -62,7 +62,7 @@ function parseProfessors(json, chatId, jsonobj) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona il professore che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono professori", options);
 }
 
-function showProfessor_CategoryThesis(json, chatId, jsonobj) {
+function showProfessor_CategoryThesis(chatId, jsonobj) {
 
     var thesisName_id = []
     for (var i = 0; i < jsonobj.length; i++) {
@@ -82,7 +82,7 @@ function showProfessor_CategoryThesis(json, chatId, jsonobj) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
 }
 
-function parseCategories(json, chatId, jsonobj) {
+function parseCategories(chatId, jsonobj) {
 
     var categoriesName_id = [];
     for (var i = 0; i < jsonobj.length; i++) {
@@ -102,7 +102,7 @@ function parseCategories(json, chatId, jsonobj) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la categoria che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono categorie", options);
 }
 
-function showAllThesis(json, chatId, jsonobj) {
+function showAllThesis(chatId, jsonobj) {
     var thesisName_id = []
     for (var i = 0; i < jsonobj.length; i++) {
         if (jsonobj[i].hasOwnProperty('title'))
@@ -121,7 +121,7 @@ function showAllThesis(json, chatId, jsonobj) {
     bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
 }
 
-function showThesisInfo(json, chatId, jsonobj) {
+function showThesisInfo(chatId, jsonobj) {
 
     var thesis = "Titolo:\t" + jsonobj.title +
         "\nAnteprima:\t" + jsonobj.short_abstract +
