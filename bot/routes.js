@@ -32,12 +32,12 @@ function getJsonFromUrl(url, cb, chatId) {
         if (err) {
             throw err;
         } else {
-          //must check json
-          var jsonobj = JSON.parse(JSON.stringify(json));
-          if(jsonobj.hasOwnProperty('error'))
-            throw "Wrong url";
-          else
-            cb(json, chatId, jsonobj);
+            //must check json
+            var jsonobj = JSON.parse(JSON.stringify(json));
+            if (jsonobj.hasOwnProperty('error'))
+                throw "Wrong url";
+            else
+                cb(json, chatId, jsonobj);
         }
     });
 }
@@ -47,8 +47,8 @@ function parseProfessors(json, chatId, jsonobj) {
     for (var i = 0; i < jsonobj.length; i++) {
         //Pair for callback_data in inline button
         //Check also if jsonobj has the right properties
-        if(jsonobj[i].hasOwnProperty('first_name') && jsonobj[i].hasOwnProperty('first_name'))
-          professorName_id.push([profEmoji + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
+        if (jsonobj[i].hasOwnProperty('first_name') && jsonobj[i].hasOwnProperty('first_name'))
+            professorName_id.push([profEmoji + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
     }
 
     var options = {
@@ -67,7 +67,8 @@ function showProfessor_CategoryThesis(json, chatId, jsonobj) {
 
     var thesisName_id = []
     for (var i = 0; i < jsonobj.length; i++) {
-        thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
+        if (jsonobj[i].hasOwnProperty('title'))
+            thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
     }
 
     var options = {
@@ -105,7 +106,8 @@ function parseCategories(json, chatId, jsonobj) {
 function showAllThesis(json, chatId, jsonobj) {
     var thesisName_id = []
     for (var i = 0; i < jsonobj.length; i++) {
-        thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
+        if (jsonobj[i].hasOwnProperty('title'))
+            thesisName_id.push([jsonobj[i].title, jsonobj[i].id]);
     }
 
     var options = {
@@ -122,11 +124,10 @@ function showAllThesis(json, chatId, jsonobj) {
 
 function showThesisInfo(json, chatId, jsonobj) {
 
-    var thesis = "Titolo: " + jsonobj.title +
-        "\nAnteprima: " + jsonobj.short_abstract +
-        "\nDescrizione: " + jsonobj.description +
-        "\nUrl: " + jsonobj.resource;
-
+    var thesis = "Titolo:\t" + jsonobj.title +
+        "\nAnteprima:\t" + jsonobj.short_abstract +
+        "\nDescrizione:\t" + jsonobj.description +
+        "\nUrl:\t" + jsonobj.resource;
 
     bot.sendMessage(chatId, thesis);
 }
