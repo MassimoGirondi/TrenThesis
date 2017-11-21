@@ -110,10 +110,10 @@ exports.showCategories = function(chatId, jsonobj, bot) {
 
 exports.showThesisInfo = function(chatId, jsonobj, bot) {
 
-    var thesis = constants.TITLE + jsonobj.title +
-        "\n"+ constants.SHORTABSTRACT + jsonobj.short_abstract +
-        "\n"+ constants.DESCRIPTION + jsonobj.description +
-        "\n"+ constants.RESOURCE + jsonobj.resource;
+    var thesis = constants.TITLEEMOJI+constants.TITLE + jsonobj.title +
+        "\n"+ constants.SHORTABSTRACTEMOJI +constants.SHORTABSTRACT + jsonobj.short_abstract +
+        "\n"+ constants.DESCRIPTIONEMOJI + constants.DESCRIPTION + jsonobj.description +
+        "\n"+ constants.RESOURCEEMOJI +constants.RESOURCE + jsonobj.resource;
 
-    bot.sendMessage(chatId, thesis);
+    bot.sendMessage(chatId, thesis, {parse_mode : "HTML"});
 };

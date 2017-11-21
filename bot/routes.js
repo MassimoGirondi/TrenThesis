@@ -79,24 +79,24 @@ bot.on('message', msg => {
             bot.sendMessage(msg.chat.id, constants.STARTSENTENCE, {
                 "reply_markup": {
                     "keyboard": [
-                        [constants.ANARGUMENT],
-                        [constants.PREFEREDPROFESSOR],
-                        [constants.PREFEREDCATEGORY]
+                        [constants.ARGEMOJI+constants.ANARGUMENT],
+                        [constants.PROFEMOJI+constants.PREFEREDPROFESSOR],
+                        [constants.CATEGEMOJI+constants.PREFEREDCATEGORY]
                     ]
                 }
             });
             break;
-        case constants.PREFEREDPROFESSOR:
+        case constants.PROFEMOJI+constants.PREFEREDPROFESSOR:
             requrl = apiUrl + "/professors";
             functions.getJsonFromUrl(requrl, functions.showProfessors, msg.chat.id, bot);
 
             break;
-        case constants.ANARGUMENT:
+        case constants.ARGEMOJI+constants.ANARGUMENT:
             requrl = apiUrl + "/topics";
             functions.getJsonFromUrl(requrl, functions.showAllThesis, msg.chat.id, bot);
             break;
 
-        case constants.PREFEREDCATEGORY:
+        case constants.CATEGEMOJI+constants.PREFEREDCATEGORY:
             requrl = apiUrl + "/categories";
             functions.getJsonFromUrl(requrl, functions.showCategories, msg.chat.id, bot);
             break;

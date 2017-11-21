@@ -1,7 +1,13 @@
 module.exports = Object.freeze({
     PROFEMOJI: "\u{1f468}\u{200d}\u{1f3eb}",
+    CATEGEMOJI: "\u{1F5C2}",
+    ARGEMOJI: "\u{1F4DA}",
+    RESOURCEEMOJI: "\u{1F4CE}",
+    TITLEEMOJI: "\u{1F4D5}",
+    SHORTABSTRACTEMOJI: "\u{1F4C4}",
+    DESCRIPTIONEMOJI: "\u{1F4CB}",
     ANARGUMENT: "Un argomento",
-    PREFEREDPROFESSOR: PROFEMOJI+" Il professore che preferisci",
+    PREFEREDPROFESSOR: "Il professore che preferisci",
     PREFEREDCATEGORY: "L'ambito di studi che preferisci",
     STARTSENTENCE: "Seleziona una delle opzioni dalla tastiera in basso",
     START: "/start",
@@ -12,8 +18,8 @@ module.exports = Object.freeze({
     NOTHESIS: "Non ci sono tesi",
     SELECTCATEGORY: "Seleziona la categoria che più ti interessa e ti forniremo una lista delle tesi disponibili",
     NOCATEGORY: "Non ci sono categorie",
-    TITLE: "Titolo: ",
-    SHORTABSTRACT: "Anteprima: ",
-    DESCRIPTION: "Descrizione: ",
-    RESOURCE: "Url: "
+    TITLE: "<b>Titolo</b>: ",
+    SHORTABSTRACT: "<b>Anteprima</b>: ",
+    DESCRIPTION: "<b>Descrizione</b>: ",
+    RESOURCE: "<b>Url</b>: "
 });
