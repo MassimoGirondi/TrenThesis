@@ -1,8 +1,9 @@
 all: config documentation
 
 documentation:
+
+# ./node_modules/.bin/apidoc -f ./routes.js -o docs/apidoc/
 	./node_modules/.bin/apidoc -i api/ -o docs/apidoc/
-	./node_modules/.bin/apidoc -f ./routes.js -o docs/apidoc/
 
 connect_to_mongo:
 	mongo ds233895.mlab.com:33895/trenthesis -u trenthesisDB --password
