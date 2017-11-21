@@ -44,7 +44,7 @@ exports.showProfessors = function(chatId, jsonobj, bot) {
         }),
     };
 
-    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona il professore che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono professori", options);
+    bot.sendMessage(chatId, jsonobj.length > 0 ? constants.SELECTPROFESSOR : constants.NOPROFESSOR, options);
 };
 
 exports.showAllThesis = function(chatId, jsonobj, bot) {
@@ -63,7 +63,7 @@ exports.showAllThesis = function(chatId, jsonobj, bot) {
         }),
     };
 
-    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
+    bot.sendMessage(chatId, jsonobj.length > 0 ? constants.SELECTTHESIS : constants.NOTHESIS, options);
 };
 
 exports.showProfessor_CategoryThesis = function(chatId, jsonobj, bot) {
@@ -83,7 +83,7 @@ exports.showProfessor_CategoryThesis = function(chatId, jsonobj, bot) {
         }),
     };
 
-    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la tesi che più ti interessa e ti forniremo i suoi dati" : "Non ci sono tesi", options);
+    bot.sendMessage(chatId, jsonobj.length > 0 ? constants.SELECTTHESIS : constants.NOTHESIS, options);
 };
 
 exports.showCategories = function(chatId, jsonobj, bot) {
@@ -103,17 +103,17 @@ exports.showCategories = function(chatId, jsonobj, bot) {
         }),
     };
 
-    bot.sendMessage(chatId, jsonobj.length > 0 ? "Seleziona la categoria che più ti interessa e ti forniremo una lista delle tesi disponibili" : "Non ci sono categorie", options);
+    bot.sendMessage(chatId, jsonobj.length > 0 ? constants.SELECTCATEGORY : constants.NOCATEGORY, options);
 };
 
 
 
 exports.showThesisInfo = function(chatId, jsonobj, bot) {
 
-    var thesis = "Titolo:\t" + jsonobj.title +
-        "\nAnteprima:\t" + jsonobj.short_abstract +
-        "\nDescrizione:\t" + jsonobj.description +
-        "\nUrl:\t" + jsonobj.resource;
+    var thesis = constants.TITLE + jsonobj.title +
+        "\n"+ constants.SHORTABSTRACT + jsonobj.short_abstract +
+        "\n"+ constants.DESCRIPTION + jsonobj.description +
+        "\n"+ constants.RESOURCE + jsonobj.resource;
 
     bot.sendMessage(chatId, thesis);
 };

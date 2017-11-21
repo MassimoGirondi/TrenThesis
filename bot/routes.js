@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var functions = require('./functions.js');
+var constants = require('./constants.js');
 
 /*
  * Const get from process.env (Heroku env variable)
@@ -15,9 +16,8 @@ const url = process.env.telegramWebHookUrl;
 const apiUrl = process.env.apiUrl;
 
 /*
- * Const string
+ * Const
  */
-const backButton = "Torna alle opzioni principali"
 const TelegramBot = require('node-telegram-bot-api');
 
 /*
@@ -44,7 +44,6 @@ bot.on("callback_query", (callbackQuery) => {
     var jsonobj = JSON.parse(JSON.stringify(callbackQuery));
     var requrl = "";
 
-    console.log("ID numero: " + requrl); // msg.data refers to the callback_data
     switch (jsonobj.data.charAt(0)) {
         case 'p':
             requrl = String(apiUrl + "/topics?professor_id=" + jsonobj.data.substring(1));
@@ -66,7 +65,7 @@ bot.on("callback_query", (callbackQuery) => {
             break;
         default:
             bot.answerCallbackQuery(callbackQuery.id)
-                .then(() => bot.sendMessage(msg.chat.id, "Error!"));
+                .then(() => bot.sendMessage(msg.chat.id, constants.NOTUNDERSTOOD));
             break;
 
     }
@@ -74,35 +73,35 @@ bot.on("callback_query", (callbackQuery) => {
 
 //Message
 bot.on('message', msg => {
+    var requrl = "";
     switch (msg.text.toString()) {
-        case "/start":
-        case "Torna alle opzioni principali":
-            bot.sendMessage(msg.chat.id, "Seleziona una delle opzioni dalla tastiera in basso", {
+        case constants.START:
+            bot.sendMessage(msg.chat.id, constants.STARTSENTENCE, {
                 "reply_markup": {
                     "keyboard": [
-                        ["Un argomento"],
-                        ["Il professore che preferisci"],
-                        ["L'ambito di studi che preferisci"]
+                        [constants.ANARGUMENT],
+                        [constants.PREFEREDPROFESSOR],
+                        [constants.PREFEREDCATEGORY]
                     ]
                 }
             });
             break;
-        case "Il professore che preferisci":
-            var requrl = apiUrl + "/professors";
+        case constants.PREFEREDPROFESSOR:
+            requrl = apiUrl + "/professors";
             functions.getJsonFromUrl(requrl, functions.showProfessors, msg.chat.id, bot);
 
             break;
-        case "Un argomento":
-            var requrl = apiUrl + "/topics";
+        case constants.ANARGUMENT:
+            requrl = apiUrl + "/topics";
             functions.getJsonFromUrl(requrl, functions.showAllThesis, msg.chat.id, bot);
             break;
 
-        case "L'ambito di studi che preferisci":
-            var requrl = apiUrl + "/categories";
+        case constants.PREFEREDCATEGORY:
+            requrl = apiUrl + "/categories";
             functions.getJsonFromUrl(requrl, functions.showCategories, msg.chat.id, bot);
             break;
         default:
-            bot.sendMessage(msg.chat.id, "Non ho capito");
+            bot.sendMessage(msg.chat.id, constants.NOTUNDERSTOOD);
             break;
     }
 });
