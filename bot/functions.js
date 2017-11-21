@@ -113,7 +113,7 @@ exports.showThesisInfo = function(chatId, jsonobj, bot) {
     var thesis = constants.TITLEEMOJI+constants.TITLE + jsonobj.title +
         "\n"+ constants.SHORTABSTRACTEMOJI +constants.SHORTABSTRACT + jsonobj.short_abstract +
         "\n"+ constants.DESCRIPTIONEMOJI + constants.DESCRIPTION + jsonobj.description +
-        "\n"+ constants.RESOURCEEMOJI +constants.RESOURCE + jsonobj.resource;
+        "\n"+ constants.RESOURCEEMOJI +constants.RESOURCE + "<a href=\""+jsonobj.resource+"\" >"+constants.CLICKHERE+"</a>";
 
     bot.sendMessage(chatId, thesis, {parse_mode : "HTML"});
 };

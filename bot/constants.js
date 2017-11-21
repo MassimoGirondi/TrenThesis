@@ -21,5 +21,6 @@ module.exports = Object.freeze({
     TITLE: "<b>Titolo</b>: ",
     SHORTABSTRACT: "<b>Anteprima</b>: ",
     DESCRIPTION: "<b>Descrizione</b>: ",
-    RESOURCE: "<b>Url</b>: "
+    RESOURCE: "<b>Url</b>: ",
+    CLICKHERE: "Clicca qui"
 });
