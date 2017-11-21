@@ -6,11 +6,8 @@
  * Required module for the Telegram bot
  */
 var request = require('request');
+var constants = require('./constants.js');
 
-/*
- * Const string
- */
-const profEmoji = "\u{1f468}\u{200d}\u{1f3eb}";
 
 exports.getJsonFromUrl = function(url, cb, chatId, bot) {
     request({
@@ -35,7 +32,7 @@ exports.showProfessors = function(chatId, jsonobj, bot) {
         //Pair for callback_data in inline button
         //Check also if jsonobj has the right properties
         if (jsonobj[i].hasOwnProperty('first_name') && jsonobj[i].hasOwnProperty('last_name') && jsonobj[i].hasOwnProperty('id'))
-            professorName_id.push([profEmoji + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
+            professorName_id.push([constants.PROFEMOJI + " " + jsonobj[i].first_name + " " + jsonobj[i].last_name, jsonobj[i].id]);
     }
 
     var options = {
