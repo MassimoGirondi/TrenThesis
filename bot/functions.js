@@ -29,7 +29,7 @@ exports.getJsonFromUrl = function(url, cb, chatId, bot) {
         } else {
             var jsonobj = JSON.parse(JSON.stringify(json));
             //must check json
-            if (isEmptyObject(jsonobj)){
+            if (!isEmptyObject(jsonobj)){
                 cb(chatId, jsonobj, bot);
             }
             else {
