@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TrenThesis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/idee.css">
+    <link rel="stylesheet" href="../css/button.css">
+    <link rel="stylesheet" href="../css/tab.css">
+    <link rel="stylesheet" href="../css/footer.css">
+
+</head>
+<body>
+    <div id="navbar-container">
+        
+    </div>
+    
+    <div class="container-fluid-fix">
+        <div class="idee-management">
+            <div class="row">
+                <div class="col-md-9">
+                    <span id="section-title">Le tue idee</span>
+                    <div class="btn-add" data-toggle="modal" data-target="#ideeModale">
+                        <span class="fa fa-plus" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Cerca">
+                        <div class="btn-search">
+                            <span  class="fa fa-search"></span>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="idee-container">
+            <div class="row">
+                <div id="tab-all" class="col-md-4 tab tab-selected" onclick="openTab('all')"><a>Tutte</a></div>
+                <div id="tab-available" class="col-md-4 tab" onclick="openTab('available')"><a>Disponibili</a></div>
+                <div id="tab-assigned"class="col-md-4 tab" onclick="openTab('assigned')"><a>Assegnate</a></div>
+            </div>
+            <div id="container-all" class="tab-container"> 
+            </div>
+            <div id="container-available" class="tab-container"></div>
+            <div id="container-assigned" class="tab-container"></div>
+        </div>
+    </div>
+    
+    <div id="ideeModale" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Titolo</h4>
+            </div>
+            <div class="modal-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</p>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+                 <button type="button" class="btn btn-primary">Invia</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+    
+    <div class="footer">
+        <div class="contact">
+            Contattaci: trenthesis@gmail.com
+        </div>
+    </div>
+</body>
+</html>
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+
+<script src="../js/idee_tabs.js"></script>
+<script src="../js/idee_tabs_container.js"></script>
+<script src="../js/login.js"></script>
+<script>
+    $( document ).ready(function() {
+        logged();
+        all();
+        $(".container-available").hide();
+        $(".container-assigned").hide();
+    });
+</script>

@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 
 //Import routes
 var apiRoutes = require('./api/routes');
+var authRoutes = require('./api/auth_routes');
 var botRoutes = require('./bot/routes');
-var websiteRoutes = require('./website/routes');
 var rootRoutes = require('./routes');
 
 // middleware route to support CORS and preflighted requests
@@ -41,9 +41,9 @@ app.use(function(req, res, next) {
 
 //Add routes from files
 app.use('/api', apiRoutes);
+app.use('/auth', authRoutes);
 app.use('/bot', botRoutes);
-app.use('/', websiteRoutes); 
-//app.use('/', rootRoutes);
+app.use('/', rootRoutes);
 
 
 // handle invalid requests and internal error
@@ -73,5 +73,6 @@ MongoClient.connect(mongodbUrl, (err, db) => {
   app.set('db', db);
   app.listen(port);
   console.log("App started at port " + port);
+  console.log('Debug: ' + process.env.debug);
 
 });
