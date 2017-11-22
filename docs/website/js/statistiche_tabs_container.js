@@ -67,7 +67,7 @@ function professors(){
     data: {
         labels: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"],
         datasets: [{
-            label: '# of Requests',
+            label: '# di richieste',
             data: [12, 19, 3, 5, 2, 3, 7, 8, 3, 10, 14, 15,16],
             backgroundColor: [
                 'rgba(0, 165, 255, 0.4)'

@@ -1,6 +1,7 @@
 .btn-add{
     background-color: rgba(39, 174, 96,1.0);
     color: white;
+    text-align: center;
     cursor: pointer;
     display: inline-block;
     padding:5px;
