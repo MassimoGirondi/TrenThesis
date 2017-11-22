@@ -10,13 +10,6 @@ function openTab(name) {
         $(this).hide();
     });
     
-    /*if(name == "profie"){
-        profile();
-    }
-    else if(name == "settings"){
-        settings();
-    }*/
-    
     $(tabName).addClass("tab-selected");
     $(containerName).show();
 }

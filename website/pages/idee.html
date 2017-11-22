@@ -92,8 +92,9 @@
 <script src="../js/login.js"></script>
 <script>
     $( document ).ready(function() {
-        logged();
-        all();
+        logged();        
+        fillTabsContainer("all");
+        //all();
         $(".container-available").hide();
         $(".container-assigned").hide();
     });

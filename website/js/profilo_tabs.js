@@ -10,17 +10,12 @@ function openTab(name) {
         $(this).hide();
     });
     
-    fillTabsContainer(name);
-    
-    /*if(name == "all"){
-        all();
+    if(name == "profile"){
+        profile();
     }
-    else if(name == "available"){
-        available();
+    else if(name == "settings"){
+        settings();
     }
-    else if(name == "assigned"){
-        assigned();
-    }*/
     
     $(tabName).addClass("tab-selected");
     $(containerName).show();

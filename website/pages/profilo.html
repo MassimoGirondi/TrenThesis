@@ -47,26 +47,28 @@
             </div>
             <div id="container-profile" class="tab-container">
                 <div class="profile-informations">
-                    <div><span class="profile-informations-header">Nome:</span><span id="name"> Tizio</span></div>
-                    <div><span class="profile-informations-header">Cognome:</span><span id="surname"> Caio</span></div>
-                    <div><span class="profile-informations-header">Data di nascita:</span><span id="birthday"> 19/11/2017</span></div>
+                    <div><span class="profile-informations-header">Nome:</span> <span id="name"></span></div>
+                    <div><span class="profile-informations-header">Cognome:</span> <span id="surname"></span></div>
+                    <div><span class="profile-informations-header">Data di nascita:</span> <span id="birthday"></span></div>
                     <div><span class="profile-informations-header">Carriera:</span></div>
-                    <div id="career">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                    <div id="career"></div>
                 </div>
             </div>
             <div id="container-settings" class="tab-container">
-                <div>
-                    <div>Discipline preferite</div>
-                    <div></div>
-                    
+                <div class="settings">
+                    <div class="list-header">Discipline preferite</div>
+                    <div class="list-container">
+                        <ul id="topics-list" class="list">
+                        </ul>
+                    </div>
                 </div>
                 <hr>
-                <div>
-                    <div>Preferenze per gli studenti</div>
-                    <div>Media universitaria:</div>
-                    <div></div>
-                    <div>Competenze:</div>
-                    <div></div>
+                <div class="settings">
+                    <div class="list-header">Competenze richieste per gli studenti</div>
+                    <div class="list-container">
+                        <ul id="skills-list" class="list">
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,12 +88,14 @@
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
 
-<script src="../js/tabs.js"></script>
 <script src="../js/login.js"></script>
+<script src="../js/profilo_tabs.js"></script>
+<script src="../js/profilo_tabs_container.js"></script>
+
 <script>
     $( document ).ready(function() {
         logged();
-        //profile();
+        profile();
         $("#container-settings").hide();
     });
 </script>
