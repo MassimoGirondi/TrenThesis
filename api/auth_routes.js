@@ -102,10 +102,21 @@ router
 
   /**
    * @api {get} /auth/google Authenticate via Google service
+   * @apiDescription Authenticate through Google OAuth2 service, with some redirects.
+   * If the callback parameter is set, at the end of the procedure you will be redirect
+   * to that URL
    * @apiName Google authentication
    * @apiGroup Authentication
+   * @apiParam  {String} [callback] The URL to redirect (encoded, i.e. with encodeURIComponent)
    */
   .get('/google',
+    function(req, res, next) {
+
+      if (req.query.callback)
+        req.session.callback = req.query.callback;
+      //console.log(req.session.callback);
+      next();
+    },
     passport.authenticate('google', {
       scope: ['profile', 'email'],
       prompt: 'consent'
@@ -153,19 +164,34 @@ router
    * @api {get} /auth/token Get the token to use APIs
    * @apiName Token generator
    * @apiGroup Authentication
-   *
+   * @apiDescription The token is given only if the callback parameter in auth/google was not given,
+   * otherwise a redirect is done to the URL, with token parameter set.
    * @apiSuccess {String} token The token generated
    * @apiPermission GoogleAuthenticatedProfessor
    */
-  .get('/token', loggedIn, function(req, res) {
-
-    return res.json({
-      token: jwt.sign({
-        googleId: req.user._json.id
-      }, process.env.AuthSecret, {
-        expiresIn: '1d'
-      })
+  .get('/token', loggedIn, function(req, res, next) {
+    var token = jwt.sign({
+      googleId: req.user._json.id
+    }, process.env.AuthSecret, {
+      expiresIn: '1d'
     });
+    if (req.session.callback) {
+      try {
+        var url = decodeURIComponent(req.session.callback);
+        res.redirect(url + "?token=" + token);
+      } catch (e) {
+        console.log(e);
+        var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
+        err.status = 422;
+        next(err);
+      }
+
+    } else {
+
+      return res.json({
+        "token": token
+      });
+    }
   })
 
   /**
