@@ -43,65 +43,75 @@ bot.on("callback_query", (callbackQuery) => {
     const msg = callbackQuery.message;
     var jsonobj = JSON.parse(JSON.stringify(callbackQuery));
     var requrl = "";
+    if (typeof callbackQuery === 'undefined' || callbackQuery == null) {
+        console.log("callbackQuery parameter not valid");
+    } else if (jsonobj.data) {
+        switch (jsonobj.data.charAt(0)) {
+            case 'p':
+                requrl = String(apiUrl + "/topics?professor_id=" + jsonobj.data.substring(1));
+                //professore
+                bot.answerCallbackQuery(callbackQuery.id)
+                    .then(() => functions.getJsonFromUrl(requrl, functions.showProfessor_CategoryThesis, msg.chat.id, bot));
+                break;
+            case 't':
+                requrl = String(apiUrl + "/topics/" + jsonobj.data.substring(1));
+                //clicked on topic
+                bot.answerCallbackQuery(callbackQuery.id)
+                    .then(() => functions.getJsonFromUrl(requrl, functions.showThesisInfo, msg.chat.id, bot));
+                break;
+            case 'c':
+                requrl = String(apiUrl + "/topics?category=" + jsonobj.data.substring(1));
+                //clicked on topic
+                bot.answerCallbackQuery(callbackQuery.id)
+                    .then(() => functions.getJsonFromUrl(requrl, functions.showProfessor_CategoryThesis, msg.chat.id, bot));
+                break;
+            default:
+                bot.answerCallbackQuery(callbackQuery.id)
+                    .then(() => bot.sendMessage(msg.chat.id, constants.NOTUNDERSTOOD));
+                break;
 
-    switch (jsonobj.data.charAt(0)) {
-        case 'p':
-            requrl = String(apiUrl + "/topics?professor_id=" + jsonobj.data.substring(1));
-            //professore
-            bot.answerCallbackQuery(callbackQuery.id)
-                .then(() => functions.getJsonFromUrl(requrl, functions.showProfessor_CategoryThesis, msg.chat.id, bot));
-            break;
-        case 't':
-            requrl = String(apiUrl + "/topics/" + jsonobj.data.substring(1));
-            //clicked on topic
-            bot.answerCallbackQuery(callbackQuery.id)
-                .then(() => functions.getJsonFromUrl(requrl, functions.showThesisInfo, msg.chat.id, bot));
-            break;
-        case 'c':
-            requrl = String(apiUrl + "/topics?category=" + jsonobj.data.substring(1));
-            //clicked on topic
-            bot.answerCallbackQuery(callbackQuery.id)
-                .then(() => functions.getJsonFromUrl(requrl, functions.showProfessor_CategoryThesis, msg.chat.id, bot));
-            break;
-        default:
-            bot.answerCallbackQuery(callbackQuery.id)
-                .then(() => bot.sendMessage(msg.chat.id, constants.NOTUNDERSTOOD));
-            break;
-
+        }
+    } else {
+        console.log("jsonobj.data not valid");
     }
 });
 
 //Message
 bot.on('message', msg => {
     var requrl = "";
-    switch (msg.text.toString()) {
-        case constants.START:
-            bot.sendMessage(msg.chat.id, constants.STARTSENTENCE, {
-                "reply_markup": {
-                    "keyboard": [
-                        [constants.ARGEMOJI+constants.ANARGUMENT],
-                        [constants.PROFEMOJI+constants.PREFEREDPROFESSOR],
-                        [constants.CATEGEMOJI+constants.PREFEREDCATEGORY]
-                    ]
-                }
-            });
-            break;
-        case constants.PROFEMOJI+constants.PREFEREDPROFESSOR:
-            requrl = apiUrl + "/professors";
-            functions.getJsonFromUrl(requrl, functions.showProfessors, msg.chat.id, bot);
+    if (msg.text.toString()) {
+        switch (msg.text.toString()) {
+            case constants.START:
+                bot.sendMessage(msg.chat.id, constants.STARTSENTENCE, {
+                    "reply_markup": {
+                        "keyboard": [
+                            [constants.ARGEMOJI + constants.ANARGUMENT],
+                            [constants.PROFEMOJI + constants.PREFEREDPROFESSOR],
+                            [constants.CATEGEMOJI + constants.PREFEREDCATEGORY]
+                        ]
+                    }
+                });
+                break;
+            case constants.PROFEMOJI + constants.PREFEREDPROFESSOR:
+                requrl = apiUrl + "/professors";
+                functions.getJsonFromUrl(requrl, functions.showProfessors, msg.chat.id, bot);
 
-            break;
-        case constants.ARGEMOJI+constants.ANARGUMENT:
-            requrl = apiUrl + "/topics";
-            functions.getJsonFromUrl(requrl, functions.showAllThesis, msg.chat.id, bot);
-            break;
+                break;
+            case constants.ARGEMOJI + constants.ANARGUMENT:
+                requrl = apiUrl + "/topics";
+                functions.getJsonFromUrl(requrl, functions.showAllThesis, msg.chat.id, bot);
+                break;
 
-        case constants.CATEGEMOJI+constants.PREFEREDCATEGORY:
-            requrl = apiUrl + "/categories";
-            functions.getJsonFromUrl(requrl, functions.showCategories, msg.chat.id, bot);
-            break;
-        default:
-            bot.sendMessage(msg.chat.id, constants.NOTUNDERSTOOD);
-            break;
+            case constants.CATEGEMOJI + constants.PREFEREDCATEGORY:
+                requrl = apiUrl + "/categories";
+                functions.getJsonFromUrl(requrl, functions.showCategories, msg.chat.id, bot);
+                break;
+            default:
+                bot.sendMessage(msg.chat.id, constants.NOTUNDERSTOOD);
+                break;
+        }
+    }
+    else {
+      console.log("Empty bot message");
     }
 });

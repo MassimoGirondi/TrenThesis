@@ -8,6 +8,15 @@
 var request = require('request');
 var constants = require('./constants.js');
 
+// This should work both there and elsewhere.
+function isEmptyObject(obj) {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false;
+    }
+  }
+  return true;
+}
 
 exports.getJsonFromUrl = function(url, cb, chatId, bot) {
     request({
@@ -18,9 +27,15 @@ exports.getJsonFromUrl = function(url, cb, chatId, bot) {
             console.log("Json request error " + err);
             throw err;
         } else {
-            //must check json
             var jsonobj = JSON.parse(JSON.stringify(json));
-            cb(chatId, jsonobj, bot);
+            //must check json
+            if (isEmptyObject(jsonobj)){
+                cb(chatId, jsonobj, bot);
+            }
+            else {
+              console.log("Not a valid Json object");
+            }
+
         }
     });
 };
