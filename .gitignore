@@ -1,4 +1,4 @@
 TrenThesis.wiki
 node_modules
 package-lock.json
-
+.env
