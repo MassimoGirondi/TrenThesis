@@ -13,6 +13,8 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var loggedIn = require('connect-ensure-login').ensureLoggedIn('/auth/not_authorized');
 
+var jwt = require('jsonwebtoken');
+
 passport.serializeUser(function(user, cb) {
   cb(null, user);
 });
