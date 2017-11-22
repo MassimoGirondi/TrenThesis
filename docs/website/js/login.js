@@ -1,8 +1,22 @@
+var url = 'http://localhost:5000/auth/google'
+
+$.ajaxSetup({
+  crossDomain: true,
+  xhrFields: {
+    withCredentials: true
+  }
+});
+
 function login() {
-  $.get(window.location, function(data, status) {
-    alert("Data: " + data + "\nStatus: " + status);
+  //location.href = url;
+  //console.log(window.location);
+  $.ajax({
+    type: 'GET',
+    url: url
+  }).done(function(data) {
+    alert(data);
+    logged();
   });
-  logged();
 }
 
 function logout() {
