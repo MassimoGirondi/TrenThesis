@@ -45,3 +45,31 @@ body{
 #career{
     text-align: justify;
 }
+
+.settings{ 
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.list-header{
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 1em;
+}
+
+.list-container{
+    margin-top: 5px;
+}
+
+.list{
+    border-left: 5px solid rgba(12, 60, 96, 1);
+    background-color: #f1f1f1;
+    list-style-type: none;
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+.no-settings{
+    font-style: italic;
+}
+

@@ -10,12 +10,12 @@ function openTab(name) {
         $(this).hide();
     });
     
-    /*if(name == "profie"){
+    if(name == "profile"){
         profile();
     }
     else if(name == "settings"){
         settings();
-    }*/
+    }
     
     $(tabName).addClass("tab-selected");
     $(containerName).show();

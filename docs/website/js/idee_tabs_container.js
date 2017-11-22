@@ -1,3 +1,31 @@
+function fillTabsContainer(name){
+    $("#container-" + name).empty();
+    
+    var elementsNumberForRow = 6;
+    //Sostituire con il numero totale di idee 
+    var totalElement = 12; 
+    var rowNumber = Math.ceil(totalElement/elementsNumberForRow);
+    
+    for(var i = 0; i < rowNumber; i++)
+    {
+        $("<div id='row-" + name + i + "' class='row'></div>").appendTo("#container-" + name);
+        for(var j = 0; j < elementsNumberForRow; j++)
+        {
+            //Aggiungere un controllo per vedere se gli elementi in json esistono
+            $("<div id='col-" + name + i + j + "' class='col-md-2'></div>").appendTo("#row-" + name + i);
+            $("<div id='elem-" + name + i + j + "' class='idea-element'></div>").appendTo("#col-" + name + i + j);
+            //Cambiare Titolo-Data-Testo con i dati presenti nel json
+            $("#elem-" + name + i + j).append("<div class='idea-element-title'>Titolo</div>");
+            $("#elem-" + name + i + j).append("<div class='idea-element-data'>18/11/2017</div>");
+            $("#elem-" + name + i + j).append("<div class='idea-element-text'>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>");
+            
+            document.getElementById("elem-" + name +i +j).onclick = function(){
+                window.location.href = 'idea_page.html';
+            }
+        }
+    }
+}
+
 function all(){
     $("#container-all").empty();
     

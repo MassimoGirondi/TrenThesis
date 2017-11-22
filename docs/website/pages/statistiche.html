@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TrenThesis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css"/>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+    
+    <link rel="stylesheet" href="../css/navbar.css"/>
+    <link rel="stylesheet" href="../css/statistiche.css"/>
+    <link rel="stylesheet" href="../css/tab.css"/>
+    <link rel="stylesheet" href="../css/footer.css"/>
+
+</head>
+<body>
+    <div id="navbar-container">
+        
+    </div>
+    
+    <div class="container-fluid-fix">
+        <div class="statistiche-management">
+            <div class="row">
+                <div class="col-md-12">
+                    <span id="section-title">Statistiche</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistiche-container">
+            <div class="row">
+                <div id="tab-students"class="col-md-6 tab tab-selected" onclick="openTab('students')"><a>Studenti</a></div>
+                <div id="tab-professors" class="col-md-6 tab" onclick="openTab('professors')"><a>Professori</a></div>
+                
+            </div>
+            <div id="container-professors" class="tab-container">
+                <div class="chart-title">Discipline preferite</div>
+                <div class="chart-style">
+                    <canvas id="chartBestTopicsProfessors"></canvas>
+                </div>
+                <div class="chart-title">Competenze più richieste</div>
+                <div class="chart-style">
+                    <canvas id="chartSkills"></canvas>
+                </div>
+                <div class="chart-title">Disponibilità dei professori per accettare le richieste</div>
+                <div class="chart-style">
+                    <canvas id="chartRequest"></canvas>
+                </div>
+            </div>
+            <div id="container-students" class="tab-container">
+                <div class="chart-title">Discipline preferite</div>
+                <div class="chart-style">
+                    <canvas id="chartBestTopicsStudents"></canvas>
+                </div>
+                <div class="chart-title">Media degli studenti</div>
+                <div class="chart-style">
+                    <canvas id="chartAvarage"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>   
+    
+    
+    <div class="footer">
+        <div class="contact">
+            Contattaci: trenthesis@gmail.com
+        </div>
+    </div>
+    
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/statistiche_tabs.js"></script>
+    <script src="../js/statistiche_tabs_container.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            logged();
+            students();
+            $("#container-professors").hide();
+        });
+    </script>
+</body>
+</html>
