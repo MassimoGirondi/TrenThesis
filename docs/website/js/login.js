@@ -1,11 +1,9 @@
 $(document).ready(function() {
-  token = getQueryParam('token');
+  token = getQueryParam('token')
   if (token) {
     document.cookie = 'token=' + token + '; max-age = ' + 60 * 60 * 24 + '; path = /';
-    logged();
-  } else {
-    unknown();
   }
+  getCookie('token') ? logged() : unknown();
 })
 
 function login() {
