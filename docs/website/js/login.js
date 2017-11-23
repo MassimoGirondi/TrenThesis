@@ -3,6 +3,8 @@ $(document).ready(function() {
   if (token) {
     document.cookie = 'token=' + token + '; max-age = ' + 60 * 60 * 24 + '; path = /';
     logged();
+  } else {
+    unknown();
   }
 })
 
@@ -12,8 +14,9 @@ function login() {
 
 function logout() {
   $("#navbar-container").load("navbar_user_unknown.html");
+  // Invalidate cookie
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   window.location.href = "index.html";
-  unknown();
 }
 
 function logged() {
@@ -47,5 +50,3 @@ function getCookie(cname) {
   }
   return "";
 }
-
-module.exports.getCookie = getCookie;
