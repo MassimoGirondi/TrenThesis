@@ -24,7 +24,12 @@ module.exports.isAuthorized = (req, res, next, id) => {
 if (process.env.debug) {
   var jwtAuth = (req, res, next) => {
     req.decodedToken = {
-      'professor_id': 1
+      'professor_id': 1,
+      'profileData': {
+        "id": 1,
+        "first_name": "Riccardo",
+        "last_name": "Capraro"
+      }
     };
     next();
   }
@@ -48,7 +53,7 @@ if (process.env.debug) {
             db.collection('users').find({
               'googleId': decoded.googleId
             }, {
-              'id': 1
+              '_id': 0
             }, function(err, data) {
               if (err) {
                 res.status(505).send({
@@ -57,6 +62,7 @@ if (process.env.debug) {
               } else {
                 req.decodedToken = decoded;
                 req.decodedToken.professor_id = data.googleId;
+                req.decodedToken.profileData = data;
                 next();
               }
             })
