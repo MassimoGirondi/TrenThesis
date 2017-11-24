@@ -1,6 +1,16 @@
 define({ "api": [
   {
     "type": "get",
+    "url": "/profile",
+    "title": "You are not authorized to access the API",
+    "name": "Get_Profile",
+    "group": "Authentication",
+    "version": "0.0.0",
+    "filename": "api/auth_routes.js",
+    "groupTitle": "Authentication"
+  },
+  {
+    "type": "get",
     "url": "/auth/login",
     "title": "Get informations on how to login",
     "name": "Google_Login_Instructions",
