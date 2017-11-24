@@ -1,23 +1,42 @@
+const api_url = 'https://localhost:5000'
+
 $(document).ready(function() {
   token = getQueryParam('token')
   if (token) {
-    document.cookie = 'token=' + token + '; max-age = ' + 60 * 60 * 24 + '; path = /';
+    Cookies.set('token', token, {
+      expires: 1
+    });
   }
-  getCookie('token') ? logged() : unknown();
+  Cookies.get('token') ? logged() : unknown();
 })
 
 function login() {
-  window.location.replace('http://localhost:5000/auth/google?callback=' + window.location.href);
+  window.location.replace(api_url + '/auth/google?callback=' + window.location.href);
 }
 
 function logout() {
   $("#navbar-container").load("navbar_user_unknown.html");
   // Invalidate cookie
-  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  Cookies.remove('token');
   window.location.href = "index.html";
 }
 
 function logged() {
+  // Get profile information if not already stored
+  token = Cookies.get('token')
+  if (!Cookies.get('profile') && token) {
+    $.get(api_url + '/auth/profile/' + token, function(data) {
+      if (data) {
+        Cookies.set("profile", data);
+      } else {
+        console.log("Something went wrong during profile retrieval.")
+        // Send an error
+      }
+    });
+  } else {
+    console.log("Something went wrong during profile retrieval.")
+    logout();
+  }
   $("#navbar-container").empty();
   $("#navbar-container").load("navbar_user_logged.html");
 }
@@ -31,20 +50,4 @@ function unknown() {
 function getQueryParam(name) {
   if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
     return decodeURIComponent(name[1]);
-}
-
-// Get session cookie
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
 }
