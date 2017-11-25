@@ -1,7 +1,7 @@
-const api_url = 'https://localhost:5000'
+const api_url = 'https://trenthesis.herokuapp.com'
 
 $(document).ready(function() {
-  token = getQueryParam('token')
+  let token = getQueryParam('token')
   if (token) {
     Cookies.set('token', token, {
       expires: 1
@@ -18,24 +18,26 @@ function logout() {
   $("#navbar-container").load("navbar_user_unknown.html");
   // Invalidate cookie
   Cookies.remove('token');
+  Cookies.remove('profile');
   window.location.href = "index.html";
 }
 
 function logged() {
   // Get profile information if not already stored
-  token = Cookies.get('token')
-  if (!Cookies.get('profile') && token) {
+  let token = Cookies.get('token');
+  let profile = Cookies.get('profile');
+
+  if (!profile) {
     $.get(api_url + '/auth/profile/' + token, function(data) {
       if (data) {
-        Cookies.set("profile", data);
+        Cookies.set("profile", data, {
+          expires: 1
+        });
       } else {
-        console.log("Something went wrong during profile retrieval.")
-        // Send an error
+        console.log('Logging out here');
+        logout(); //Might show something here
       }
     });
-  } else {
-    console.log("Something went wrong during profile retrieval.")
-    logout();
   }
   $("#navbar-container").empty();
   $("#navbar-container").load("navbar_user_logged.html");

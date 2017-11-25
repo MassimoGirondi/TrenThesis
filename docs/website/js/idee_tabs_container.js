@@ -1,107 +1,88 @@
 //Login should be imported before this file
 
+var topics;
+
+$(document).ready(function() {
+  getTopics();
+});
+
+
+function filterTopics(name) {
+  let topics_list;
+  switch (name) {
+    case 'available':
+      topics_list = topics.filter((item) => {
+        return !item.assigned
+      });
+      break;
+    case 'assigned':
+      topics_list = topics.filter((item) => {
+        return item.assigned
+      })
+      break;
+    case 'all':
+    default:
+      topics_list = topics;
+  }
+  return topics_list;
+}
+
+/**
+ * Options for name are all, available and assigned
+ */
 function fillTabsContainer(name) {
   $("#container-" + name).empty();
 
-  var elementsNumberForRow = 6;
-  //Sostituire con il numero totale di idee
-  var totalElement = 12;
-  var rowNumber = Math.ceil(totalElement / elementsNumberForRow);
+  let topics_list = filterTopics(name);
 
-  for (var i = 0; i < rowNumber; i++) {
-    $("<div id='row-" + name + i + "' class='row'></div>").appendTo("#container-" + name);
-    for (var j = 0; j < elementsNumberForRow; j++) {
-      //Aggiungere un controllo per vedere se gli elementi in json esistono
-      $("<div id='col-" + name + i + j + "' class='col-md-2'></div>").appendTo("#row-" + name + i);
-      $("<div id='elem-" + name + i + j + "' class='idea-element'></div>").appendTo("#col-" + name + i + j);
-      //Cambiare Titolo-Data-Testo con i dati presenti nel json
-      $("#elem-" + name + i + j).append("<div class='idea-element-title'>Titolo</div>");
-      $("#elem-" + name + i + j).append("<div class='idea-element-data'>18/11/2017</div>");
-      $("#elem-" + name + i + j).append("<div class='idea-element-text'>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>");
+  let totalElement = topics_list.length;
+  let elementsNumberForRow = totalElement < 4 ? totalElement : 4;
+  let columnDimension = Math.floor(12 / elementsNumberForRow); // Choose format here
+  let rowNumber = Math.ceil(totalElement / elementsNumberForRow);
 
-      document.getElementById("elem-" + name + i + j).onclick = function() {
-        window.location.href = 'idea_page.html';
-      }
+  let row = 0;
+  let column = 0;
+
+  for (let element = 0; element < totalElement; element++) {
+    column = (column + 1) % elementsNumberForRow;
+    // If we reached the max number of elements per row, create a new row
+    if (element % elementsNumberForRow === 0) {
+      row = row + 1;
+      $("<div id='row-" + name + row + "' class='row'></div>").appendTo("#container-" + name);
     }
-  }
-}
+    // Add the element to the row
+    $("<div id='col-" + name + row + column + "' class='col-md-" + columnDimension + "'></div>").appendTo("#row-" + name + row);
+    $("<div id='elem-" + name + row + column + "' class='idea-element'></div>").appendTo("#col-" + name + row + column);
+    $("#elem-" + name + row + column).append("<div class='idea-element-title'>" + topics_list[element].title + "</div>");
+    $("#elem-" + name + row + column).append("<div class='idea-element-data'>18/11/2017</div>"); // Still missing
+    $("#elem-" + name + row + column).append("<div class='idea-element-text'>" + topics_list[element].short_abstract + "</div>");
 
-function all() {
-  $("#container-all").empty();
-
-  var elementsNumberForRow = 6;
-  var totalElement = 12; //Mettere la lunghezza del json
-  var rowNumber = Math.ceil(totalElement / elementsNumberForRow);
-
-  for (var i = 0; i < rowNumber; i++) {
-    $("<div id='row-all" + i + "' class='row'></div>").appendTo("#container-all");
-    for (var j = 0; j < elementsNumberForRow; j++) {
-      //Aggiungere un controllo per vedere se gli elementi in json esistono
-      $("<div id='col-all" + i + j + "' class='col-md-2'></div>").appendTo("#row-all" + i);
-      $("<div id='elem-all" + i + j + "' class='idea-element'></div>").appendTo("#col-all" + i + j);
-      //Cambiare Titolo-Data-Testo con i dati presenti nel json
-      $("#elem-all" + i + j).append("<div class='idea-element-title'>Titolo</div>");
-      $("#elem-all" + i + j).append("<div class='idea-element-data'>18/11/2017</div>");
-      $("#elem-all" + i + j).append("<div class='idea-element-text'>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>");
-
-      document.getElementById("elem-all" + i + j).onclick = function() {
-        window.location.href = 'idea_page.html';
-      }
-    }
-  }
-}
-
-function available() {
-  $("#container-available").empty();
-  getTopics()
-
-  var elementsNumberForRow = 6;
-  var totalElement = 12; //Mettere la lunghezza del json
-  var rowNumber = Math.ceil(totalElement / elementsNumberForRow);
-
-  for (var i = 0; i < rowNumber; i++) {
-    $("<div id='row-available" + i + "' class='row'></div>").appendTo("#container-available");
-    for (var j = 0; j < elementsNumberForRow; j++) {
-      //Aggiungere un controllo per vedere se gli elementi in json esistono
-      $("<div id='col-available" + i + j + "' class='col-md-2'></div>").appendTo("#row-available" + i);
-      $("<div id='elem-available" + i + j + "' class='idea-element'></div>").appendTo("#col-available" + i + j);
-      //Cambiare Titolo-Data-Testo con i dati presenti nel json
-      $("#elem-available" + i + j).append("<div class='idea-element-title'>Titolo</div>");
-      $("#elem-available" + i + j).append("<div class='idea-element-data'>18/11/2017</div>");
-      $("#elem-available" + i + j).append("<div class='idea-element-text'>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>");
-
-      document.getElementById("elem-available" + i + j).onclick = function() {
-        window.location.href = 'idea_page.html';
-      }
-    }
-  }
-}
-
-function assigned() {
-  $("#container-assigned").empty();
-
-  var elementsNumberForRow = 6;
-  var totalElement = 12; //Mettere la lunghezza del json
-  var rowNumber = Math.ceil(totalElement / elementsNumberForRow);
-
-  for (var i = 0; i < rowNumber; i++) {
-    $("<div id='row-assigned" + i + "' class='row'></div>").appendTo("#container-assigned");
-    for (var j = 0; j < elementsNumberForRow; j++) {
-      //Aggiungere un controllo per vedere se gli elementi in json esistono
-      $("<div id='col-assigned" + i + j + "' class='col-md-2'></div>").appendTo("#row-assigned" + i);
-      $("<div id='elem-assigned" + i + j + "' class='idea-element'></div>").appendTo("#col-assigned" + i + j);
-      //Cambiare Titolo-Data-Testo con i dati presenti nel json
-      $("#elem-assigned" + i + j).append("<div class='idea-element-title'>Titolo</div>");
-      $("#elem-assigned" + i + j).append("<div class='idea-element-data'>18/11/2017</div>");
-      $("#elem-assigned" + i + j).append("<div class='idea-element-text'>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>");
-
-      document.getElementById("elem-assigned" + i + j).onclick = function() {
-        window.location.href = 'idea_page.html';
-      }
+    document.getElementById("elem-" + name + row + column).onclick = function() {
+      window.location.href = 'idea_page.html';
     }
   }
 }
 
 function getTopics() {
-  token = getCookie('token');
+  let profile = Cookies.getJSON('profile');
+  if (!profile) {
+    console.log('Logging out because there is no profile');
+    logout();
+  } else {
+    $.ajax({
+      url: api_url + '/api/topics',
+      type: 'GET',
+      dataType: 'json',
+      data: {
+        'professor_id': profile.id,
+        'token': Cookies.get('token')
+      },
+      success: function(result) {
+        topics = result;
+        fillTabsContainer('all');
+        $(".container-available").hide();
+        $(".container-assigned").hide();
+      }
+    });
+  }
 }
