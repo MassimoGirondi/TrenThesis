@@ -1,0 +1,74 @@
+html{
+    padding: 0px;
+    margin: 0px;
+}
+
+body{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+.container-fluid-fix{
+    padding: 0px!important;
+}
+
+.idee-management{
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: rgb(16, 84, 135);
+}
+
+#section-title{
+    font-size: 1.1em;
+}
+
+.idee-container{
+    #padding-left: 20px;
+    #padding-right: 20px;
+}
+
+.row{
+    #width: 100%!important;
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+.idea-element{
+    background-color: rgba(12, 60, 96, 1);
+    color: white;
+    font: normal normal normal 1.1em raleway,sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 15px;
+    margin-left: 5px!important;
+    margin-right: 5px!important;
+    cursor: pointer;
+}
+
+.idea-element:hover{
+    background-color: rgb(16, 84, 135);
+}
+
+.idea-element-title{    
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.idea-element-data{    
+    text-align: center;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+.idea-element-text{
+    padding-top: 5px;
+    text-align: justify;
+    font-size: 0.8em;
+}

@@ -1,0 +1,75 @@
+html{
+    padding: 0px;
+    margin: 0px;
+}
+
+body{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+.container-fluid-fix{
+    padding: 0px!important;
+}
+
+.profile-management{
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: rgb(16, 84, 135);
+}
+
+#section-title{
+    font-size: 1.1em;
+}
+
+.profile-informations{
+    font-size: 0.9em;
+}
+
+.profile-informations-header{
+    text-decoration: underline;
+    font-style: italic;
+}
+
+.tab-container{
+    padding: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+#career{
+    text-align: justify;
+}
+
+.settings{ 
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.list-header{
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 1em;
+}
+
+.list-container{
+    margin-top: 5px;
+}
+
+.list{
+    border-left: 5px solid rgba(12, 60, 96, 1);
+    background-color: #f1f1f1;
+    list-style-type: none;
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+.no-settings{
+    font-style: italic;
+}
+

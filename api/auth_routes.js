@@ -14,6 +14,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var loggedIn = require('connect-ensure-login').ensureLoggedIn('/auth/not_authorized');
 
 var jwt = require('jsonwebtoken');
+var isAuthenticated = require('./utils.js').isAuthenticated;
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -204,6 +205,16 @@ router
     var err = new Error('You are not authorized to use this API; please try with an authorized account (' + req.protocol + "://" + req.get('host') + "/auth/google" + ').');
     err.status = 401;
     next(err);
+  })
+
+  /**
+   * @api {get} /profile You are not authorized to access the API
+   * @apiName Get Profile
+   * @apiGroup Authentication
+   */
+  .get('/profile/:token', isAuthenticated, function(req, res, next) {
+    var profile_data = req.decodedToken.profileData;
+    res.status(200).json(profile_data);
   });
 
 
