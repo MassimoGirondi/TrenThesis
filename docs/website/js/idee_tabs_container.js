@@ -58,6 +58,7 @@ function fillTabsContainer(name) {
     $("#elem-" + name + row + column).append("<div class='idea-element-text'>" + topics_list[element].short_abstract + "</div>");
 
     document.getElementById("elem-" + name + row + column).onclick = function() {
+      Cookies.set('topic', topics_list[element]);
       window.location.href = 'idea_page.html';
     }
   }
