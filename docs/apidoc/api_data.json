@@ -33,8 +33,22 @@
     "type": "get",
     "url": "/auth/google",
     "title": "Authenticate via Google service",
+    "description": "<p>Authenticate through Google OAuth2 service, with some redirects. If the callback parameter is set, at the end of the procedure you will be redirect to that URL</p>",
     "name": "Google_authentication",
     "group": "Authentication",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "callback",
+            "description": "<p>The URL to redirect (encoded, i.e. with encodeURIComponent)</p>"
+          }
+        ]
+      }
+    },
     "version": "0.0.0",
     "filename": "api/auth_routes.js",
     "groupTitle": "Authentication"
@@ -45,6 +59,7 @@
     "title": "Get the token to use APIs",
     "name": "Token_generator",
     "group": "Authentication",
+    "description": "<p>The token is given only if the callback parameter in auth/google was not given, otherwise a redirect is done to the URL, with token parameter set.</p>",
     "success": {
       "fields": {
         "Success 200": [
@@ -358,13 +373,13 @@
         "Parameter": [
           {
             "group": "Parameter",
-            "optional": false,
+            "optional": true,
             "field": "professor_id",
             "description": "<p>The professor_id whose topics we are looking for.</p>"
           },
           {
             "group": "Parameter",
-            "optional": false,
+            "optional": true,
             "field": "category",
             "description": "<p>The category whose topics we are looking for.</p>"
           }

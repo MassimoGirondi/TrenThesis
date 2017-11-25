@@ -222,8 +222,8 @@ router
    * @apiName  Get topics by filters
    * @apiGroup Topics
    *
-   * @apiParam professor_id The professor_id whose topics we are looking for.
-   * @apiParam category The category whose topics we are looking for.
+   * @apiParam [professor_id] The professor_id whose topics we are looking for.
+   * @apiParam [category] The category whose topics we are looking for.
    * @apiSuccess {Object} JSON object contain a list of objects (topics).
    * @apiError TopicNotFound An information message (encapsulated in a JSON Object named error).
    */

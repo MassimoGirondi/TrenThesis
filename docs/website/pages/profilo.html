@@ -1,102 +1,102 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>TrenThesis</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css"/>
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
-    
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
-    
-    <link rel="stylesheet" href="../css/navbar.css"/>
-    <link rel="stylesheet" href="../css/profilo.css"/>
-    <link rel="stylesheet" href="../css/button.css"/>
-    <link rel="stylesheet" href="../css/tab.css"/>
-    <link rel="stylesheet" href="../css/footer.css"/>
+  <title>TrenThesis</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/profilo.css" />
+  <link rel="stylesheet" href="../css/button.css" />
+  <link rel="stylesheet" href="../css/tab.css" />
+  <link rel="stylesheet" href="../css/footer.css" />
 
 </head>
+
 <body>
-    <div id="navbar-container">
-        
-    </div>
-    
-    <div class="container-fluid-fix">
-        <div class="profile-management">
-            <div class="row">
-                <div class="col-md-8">
-                    <span id="section-title">Profilo - Impostazioni</span>
-                </div>
-                <div class="col-md-4">
-                    <div class="btn-right">
-                        <div class="btn-edit">
-                        <span class="fa fa-pencil" aria-hidden="true"></span>
-                        </div><!--
-                        --><div class="btn-remove">
-                        <span class="fa fa-times" aria-hidden="true"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="profile-container">
-            <div class="row">
-                <div id="tab-profile" class="col-md-6 tab tab-selected" onclick="openTab('profile')"><a>Profilo</a></div>
-                <div id="tab-settings"class="col-md-6 tab" onclick="openTab('settings')"><a>Impostazioni</a></div>
-            </div>
-            <div id="container-profile" class="tab-container">
-                <div class="profile-informations">
-                    <div><span class="profile-informations-header">Nome:</span> <span id="name"></span></div>
-                    <div><span class="profile-informations-header">Cognome:</span> <span id="surname"></span></div>
-                    <div><span class="profile-informations-header">Data di nascita:</span> <span id="birthday"></span></div>
-                    <div><span class="profile-informations-header">Carriera:</span></div>
-                    <div id="career"></div>
-                </div>
-            </div>
-            <div id="container-settings" class="tab-container">
-                <div class="settings">
-                    <div class="list-header">Discipline preferite</div>
-                    <div class="list-container">
-                        <ul id="topics-list" class="list">
-                        </ul>
-                    </div>
-                </div>
-                <hr>
-                <div class="settings">
-                    <div class="list-header">Competenze richieste per gli studenti</div>
-                    <div class="list-container">
-                        <ul id="skills-list" class="list">
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>   
-    
-    
-    <div class="footer">
-        <div class="contact">
-            Contattaci: trenthesis@gmail.com
-        </div>
-    </div>
-    
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.js"
-      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-      crossorigin="anonymous"></script>
+  <div id="navbar-container">
 
-    <script src="../js/login.js"></script>
-    <script src="../js/profilo_tabs.js"></script>
-    <script src="../js/profilo_tabs_container.js"></script>
+  </div>
 
-    <script>
-        $( document ).ready(function() {
-            logged();
-            profile();
-            $("#container-settings").hide();
-        });
-    </script>
+  <div class="container-fluid-fix">
+    <div class="profile-management">
+      <div class="row">
+        <div class="col-md-8">
+          <span id="section-title">Profilo - Impostazioni</span>
+        </div>
+        <div class="col-md-4">
+          <div class="btn-right">
+            <div class="btn-edit">
+              <span class="fa fa-pencil" aria-hidden="true"></span>
+            </div>
+            <!--
+                        -->
+            <div class="btn-remove">
+              <span class="fa fa-times" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-container">
+      <div class="row">
+        <div id="tab-profile" class="col-md-6 tab tab-selected" onclick="openTab('profile')"><a>Profilo</a></div>
+        <div id="tab-settings" class="col-md-6 tab" onclick="openTab('settings')"><a>Impostazioni</a></div>
+      </div>
+      <div id="container-profile" class="tab-container">
+        <div class="profile-informations">
+          <div><span class="profile-informations-header">Nome:</span> <span id="name"></span></div>
+          <div><span class="profile-informations-header">Cognome:</span> <span id="surname"></span></div>
+          <div><span class="profile-informations-header">Data di nascita:</span> <span id="birthday"></span></div>
+          <div><span class="profile-informations-header">Carriera:</span></div>
+          <div id="career"></div>
+        </div>
+      </div>
+      <div id="container-settings" class="tab-container">
+        <div class="settings">
+          <div class="list-header">Discipline preferite</div>
+          <div class="list-container">
+            <ul id="topics-list" class="list">
+            </ul>
+          </div>
+        </div>
+        <hr>
+        <div class="settings">
+          <div class="list-header">Competenze richieste per gli studenti</div>
+          <div class="list-container">
+            <ul id="skills-list" class="list">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="footer">
+    <div class="contact">
+      Contattaci: trenthesis@gmail.com
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+  <script src="../js/login.js"></script>
+  <script src="../js/profilo_tabs.js"></script>
+  <script src="../js/profilo_tabs_container.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      profile();
+      $("#container-settings").hide();
+    });
+  </script>
 </body>
-</html>
 
+</html>
