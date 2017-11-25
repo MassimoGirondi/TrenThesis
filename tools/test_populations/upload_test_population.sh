@@ -32,7 +32,7 @@ if [ "$upload" == "Y" ] || [ "$upload"  == "y" ] || [ $upload == "yes" ]; then
 	else
 
 		echo -----------------------------------
-		echo Insert the password of the databasew
+		echo Insert the password of the database
 		echo -----------------------------------
 
 		read -s password
