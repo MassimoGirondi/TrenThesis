@@ -71,9 +71,9 @@ router
   .get('/professors/:id', function(req, res, next) {
 
     var db = req.app.get("db");
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     db.collection("professors").findOne({
-      "id": parseInt(id)
+      "id": id
     }, {
       "_id": 0
     }, function(err, prof) {
@@ -106,10 +106,10 @@ router
   .put('/professors/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.params.id), isUpdateSafe,
     function(req, res, next) {
       var db = req.app.get("db");
-      var id = req.params.id;
+      var id = parseInt(req.params.id);
 
       db.collection("professors").updateOne({
-        "id": parseInt(id)
+        "id": id
       }, {
         '$set': req.body
       }, function(err, status) {
@@ -145,12 +145,12 @@ router
   .delete('/professors/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.params.id),
     function(req, res, next) {
       var db = req.app.get("db");
-      var id = req.params.id;
+      var id = parseInt(req.params.id);
       /*
       Check if the AuthenticatedProfessor is the same of topic professor_id
       */
       db.collection("professors").deleteOne({
-        "id": parseInt(id)
+        "id": id
       }, req.body, function(err, status) {
 
         if (err) {
@@ -194,9 +194,9 @@ router
    */
   .get('/topics/:id', function(req, res, next) {
     var db = req.app.get("db");
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     db.collection("topics").findOne({
-      "id": parseInt(id)
+      "id": id
     }, {
       "_id": 0
     }, function(err, topic) {
@@ -277,11 +277,11 @@ router
 
     function(req, res, next) {
       var db = req.app.get("db");
-      var id = req.params.id;
-      var professor_id = req.body.professor_id;
+      var id = parseInt(req.params.id);
+      var professor_id = parseInt(req.body.professor_id);
 
       db.collection("topics").updateOne({
-        "id": parseInt(id),
+        "id": id,
         'professor_id': professor_id
       }, {
         '$set': req.body
@@ -318,11 +318,11 @@ router
   .delete('/topics/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.body.professor_id),
     function(req, res, next) {
       var db = req.app.get("db");
-      var id = req.params.id;
-      var professor_id = req.body.professor_id;
+      var id = parseInt(req.params.id);
+      var professor_id = parseInt(req.body.professor_id);
 
       db.collection("topics").deleteOne({
-        "id": parseInt(id),
+        "id": id,
         'professor_id': professor_id
       }, req.body, function(err, status) {
 
