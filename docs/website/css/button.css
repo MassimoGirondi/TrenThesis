@@ -46,10 +46,9 @@
     border: 0px;
 }
 
-.btn-search span{
+.btn-search span, .btn-container div span{
     display: table-cell;
     vertical-align: middle;
-    
 }
 
 .btn-right{
@@ -102,4 +101,69 @@
 
 .btn-remove:hover{
     background-color: rgba(192, 57, 43,0.8);
+}
+
+.btn-container div{
+    //display: inline-block;
+    
+}
+
+
+.btn-container div span{
+    width: 100%;
+}
+
+.btn-group{
+    display: inline-block;
+}
+
+.btn-done{
+    width: 40px;
+    height: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center!important;
+    background-color: rgba(39, 174, 96,1.0);
+    display: table;
+    margin: 0px;
+    z-index: 1;
+    
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    
+    cursor: pointer;
+}
+
+.btn-done:hover{
+    background-color: rgba(39, 174, 96,0.8);
+}
+
+.btn-clear{
+    color: black;
+    width: 40px;
+    height: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center!important;
+    background-color: rgba(189, 195, 199,1.0);
+    display: table;
+    margin:0px;
+    z-index: 1;
+    
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+    cursor: pointer;
+}
+
+.btn-clear:hover{
+    background-color:rgba(189, 195, 199,0.8);
 }
