@@ -163,7 +163,8 @@ router
           next(err);
         } else {
 
-          if (status.deletedCount === 1)
+          if (status.deletedCount === 1) {
+
             // The professor was registered => delete all related topics
             db.collection("topics").deleteMany({
               "professor_id": parseInt(id)
@@ -174,10 +175,23 @@ router
                 var err = new Error('Something is broken!');
                 next(err); // Should check here for inconsistency
               } else {
-                res.status(200).json(true);
+                db.collection("users").deleteOne({
+                  "id": parseInt(id)
+                }, req.body, function(err, status) {
+
+                  if (err) {
+                    console.error("Failed to delete professor's user; professor_id=" + id + " : " + err.message);
+                    var err = new Error('Something is broken!');
+                    next(err); // Should check here for inconsistency
+                  } else {
+                    res.status(200).json(true);
+
+                  }
+                })
               }
             });
-          else {
+
+          } else {
             var err = new Error('Professor not deleted!');
             err.status = 400;
             next(err);
