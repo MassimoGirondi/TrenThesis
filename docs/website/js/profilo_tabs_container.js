@@ -1,13 +1,21 @@
+$(document).ready(function() {
+  profile();
+  $("#container-settings").hide();
+});
+
 function profile() {
-  //Sostituire tutte le stringhe presenti nelle parentesi dopo .html con le informazioni del json
-  $("#name").html("John");
-  $("#surname").html("Smith");
-  $("#birthday").html("dd/mm/yyyy");
-  $("#career").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+  let profile = Cookies.getJSON('profile');
+  $("#name").html(profile.first_name);
+  $("#surname").html(profile.last_name);
+  $("#department").html(profile.department);
+  $("#email").html(profile.email);
+  $("#website").html(profile.website);
+  $.each(profile.further_info, function(key, value) {
+    $("#further-information").append("<div><span class='profile-informations-header'>" + key + ":</span> <span id=" + key + ">" + value + "</span></div>");
+  });
 }
 
 function settings() {
-
   $("#topics-list").empty();
   $("#skills-list").empty();
   //Sostituire con il numero totale di topic preferiti dal professore
@@ -32,4 +40,22 @@ function settings() {
     $("#skills-list").append("<li>Skill" + i + "</li>");
   }
 
+}
+
+function unsubscribe() {
+  $.ajax({
+    url: api_url + '/api/professors/' + Cookies.getJSON('profile').id,
+    type: 'DELETE',
+    dataType: 'json',
+    data: {
+      'token': Cookies.get('token')
+    },
+    success: function(result) {
+      logout();
+    },
+    error: function(err) {
+      alert("Unsubscribtion failed: please contact our support team.");
+      console.log("Error while unsubscribing: " + err);
+    }
+  });
 }

@@ -164,8 +164,16 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "ProfessorNotDeleted",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
@@ -206,8 +214,16 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "ProfessorNotFound",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
@@ -277,8 +293,16 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "400",
             "optional": false,
             "field": "ProfessorNotUpdated",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
@@ -319,8 +343,16 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "TopicNotDeleted",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
@@ -361,8 +393,16 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "TopicNotFound",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
@@ -414,6 +454,14 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "TopicNotFound",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
@@ -467,8 +515,59 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "NoCategory",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "api/routes.js",
+    "groupTitle": "Topics"
+  },
+  {
+    "type": "post",
+    "url": "/api/topics/",
+    "title": "Insert a new topic",
+    "name": "Insert_topic",
+    "group": "Topics",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "id",
+            "optional": false,
+            "field": "The",
+            "description": "<p>id of the inserted topic.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "403",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
@@ -515,8 +614,16 @@
         "Error 4xx": [
           {
             "group": "Error 4xx",
+            "type": "404",
             "optional": false,
             "field": "TopicNotUpdated",
+            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "505",
+            "optional": false,
+            "field": "InternalError",
             "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
           }
         ]
