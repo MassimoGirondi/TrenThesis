@@ -1,3 +1,8 @@
+$(document).ready(function() {
+  profile();
+  $("#container-settings").hide();
+});
+
 function profile() {
   let profile = Cookies.getJSON('profile');
   $("#name").html(profile.first_name);
@@ -35,4 +40,22 @@ function settings() {
     $("#skills-list").append("<li>Skill" + i + "</li>");
   }
 
+}
+
+function unsubscribe() {
+  $.ajax({
+    url: api_url + '/api/professors/' + Cookies.getJSON('profile').id,
+    type: 'DELETE',
+    dataType: 'json',
+    data: {
+      'token': Cookies.get('token')
+    },
+    success: function(result) {
+      logout();
+    },
+    error: function(err) {
+      alert("Unsubscribtion failed: please contact our support team.");
+      console.log("Error while unsubscribing: " + err);
+    }
+  });
 }
