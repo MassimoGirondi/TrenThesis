@@ -9,19 +9,23 @@ function addIdea() {
     selected.push($(this).attr('name'));
   });
 
+  let topic = {
+    'professor_id': Cookies.getJSON('profile').id,
+    'title': title,
+    'short_abstract': short_abstract,
+    'description': description,
+    'resource': "", //How to handle resources
+    'assigned': false,
+    'categories': selected
+  }
+
   $.ajax({
     url: api_url + '/api/topics?token=' + Cookies.get('token'),
     type: 'POST',
+    contentType: 'application/json',
     dataType: 'json',
-    data: {
-      'professor_id': Cookies.getJSON('profile').id,
-      'title': title,
-      'short_abstract': short_abstract,
-      'description': description,
-      'resource': "", //How to handle resources
-      'assigned': false,
-      'categories': selected
-    },
+    processData: false,
+    data: JSON.stringify(topic),
     success: function() {
       window.location = 'idee.html';
     }
