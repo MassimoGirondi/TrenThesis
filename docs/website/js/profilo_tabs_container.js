@@ -12,7 +12,12 @@ function profile() {
   $("#website").html(profile.website);
   $("#further-information").empty();
   $.each(profile.further_info, function(key, value) {
-    $("#further-information").append("<div><span class='profile-informations-header'>" + key + ":</span> <span id=" + key + ">" + value + "</span></div>");
+      if(key == "career"){
+          $("#further-information").append("<div><span class='profile-informations-header'>" + key + ":</span> <div id=" + key + " class='list'>" + value + "</div></div>");
+      }
+      else{
+        $("#further-information").append("<div><span class='profile-informations-header'>" + key + ":</span> <span id=" + key + ">" + value + "</span></div>");
+      }
   });
 }
 
