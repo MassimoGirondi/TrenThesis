@@ -1,27 +1,17 @@
 function openTab(name) {
-    var tabName = "#tab-" + name;
-    var containerName = "#container-" + name;
-    
-    $(".tab-selected").each(function(){
-        $(this).removeClass("tab-selected");
-    });
-    
-    $(".tab-container").each(function(){
-        $(this).hide();
-    });
-    
-    fillTabsContainer(name);
-    
-    /*if(name == "all"){
-        all();
-    }
-    else if(name == "available"){
-        available();
-    }
-    else if(name == "assigned"){
-        assigned();
-    }*/
-    
-    $(tabName).addClass("tab-selected");
-    $(containerName).show();
+  var tabName = "#tab-" + name;
+  var containerName = "#container-" + name;
+
+  $(".tab-selected").each(function() {
+    $(this).removeClass("tab-selected");
+  });
+
+  $(".tab-container").each(function() {
+    $(this).hide();
+  });
+
+  fillTabsContainer(name);
+
+  $(tabName).addClass("tab-selected");
+  $(containerName).show();
 }
