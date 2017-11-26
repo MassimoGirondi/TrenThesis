@@ -33,7 +33,8 @@ body{
 
 .profile-informations-header{
     text-decoration: underline;
-    font-style: italic;
+    font-weight: bold;
+    text-transform: capitalize;
 }
 
 .tab-container{

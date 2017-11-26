@@ -10,6 +10,7 @@ function profile() {
   $("#department").html(profile.department);
   $("#email").html(profile.email);
   $("#website").html(profile.website);
+  $("#further-information").empty();
   $.each(profile.further_info, function(key, value) {
     $("#further-information").append("<div><span class='profile-informations-header'>" + key + ":</span> <span id=" + key + ">" + value + "</span></div>");
   });
