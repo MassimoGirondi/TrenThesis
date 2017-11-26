@@ -244,7 +244,7 @@ router
    * @apiError {403} NotAuthorized An information message (encapsulated in a JSON Object named error).
    * @apiError {505} InternalError An information message (encapsulated in a JSON Object named error).
    */
-  .post('/topics/', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.body.professor_id), function(req, res, next) {
+  .post('/topics', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.body.professor_id), function(req, res, next) {
     var db = req.app.get("db");
     var body = req.body;
 
