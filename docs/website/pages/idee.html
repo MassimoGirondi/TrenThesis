@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../css/idee.css" />
   <link rel="stylesheet" href="../css/button.css" />
   <link rel="stylesheet" href="../css/tab.css" />
+  <link rel="stylesheet" href="../css/modal.css" />
   <link rel="stylesheet" href="../css/footer.css" />
 
 </head>
@@ -29,7 +30,7 @@
       <div class="row">
         <div class="col-md-9">
           <span id="section-title">Le tue idee</span>
-          <div class="btn-add" data-toggle="modal" data-target="#ideeModale">
+          <div class="btn-add" onclick="showModal('#modalNewIdea')">
             <span class="fa fa-plus" aria-hidden="true"></span>
           </div>
         </div>
@@ -54,40 +55,63 @@
       <div id="container-available" class="tab-container"></div>
       <div id="container-assigned" class="tab-container"></div>
     </div>
-  </div>
 
-  <div id="ideeModale" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Titolo</h4>
-        </div>
+
+    <div id="modalNewIdea" class="modal">
+      <div class="modalWindow">
+        <div class="modal-title">Nuova idea</div>
         <div class="modal-body">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</p>
+          <div class="modal-section">
+            <div class="modal-label">Titolo</div>
+            <input id="title-idea" class="modal-input" type="text" maxlength="50" />
+          </div>
+          <div class="modal-section">
+            <div class="modal-label">Breve abstract</div>
+            <input id="short-abstract-idea" class="modal-input" type="text" maxlength="100" />
+          </div>
+          <div class="modal-section">
+            <div class="modal-label">Discipline</div>
+            <div id="checkboxes" class="modal-checkbox">
+            </div>
+          </div>
+          <div class="modal-section">
+            <div class="modal-label">Descrizione</div>
+            <textarea id="description-idea" cols="100" rows="5" class="modal-input"></textarea>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-primary">Invia</button>
+          <div class="btn-container">
+            <div class="btn-group">
+              <div class="btn-done" onclick="addIdea()"><span class="fa fa-check"></span></div>
+            </div><!--NON MODIFICARE IL COMMENTO
+           --><div class="btn-group">
+              <div class="btn-clear" onclick="reset()"><span class="fa fa-repeat"></span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <div class="footer">
+      <div class="contact">
+        Contattaci: trenthesis@gmail.com
+      </div>
 
 
+      <div class="footer">
+        <div class="contact">
+          Contattaci: trenthesis@gmail.com
+        </div>
+      </div>
 
-  <div class="footer">
-    <div class="contact">
-      Contattaci: trenthesis@gmail.com
-    </div>
-  </div>
+      <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-
-  <script src="../js/login.js"></script>
-  <script src="../js/idee_tabs.js"></script>
-  <script src="../js/idee_tabs_container.js"></script>
+      <script src="../js/login.js"></script>
+      <script src="../js/idee_tabs.js"></script>
+      <script src="../js/idee_tabs_container.js"></script>
+      <script src="../js/modal.js"></script>
+      <script src="../js/idee.js"></script>
 </body>
 
 </html>

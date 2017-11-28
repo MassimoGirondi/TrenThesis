@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/idea_page.css" />
   <link rel="stylesheet" href="../css/button.css" />
+  <link rel="stylesheet" href="../css/modal.css" />
   <link rel="stylesheet" href="../css/footer.css" />
 
 </head>
@@ -39,19 +40,17 @@
             <span class="idea-informations-header">
                             Assegnata:</span>
             <span id="idea-information-assigned">                         </span>
-            <div class="btn-add" data-toggle="modal" data-target="#ideeModale">
+            <div id="idea-information-assigned-button" class="btn-add" onclick="showModal('#modalEditAssigned')">
               <span class="fa fa-plus" aria-hidden="true"></span>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="btn-right">
-            <div class="btn-edit">
+            <div class="btn-edit" onclick="showModal('#modalEditIdea')">
               <span class="fa fa-pencil" aria-hidden="true"></span>
-            </div>
-            <!--
-                        -->
-            <div class="btn-remove">
+            </div><!--SONO UN COMMENTO BELLO, NON MODIFICARMI!
+            --><div class="btn-remove" onclick="remove()">
               <span class="fa fa-times" aria-hidden="true"></span>
             </div>
           </div>
@@ -62,6 +61,66 @@
     <div class="idea-content">
     </div>
   </div>
+    
+    <div id="modalEditIdea" class="modal">
+      <div class="modalWindow">
+        <div class="modal-title">Modifica idea</div>
+        <div class="modal-body">
+          <div class="modal-section">
+            <div class="modal-label">Titolo</div>
+            <input id="title-idea" class="modal-input" type="text" maxlength="50" />
+          </div>
+          <div class="modal-section">
+            <div class="modal-label">Breve abstract</div>
+            <input id="short-abstract-idea" class="modal-input" type="text" maxlength="100" />
+          </div>
+          <div class="modal-section">
+            <div class="modal-label">Discipline</div>
+            <div id="checkboxes" class="modal-checkbox">
+            </div>
+          </div>
+          <div class="modal-section">
+            <div class="modal-label">Descrizione</div>
+            <textarea id="description-idea" cols="100" rows="5" class="modal-input"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-container">
+            <div class="btn-group">
+              <div class="btn-done" onclick="editIdea()"><span class="fa fa-check"></span></div>
+            </div><!--NON MODIFICARE IL COMMENTO
+           --><div class="btn-group">
+              <div class="btn-clear" onclick="reset()"><span class="fa fa-repeat"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="modalEditAssigned" class="modal">
+      <div class="modalWindow">
+        <div class="modal-title">Assegna un'idea</div>
+        <div class="modal-body">
+          <div class="modal-section">
+            <div class="modal-label">Nome studente</div>
+            <input id="assigned-idea" class="modal-input" type="text" maxlength="50" />
+          </div>
+          </div>
+          <div class="modal-footer">
+            <div class="btn-container">
+              <div class="btn-group">
+                <div class="btn-done" onclick="ideaAssigned()"><span class="fa fa-check"></span></div>
+              </div><!--NON MODIFICARE IL COMMENTO
+           --><div class="btn-group">
+              <div class="btn-clear" onclick="reset()"><span class="fa fa-repeat"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    
   <div class="footer">
     <div class="contact">
       Contattaci: trenthesis@gmail.com
@@ -73,6 +132,8 @@
 
   <script src="../js/login.js"></script>
   <script src="../js/idea_page.js"></script>
+  <script src="../js/modal.js"></script>
+
 
 </body>
 

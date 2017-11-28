@@ -28,7 +28,14 @@ if (process.env.debug) {
       'profileData': {
         "id": 1,
         "first_name": "Riccardo",
-        "last_name": "Capraro"
+        "last_name": "Capraro",
+        "email": "trenthesis@unitn.it",
+        "department": "DISI",
+        "website": "https://github.com/MassimoGirondi/TrenThesis",
+        "further_info": {
+          "office hours": "Mon-Tue 7AM-7PM",
+          "career": "This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career."
+        }
       }
     };
     next();
@@ -36,7 +43,7 @@ if (process.env.debug) {
 } else {
   var jwtAuth = (req, res, next) => {
 
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    var token = req.query.token || req.headers['x-access-token'];
 
     // decode token
     if (token) {

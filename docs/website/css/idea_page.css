@@ -49,3 +49,7 @@ body{
     padding-bottom: 15px;
     text-align: justify
 }
+
+.is-assigned{
+    display: none!important;
+}

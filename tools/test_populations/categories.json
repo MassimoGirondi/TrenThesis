@@ -1,4 +1,15 @@
-{"id": "web"}
-{"id": "operating systems"}
-{"id": "compilers"}
-{"id": "machine learning"}
+{
+  "id": "web"
+} {
+  "id": "operating systems"
+} {
+  "id": "compilers"
+} {
+  "id": "machine learning"
+} {
+  "id": "electronics"
+} {
+  "id": "mathematics"
+} {
+  "id": "science fiction"
+}
