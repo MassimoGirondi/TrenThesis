@@ -78,3 +78,12 @@ body{
     font-style: italic;
 }
 
+.new-information{
+    padding-top: 5px;
+}
+
+.label-new-information{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
