@@ -8,7 +8,6 @@
 var express = require('express'); // call express
 var app = express(); // define our app using express
 var bodyParser = require('body-parser'); // define our app is using body-parser
-var port = process.env.PORT || 8080; // set our port
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -62,17 +61,19 @@ app.use((err, req, res, next) => {
 });
 
 
+module.exports = app;
 
-var port = process.env.PORT || 8080; // set our port
+/*
+ * Method to connect to DB, pass a Callback function to execute when connection is done
+ * (i.e. a function with app.listen() if using express)
+ */
+module.exports.DBConnect = (cb) => {
+  //Connect to DB
+  var mongodbUrl = process.env.mongoDBUrl || 'mongodb://localhost:27017/trenthesis';
+  var MongoClient = require('mongodb').MongoClient;
+  MongoClient.connect(mongodbUrl, (err, db) => {
 
-//Connect to DB
-var mongodbUrl = process.env.mongoDBUrl || 'mongodb://localhost:27017/trenthesis';
-var MongoClient = require('mongodb').MongoClient;
-MongoClient.connect(mongodbUrl, (err, db) => {
-
-  app.set('db', db);
-  app.listen(port);
-  console.log("App started at port " + port);
-  console.log('Debug: ' + process.env.debug);
-
-});
+    app.set('db', db);
+    cb();
+  });
+}

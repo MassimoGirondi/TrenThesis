@@ -10,9 +10,10 @@
     "express-session": "^1.11.3",
     "jsonwebtoken": "^8.1.0",
     "mongodb": "^2.2.33",
+    "node-telegram-bot-api": "^0.29.0",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
-    "node-telegram-bot-api": "^0.29.0"
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "jest": "^21.2.1"
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "start": "node router.js",
-    "test": "$(npm bin)/jest"
+    "test": "export $(cat .env | xargs)  && $(npm bin)/jest"
   },
   "jest": {
     "verbose": true,
