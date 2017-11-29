@@ -85,7 +85,7 @@ describe('Test Get professors', () => {
   })
 
   /*author: Matteo Battilana*/
-  test('Get Professor by id correct', async () => {
+  test('Get Professor by correct id', async () => {
     return request(app)
       .get('/api/professors/1')
       .then(response => {
@@ -106,7 +106,7 @@ describe('Test Get professors', () => {
   })
 
   /*author: Matteo Battilana*/
-  test('Get Professor by id wrong', async () => {
+  test('Get Professor by wrong id', async () => {
     return request(app)
       .get('/api/professors/6')
       .then(response => {
