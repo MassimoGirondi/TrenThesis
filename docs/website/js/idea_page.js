@@ -46,7 +46,7 @@ function editIdea() {
     processData: false,
     data: JSON.stringify(topic),
     success: function() {
-      Cookies.set('topic', topic);
+      Cookies.remove('topic');
       window.location.href = 'idee.html';
     },
     error: (err) => {
