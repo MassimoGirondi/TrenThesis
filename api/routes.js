@@ -99,9 +99,8 @@ router
    * @apiName Update professor by  id
    * @apiGroup Professors
    *
-   * @apiSuccess {status} Boolean value, true if the update was successful.
+   * @apiSuccess {modified} Boolean value, true if the update was successful.
    * @apiParam {Object} JSON object with all the fields of the professor (modified).
-   * @apiError {400} ProfessorNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiError {505} InternalError An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
@@ -127,9 +126,9 @@ router
               modify: true
             });
           else {
-            var err = new Error('Professor not updated!');
-            err.status = 400;
-            next(err);
+            res.status(200).json({
+              modify: false
+            });
           }
         }
       })
@@ -327,9 +326,8 @@ router
    * @apiName Update topic by id
    * @apiGroup Topics
    *
-   * @apiSuccess {status} Boolean value, true if the update was successful.
+   * @apiSuccess {modify} Boolean value, true if the update was successful.
    * @apiParam {Object} JSON object with all the fields of the topic (modified).
-   * @apiError {404} TopicNotUpdated An information message (encapsulated in a JSON Object named error).
    * @apiError {505} InternalError An information message (encapsulated in a JSON Object named error).
 
    * @apiPermission AuthenticatedProfessor
@@ -359,9 +357,9 @@ router
               modify: true
             });
           else {
-            var err = new Error('Topic not updated!');
-            err.status = 400;
-            next(err);
+            res.status(200).json({
+              modify: false
+            });
           }
         }
       })
@@ -498,6 +496,5 @@ router
       });
     }
   });
-
 
 module.exports = router;
