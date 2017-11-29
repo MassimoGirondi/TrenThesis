@@ -46,17 +46,32 @@ function editIdea() {
     processData: false,
     data: JSON.stringify(topic),
     success: function() {
+      Cookies.set('topic', topic);
       window.location.href = 'idee.html';
     },
     error: (err) => {
-      console.log('Failed to delete the topic with error: ' + err);
+      console.log('Failed to edit the topic with error: ' + err);
     }
   });
-  //Funzione uguale alla funzione addIdea in idee.js
 }
 
 function ideaAssigned() {
-  //Funzione per assegnare un'idea ad uno studente
-  let assigned = $("#assigned-idea").val();
-  $("#idea-information-assigned-button").addClass("is-assigned");
+  let topic = Cookies.getJSON('topic');
+  topic['assigned'] = $("#assigned-idea").val();
+
+  $.ajax({
+    url: api_url + '/api/topics/' + Cookies.getJSON('topic').id + "?token=" + Cookies.get('token'),
+    type: 'PUT',
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    data: JSON.stringify(topic),
+    success: function() {
+      Cookies.set('topic', topic);
+      window.location.href = 'idea_page.html';
+    },
+    error: (err) => {
+      console.log('Failed to assign the topic with error: ' + err);
+    }
+  });
 }
