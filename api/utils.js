@@ -102,3 +102,15 @@ module.exports.isUpdateSafe = (req, res, next) => {
     next()
   }
 }
+
+/**
+ * Return a token to test authenticated API
+ */
+module.exports.getTestToken = () => {
+  var token = jwt.sign({
+    googleId: '116652383299820429186'
+  }, process.env.AuthSecret, {
+    expiresIn: '1d'
+  });
+  return token;
+}
