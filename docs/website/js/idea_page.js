@@ -1,5 +1,6 @@
 $(document).ready(function() {
   contentIdea();
+  fillModal();
 });
 
 function contentIdea() {
@@ -10,15 +11,14 @@ function contentIdea() {
   $("#idea-information-date").html("dd-mm-yyyy");
   $("#idea-information-topics").html(topic.categories.toString()); // Should format this
   $("#idea-information-assigned").html(topic.assigned);
-    if(topic.assigned != false)
-    {
-        $("#idea-information-assigned-button").addClass("is-assigned");
-    }
+  if (topic.assigned != false) {
+    $("#idea-information-assigned-button").addClass("is-assigned");
+  }
   $(".idea-content").html(topic.description);
 }
 
 function remove() {
-  $. ajax({
+  $.ajax({
     url: api_url + '/api/topics/' + Cookies.getJSON('topic').id,
     type: 'DELETE',
     data: {
@@ -34,26 +34,29 @@ function remove() {
   });
 }
 
-function edit(){
-    //Funzione uguale alla funzione addIdea in idee.js
-}
+function editIdea() {
 
-function reset(){
-  $("#title-idea").val("");
-  $("#short-abstract-idea").val("");
-  $("#description-idea").val("");
+  let topic = getModalValuesAsTopic();
 
-  $('#checkboxes input:checked').each(function() {
-    $(this).prop("checked", false);
+  $.ajax({
+    url: api_url + '/api/topics/' + Cookies.getJSON('topic').id + "?token=" + Cookies.get('token'),
+    type: 'PUT',
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    data: JSON.stringify(topic),
+    success: function() {
+      window.location.href = 'idee.html';
+    },
+    error: (err) => {
+      console.log('Failed to delete the topic with error: ' + err);
+    }
   });
-
-  
-  $("#assigned-idea").val("");
+  //Funzione uguale alla funzione addIdea in idee.js
 }
 
-function ideaAssigned(){
-    //Funzione per assegnare un'idea ad uno studente
-    let assigned = $("#assigned-idea").val();
-    $("#idea-information-assigned-button").addClass("is-assigned");
+function ideaAssigned() {
+  //Funzione per assegnare un'idea ad uno studente
+  let assigned = $("#assigned-idea").val();
+  $("#idea-information-assigned-button").addClass("is-assigned");
 }
-
