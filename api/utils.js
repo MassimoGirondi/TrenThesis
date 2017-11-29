@@ -9,7 +9,7 @@ module.exports.isAuthorized = (req, res, next, id) => {
       message: 'Malformed request: missing authentication id.'
     })
   }
-  if ((!req.decodedToken) || (req.decodedToken.professor_id != id)) {
+  if ((!req.decodedToken) || (req.decodedToken.professor_id != parseInt(id))) {
     res.status(403).send({
       message: 'Id mismatch: you are not authorized to modify other people data'
     });
@@ -94,7 +94,7 @@ module.exports.isAuthenticated = jwtAuth;
  * This behaviour can potentially corrupt data in the database.
  */
 module.exports.isUpdateSafe = (req, res, next) => {
-  if (req.body.id && (req.body.id != req.params.id)) {
+  if (req.body.id && (parseInt(req.body.id) != parseInt(req.params.id))) {
     res.status(403).send({
       message: 'Malicious update detected: you are not allowed to put a different id in the body of the request.'
     });
