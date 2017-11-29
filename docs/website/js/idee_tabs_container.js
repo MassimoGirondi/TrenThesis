@@ -5,8 +5,8 @@ var topics;
 $(document).ready(function() {
   getTopics();
   // Fill the modal use to add topics
-  getCategories().done(function(categories) {
-      fillAddIdeaModal(categories);
+  getCategories().done(function(cat) {
+      fillModal(cat);
     })
     .fail(function(err) {
       console.log('Something failed in category retrieval: ' + err);
@@ -69,34 +69,6 @@ function fillTabsContainer(name) {
       window.location.href = 'idea_page.html';
     }
   }
-}
-
-function fillAddIdeaModal(categories) {
-
-  let ideaHtml = "";
-  let elemPerColumn = Math.ceil(categories.length / 4) // number of columns
-
-  ideaHtml += "<div class='row'>";
-  ideaHtml += "<div class='col-md-3'>";
-
-  for (let i = 0; i < categories.length; i++) {
-    if (elemPerColumn > 1) {
-      if ((i != 0) && (i % elemPerColumn === 0)) {
-        ideaHtml += "</div>";
-        ideaHtml += "<div class='col-md-3'>";
-        ideaHtml += '<input type="checkbox" name=' + categories[i] + '>' + categories[i] + "<br>";
-      } else {
-        ideaHtml += '<input type="checkbox" name=' + categories[i] + '>' + categories[i] + "<br>";
-      }
-    } else {
-      ideaHtml += '<input type="checkbox" name=' + categories[i] + '>' + categories[i] + "<br>";
-      ideaHtml += "</div>";
-      ideaHtml += "<div class='col-md-3'>";
-    }
-
-  }
-  ideaHtml += "</div></div>";
-  $("#checkboxes").append(ideaHtml);
 }
 
 function getTopics() {
