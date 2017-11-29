@@ -56,13 +56,98 @@ afterAll((done) => {
 })
 
 
+describe('Test Get professors', () => {
+  /*author: Matteo Battilana*/
+  test('Get all Professors correct', async () => {
+    return request(app)
+      .get('/api/professors')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]).toEqual({
+          "id": 0,
+          "first_name": "Daniele",
+          "last_name": "Isoni",
+          "email": "trenthesis@unitn.it",
+          "department": "DISI",
+          "website": "https://github.com/MassimoGirondi/TrenThesis",
+          "further_info": {
+            "office hours": "Mon-Tue 7AM-7PM",
+            "career": "This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career."
+          }
+        })
 
-describe('Test Get professors', async () => {
-  /*put tests here*/
+        expect(response.body[2].first_name).toEqual('Matteo')
+        expect(response.body[2].last_name).toEqual('Battilana')
+
+        expect(response.body[4].first_name).toEqual('Valentina')
+        expect(response.body[4].last_name).toEqual('Odorizzi')
+      })
+  })
+
+  /*author: Matteo Battilana*/
+  test('Get Professor by id correct', async () => {
+    return request(app)
+      .get('/api/professors/1')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toEqual({
+          "id": 1,
+          "first_name": "Riccardo",
+          "last_name": "Capraro",
+          "email": "trenthesis@unitn.it",
+          "department": "DISI",
+          "website": "https://github.com/MassimoGirondi/TrenThesis",
+          "further_info": {
+            "office hours": "Mon-Tue 7AM-7PM",
+            "career": "This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career."
+          }
+        })
+      })
+  })
+
+  /*author: Matteo Battilana*/
+  test('Get Professor by id wrong', async () => {
+    return request(app)
+      .get('/api/professors/6')
+      .then(response => {
+        expect(response.statusCode).toBe(404)
+      })
+  })
+});
+
+describe('Test Get Topics', () => {
+  /*author: Matteo Battilana*/
+  test('Get all Topics correct', async () => {
+    return request(app)
+      .get('/api/topics')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]).toEqual({
+          "id": 0,
+          "professor_id": 0,
+          "title": "Machine learning web micro-services",
+          "short_abstract": "Machine learning micro-services with Node.js",
+          "description": "Empty description",
+          "resource": "folder/rewritten_url",
+          "assigned": false,
+          "categories": ["web", "machine_learning"]
+        })
+
+        expect(response.body[2].id).toEqual(2)
+        expect(response.body[2].title).toEqual('Web frameworks analysis')
+
+        expect(response.body[3].id).toEqual(3)
+        expect(response.body[3].title).toEqual('Jsp Tag library development')
+
+      })
+  })
+
+  //Must add the same as 'Test Professor Update' cases
 });
 
 
 describe('Test Professor Update', () => {
+  /*author: Massimo Girondi*/
   test('Update correct Professor', async () => {
     return request(app)
       .put('/api/professors/1')
@@ -82,6 +167,7 @@ describe('Test Professor Update', () => {
       })
   })
 
+  /*author: Massimo Girondi*/
   test('Update wrong Professor', async () => {
     return request(app)
       .put('/api/professors/2')
@@ -95,4 +181,50 @@ describe('Test Professor Update', () => {
         expect(response.statusCode).toBe(403)
       })
   })
+})
+
+describe('Test Professor Remove', () => {
+  /*author: Matteo Battilana*/
+  test('Remove correct Professor without authentication', async () => {
+    return request(app)
+      .delete('/api/professors/2')
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+      })
+  })
+
+  /*author: Matteo Battilana*/
+  test('Remove correct Professor', async () => {
+    return request(app)
+      .delete('/api/professors/1')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        return request(app)
+          .get('/api/professors/1')
+      }).then((response) => {
+        expect(response.statusCode).toBe(404)
+      })
+  })
+
+  /*author: Matteo Battilana*/
+  test('Remove wrong Professor, wrong id', async () => {
+    return request(app)
+      .put('/api/professors/8')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+      })
+  })
+
+  /*author: Matteo Battilana*/
+  test('Remove wrong Professor, other professor', async () => {
+    return request(app)
+      .put('/api/professors/0')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+      })
+  })
+
 })
