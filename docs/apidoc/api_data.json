@@ -267,7 +267,7 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "status",
+            "type": "modified",
             "optional": false,
             "field": "Boolean",
             "description": "<p>value, true if the update was successful.</p>"
@@ -291,13 +291,6 @@
     "error": {
       "fields": {
         "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "type": "400",
-            "optional": false,
-            "field": "ProfessorNotUpdated",
-            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
-          },
           {
             "group": "Error 4xx",
             "type": "505",
@@ -588,7 +581,7 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "status",
+            "type": "modify",
             "optional": false,
             "field": "Boolean",
             "description": "<p>value, true if the update was successful.</p>"
@@ -612,13 +605,6 @@
     "error": {
       "fields": {
         "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "type": "404",
-            "optional": false,
-            "field": "TopicNotUpdated",
-            "description": "<p>An information message (encapsulated in a JSON Object named error).</p>"
-          },
           {
             "group": "Error 4xx",
             "type": "505",
