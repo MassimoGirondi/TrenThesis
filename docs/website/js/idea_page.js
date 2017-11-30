@@ -34,6 +34,7 @@ function remove() {
   });
 }
 
+//AGGIUNGERE IL NOME DELLO STUDENTE
 function editIdea() {
 
   let topic = getModalValuesAsTopic();
