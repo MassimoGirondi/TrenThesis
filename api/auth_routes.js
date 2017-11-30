@@ -236,13 +236,12 @@ router
   })
 
   /**
-   * @api {get} /profile You are not authorized to access the API
+   * @api {get} /profile Get your profile informationZ
    * @apiName Get Profile
    * @apiGroup Authentication
    */
-  .get('/profile/:token', isAuthenticated, function(req, res, next) {
-    var profile_data = req.decodedToken.profileData;
-    res.status(200).json(profile_data);
+  .get('/profile', isAuthenticated, function(req, res, next) {
+    res.status(200).json(req.decodedToken.profileData);
   });
 
 

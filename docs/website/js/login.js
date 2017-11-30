@@ -29,7 +29,7 @@ function logged() {
   let profile = Cookies.get('profile');
 
   if (!profile) {
-    $.get(api_url + '/auth/profile/' + token, function(data) {
+    $.get(api_url + '/auth/profile?token=' + token, function(data) {
       if (data) {
         Cookies.set("profile", data, {
           expires: 1

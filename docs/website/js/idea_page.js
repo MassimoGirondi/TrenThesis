@@ -19,12 +19,8 @@ function contentIdea() {
 
 function remove() {
   $.ajax({
-    url: api_url + '/api/topics/' + Cookies.getJSON('topic').id,
+    url: api_url + '/api/topics/' + Cookies.getJSON('topic').id + '?token=' + Cookies.get('token'),
     type: 'DELETE',
-    data: {
-      'professor_id': Cookies.getJSON('profile').id,
-      'token': Cookies.get('token')
-    },
     success: function() {
       window.location.href = 'idee.html';
     },
