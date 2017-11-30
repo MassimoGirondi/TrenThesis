@@ -54,6 +54,10 @@ afterAll((done) => {
     });
   });
 })
+test('Test if there is a DB connection', () => {
+  var status = app.get('db').serverConfig.isConnected()
+  expect(status).toBe(true);
+})
 
 
 describe('Test Get professors', () => {
