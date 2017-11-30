@@ -15,7 +15,8 @@ function login() {
 }
 
 function logout() {
-  $("#navbar-container").load("navbar_user_unknown.html");
+  $("#navbar-base").empty();
+  $("#navbar-base").load("navbar_user_unknown.html");
   // Invalidate cookie
   Cookies.remove('token');
   Cookies.remove('profile');
@@ -39,13 +40,13 @@ function logged() {
       }
     });
   }
-  $("#navbar-container").empty();
-  $("#navbar-container").load("navbar_user_logged.html");
+  $("#navbar-base").empty();
+  $("#navbar-base").load("navbar_user_logged.html");
 }
 
 function unknown() {
-  $("#navbar-container").empty();
-  $("#navbar-container").load("navbar_user_unknown.html");
+  $("#navbar-base").empty();
+  $("#navbar-base").load("navbar_user_unknown.html");
 }
 
 // Get a query param of a GET request

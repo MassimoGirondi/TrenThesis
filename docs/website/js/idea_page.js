@@ -34,10 +34,10 @@ function remove() {
   });
 }
 
-//AGGIUNGERE IL NOME DELLO STUDENTE
 function editIdea() {
 
-  let topic = getModalValuesAsTopic();
+  let topic = getModalValuesAsTopic(Cookies.getJSON('topic'));
+  topic['assigned'] = $("#modalEditIdea #assigned-idea").val();
 
   $.ajax({
     url: api_url + '/api/topics/' + Cookies.getJSON('topic').id + "?token=" + Cookies.get('token'),
@@ -58,7 +58,7 @@ function editIdea() {
 
 function ideaAssigned() {
   let topic = Cookies.getJSON('topic');
-  topic['assigned'] = $("#assigned-idea").val();
+  topic['assigned'] = $("#modalEditAssigned #assigned-idea").val();
 
   $.ajax({
     url: api_url + '/api/topics/' + Cookies.getJSON('topic').id + "?token=" + Cookies.get('token'),

@@ -1,16 +1,17 @@
 function showModal(id) {
   $(id).show();
   $(id).on("click", function(event) {
-    if ($(event.target).hasClass("modal")){
-        $(this).hide();
+    if ($(event.target).hasClass("modal")) {
+      $(this).hide();
     }
-    if ($(event.target).hasClass("close")){
-        $(this).hide();
+    if ($(event.target).hasClass("close")) {
+      $(this).hide();
     }
   });
 }
 
-function getModalValuesAsTopic() {
+function getModalValuesAsTopic(topic) {
+
   let title = $("#title-idea").val();
   let short_abstract = $("#short-abstract-idea").val();
   let description = $("#description-idea").val();
@@ -20,14 +21,30 @@ function getModalValuesAsTopic() {
     selected.push($(this).attr('name'));
   });
 
-  return {
-    'professor_id': Cookies.getJSON('profile').id,
-    'title': title,
-    'short_abstract': short_abstract,
-    'description': description,
-    'resource': "", //How to handle resources
-    'assigned': false,
-    'categories': selected
+  if (!topic) {
+    return {
+      'professor_id': Cookies.getJSON('profile').id,
+      'title': title,
+      'short_abstract': short_abstract,
+      'description': description,
+      'resource': "", //How to handle resources
+      'assigned': false,
+      'categories': selected
+    }
+  } else {
+    if (title) {
+      topic['title'] = title
+    }
+    if (short_abstract) {
+      topic['short_abstract'] = short_abstract
+    }
+    if (description) {
+      topic['description'] = description
+    }
+    if (selected != []) {
+      topic['categories'] = selected
+    }
+    return topic
   }
 }
 

@@ -23,7 +23,10 @@
 
 <body>
   <div id="navbar-container">
-
+    <nav class="navbar">
+      <div class="container-fluid" id="navbar-base">
+      </div>
+    </nav>
   </div>
 
   <div class="container-fluid-fix">
@@ -54,13 +57,13 @@
       <div id="container-profile" class="tab-container">
         <div class="profile-informations">
           <div>
-              <h2 class="title-profile"><span id="name"></span> <span id="surname"></span></h2>
-          </div> 
-          <div>
-              <h4 class="subtitle-profile"><span id="department"></span></h4>
+            <h2 class="title-profile"><span id="name"></span> <span id="surname"></span></h2>
           </div>
           <div>
-              <span class="fa fa-envelope" aria-hidden="true"></span> <span class="profile-informations-header">Email:</span> <span id="email"></span>
+            <h4 class="subtitle-profile"><span id="department"></span></h4>
+          </div>
+          <div>
+            <span class="fa fa-envelope" aria-hidden="true"></span> <span class="profile-informations-header">Email:</span> <span id="email"></span>
           </div>
           <div><span class="fa fa-globe" aria-hidden="true"> </span> <span class="profile-informations-header">Sito internet:</span> <span id="website"></span></div>
           <hr>
@@ -90,7 +93,7 @@
 
   <div id="modalEditProfile" class="modal">
     <div class="modalWindow">
-        <div><span class="fa fa-times close"></span></div>
+      <div><span class="fa fa-times close"></span></div>
       <div class="modal-title">Modifica profilo</div>
       <div class="modal-body">
         <div class="modal-section">
@@ -118,8 +121,10 @@
         <div class="btn-container">
           <div class="btn-group">
             <div class="btn-done" onclick="editProfile()"><span class="fa fa-check"></span></div>
-          </div><!--NON MODIFICARE IL COMMENTO
-           --><div class="btn-group">
+          </div>
+          <!--NON MODIFICARE IL COMMENTO
+           -->
+          <div class="btn-group">
             <div class="btn-clear" onclick="reset()"><span class="fa fa-repeat"></span></div>
           </div>
         </div>
