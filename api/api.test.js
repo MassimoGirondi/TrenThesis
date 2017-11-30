@@ -120,33 +120,60 @@ describe('Test Get professors', () => {
 });
 
 describe('Test Get Topics', () => {
-  /*author: Matteo Battilana*/
-  test('Get all Topics correct', async () => {
-    return request(app)
-      .get('/api/topics')
-      .then(response => {
-        expect(response.statusCode).toBe(200)
-        expect(response.body[0]).toEqual({
-          "id": 0,
-          "professor_id": 0,
-          "title": "Machine learning web micro-services",
-          "short_abstract": "Machine learning micro-services with Node.js",
-          "description": "Empty description",
-          "resource": "folder/rewritten_url",
-          "assigned": false,
-          "categories": ["web", "machine_learning"]
+    /*author: Matteo Battilana*/
+    test('Get all Topics correct', async () => {
+        return request(app)
+        .get('/api/topics')
+        .then(response => {
+            expect(response.statusCode).toBe(200)
+            expect(response.body[0]).toEqual({
+                "id": 0,
+                "professor_id": 0,
+                "title": "Machine learning web micro-services",
+                "short_abstract": "Machine learning micro-services with Node.js",
+                "description": "Empty description",
+                "resource": "folder/rewritten_url",
+                "assigned": false,
+                "categories": ["web", "machine_learning"]
+            })
+
+            expect(response.body[2].id).toEqual(2)
+            expect(response.body[2].title).toEqual('Web frameworks analysis')
+
+            expect(response.body[3].id).toEqual(3)
+            expect(response.body[3].title).toEqual('Jsp Tag library development')
+
         })
-
-        expect(response.body[2].id).toEqual(2)
-        expect(response.body[2].title).toEqual('Web frameworks analysis')
-
-        expect(response.body[3].id).toEqual(3)
-        expect(response.body[3].title).toEqual('Jsp Tag library development')
-
-      })
-  })
-
-  //Must add the same as 'Test Professor Update' cases
+    })
+    
+    /*author: Daniele Isoni*/
+    test('Get Topics by correct id', async () => {
+        return request(app)
+        .get('/api/topics/1')
+        .then(response => {
+            expect(response.statusCode).toBe(200)
+            expect(response.body).toEqual({
+                "id": 1,
+                "professor_id": 1,
+                "title": "Clustering algorithms with sklearn",
+                "short_abstract": "Add a clustering algorithm to the scikit-learn library",
+                "description": "Empty description",
+                "resource": "folder/rewritten_url",
+                "assigned": false,
+                "categories": ["machine_learning"]
+            })
+        })
+    })
+    
+    /*author: Daniele Isoni*/
+    test('Get Topics by wrong id', async () => {
+        return request(app)
+        .get('/api/topics/5')
+        .then(response => {
+            expect(response.statusCode).toBe(404)
+        })
+    })
+    //Must add the same as 'Test Professor Update' cases
 });
 
 
@@ -179,6 +206,45 @@ describe('Test Professor Update', () => {
         id: 2,
         first_name: 'Guido',
         last_name: 'La Barca'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+      })
+  })
+})
+
+describe('Test Topic Update', () => {
+  /*author: Daniele Isoni*/
+  test('Update correct Topic', async () => {
+    return request(app)
+      .put('/api/topics/1')
+      .send({
+        id: 1,
+        professor_id: 1,
+        title: 'Clustering algorithms with sklearn modified',
+        description: 'Empty description empty description'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        return request(app)
+          .get('/api/topics/1')
+      }).then((response) => {
+        expect(response.body.title).toEqual('Clustering algorithms with sklearn modified')
+        expect(response.body.description).toEqual('Empty description empty description')
+      })
+  })
+
+  /*author: Daniele Isoni*/
+  test('Update wrong Topic', async () => {
+    return request(app)
+      .put('/api/topics/2')
+      .send({
+        id: 2,
+        professor_id: 2,
+        title: 'Clustering algorithms with sklearn modified',
+        description: 'Empty description empty description'
       })
       .set('x-access-token', getTestToken())
       .then(response => {
