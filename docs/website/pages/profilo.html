@@ -39,10 +39,8 @@
           <div class="btn-right">
             <div class="btn-edit" onclick="showModal('#modalEditProfile')">
               <span class="fa fa-pencil" aria-hidden="true"></span>
-            </div>
-            <!--NON RIMUOVERE IL COMMENTO
-            -->
-            <div class="btn-remove" onclick="unsubscribe()">
+            </div><!--NON RIMUOVERE IL COMMENTO
+            --><div class="btn-remove" onclick="unsubscribe()">
               <span class="fa fa-times" aria-hidden="true"></span>
             </div>
           </div>
@@ -55,21 +53,24 @@
         <div id="tab-settings" class="col-md-6 tab" onclick="openTab('settings')"><a>Impostazioni</a></div>
       </div>
       <div id="container-profile" class="tab-container">
-        <div class="profile-informations">
-          <div>
-            <h2 class="title-profile"><span id="name"></span> <span id="surname"></span></h2>
+         <div class="tab-container-informations">
+            <div class="profile-informations">
+                <div>
+                    <h2 class="title-profile"><span id="name"></span> <span id="surname"></span></h2>
+                </div>
+                <div>
+                    <h4 class="subtitle-profile"><span id="department"></span></h4>
+                </div>
+                <div>
+                    <span class="fa fa-envelope" aria-hidden="true"></span> <span class="profile-informations-header">Email:</span> <span id="email"></span>
+                </div>
+                <div><span class="fa fa-globe" aria-hidden="true"> </span> <span class="profile-informations-header">Sito internet:</span> <span id="website"></span></div>
+              <hr>
+              <div id="further-information">
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 class="subtitle-profile"><span id="department"></span></h4>
-          </div>
-          <div>
-            <span class="fa fa-envelope" aria-hidden="true"></span> <span class="profile-informations-header">Email:</span> <span id="email"></span>
-          </div>
-          <div><span class="fa fa-globe" aria-hidden="true"> </span> <span class="profile-informations-header">Sito internet:</span> <span id="website"></span></div>
-          <hr>
-          <div id="further-information">
-          </div>
-        </div>
+          <div id="career-information"></div>
       </div>
       <div id="container-settings" class="tab-container">
         <div class="settings">
@@ -121,10 +122,8 @@
         <div class="btn-container">
           <div class="btn-group">
             <div class="btn-done" onclick="editProfile()"><span class="fa fa-check"></span></div>
-          </div>
-          <!--NON MODIFICARE IL COMMENTO
-           -->
-          <div class="btn-group">
+          </div><!--NON MODIFICARE IL COMMENTO
+           --><div class="btn-group">
             <div class="btn-clear" onclick="reset()"><span class="fa fa-repeat"></span></div>
           </div>
         </div>
