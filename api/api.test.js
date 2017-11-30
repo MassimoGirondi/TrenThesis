@@ -1,3 +1,7 @@
+//Set debug and mongoDBUrl environment variables for test purposes
+process.env.mongoDBUrl = 'mongodb://localhost:27017/trenthesis';
+process.env.debug = 'true';
+
 const request = require('supertest');
 const app = require('../router');
 const getTestToken = require('./utils').getTestToken;
@@ -22,8 +26,6 @@ function importTable(name, cb) {
 
 function importAll(cb) {
 
-  //Set DB to local instance
-  process.env.mongoDBUrl = 'mongodb://localhost:27017/trenthesis';
   //Import the DB
   importTable('users', () => {
     importTable('categories', () => {
@@ -44,7 +46,10 @@ function importAll(cb) {
 
 
 /*Wait the DB population and connection, then do the tests*/
-beforeAll(importAll);
+beforeAll((done) => {
+  //Set DB to local instance
+  importAll(done)
+});
 
 /*Restore the DB*/
 afterAll((done) => {
