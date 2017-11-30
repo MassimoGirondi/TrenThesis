@@ -68,8 +68,8 @@ if (process.env.debug && process.env.debug == 'true') {
                 });
               } else {
                 req.decodedToken = decoded;
-                req.decodedToken.professor_id = data.googleId;
-                req.decodedToken.profileData = data;
+                //req.decodedToken.professor_id = data.googleId;
+                //req.decodedToken.profileData = data;
                 next();
               }
             })

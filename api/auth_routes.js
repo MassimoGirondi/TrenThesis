@@ -37,32 +37,54 @@ passport.use(new GoogleStrategy({
     var db = req.app.get("db");
 
     // Check email
-    if ((process.env.debug && process.env.debug == 'true') || profile._json.hd === 'unitn.it') {
+    if (true) { //((process.env.debug && process.env.debug == 'true') || profile._json.hd === 'unitn.it') {
 
       db.collection("users").findOne({
         googleId: profile._json.id
       }, function(err, user) {
         if (err || !user) {
-          db.collection("users").insertOne({
-              googleId: profile._json.id
-            },
-            function(err, user) {
-              console.log("Inserted new user " + err);
-              return cb(null, profile);
+
+          //
+
+          db.collection("users").find({}, {
+              _id: 0,
+              id: 1
+            }).sort({
+              id: -1
+            }).limit(1)
+            .toArray()
+            .then((max_id) => {
+              var new_id = (max_id[0].id || -1) + 1;
+              db.collection("users").insertOne({
+                googleId: profile._json.id,
+                id: new_id
+              }).then(() => {
+                console.log("Inserted new user, id:" + new_id);
+                //console.log(user);
+                db.collection("professors").insertOne({
+                  id: new_id,
+                  first_name: profile._json.given_name,
+                  last_name: profile._json.family_name,
+                  email: profile._json.email,
+                }).then((professor) => {
+                  console.log("Inserted new professor, id:" + new_id);
+                  cb(null, profile);
+                })
+              })
+
             });
         } else {
           console.log("Existing: " + user.googleId);
-          return cb(null, profile);
+          cb(null, profile);
         }
       });
     } else {
       console.log("Not authorized: " + profile._json.email);
       var err = new Error('Not authorized: ' + profile._json.email);
-      return cb(null, false, err);
+      cb(null, false, err);
     }
 
-  }
-));
+  }));
 
 
 
