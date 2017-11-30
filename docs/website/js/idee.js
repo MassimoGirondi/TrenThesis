@@ -16,3 +16,4 @@ function addIdea() {
 }
 
 function search() {}
+}

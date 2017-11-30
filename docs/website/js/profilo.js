@@ -62,7 +62,7 @@ function reset() {
 
 function addInformation() {
 
-  $("#other-informations").append("<div class='new-information'><span>Etichetta: </span><input id='' type='text' class='keys modal-input'/><span>Informazione: </span><input id='' type='text' class='values modal-input'/></div>");
+  $("#other-informations").append("<hr><div class='new-information'><span>Etichetta: </span><input id='' type='text' class='keys modal-input'/><span>Informazione: </span><input id='' type='text' class='values modal-input'/></div>");
 
   $('#other-informations div input').each(function(i) {
     if ($(this).hasClass("keys modal-input")) {
@@ -72,3 +72,4 @@ function addInformation() {
     }
   });
 }
+
