@@ -189,7 +189,6 @@ describe('Test Professor Update', () => {
       })
       .set('x-access-token', getTestToken())
       .then(response => {
-        expect(response.body).toBe(1);
         expect(response.statusCode).toBe(200)
         return request(app)
           .get('/api/professors/1')
