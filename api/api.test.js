@@ -6,7 +6,7 @@ const request = require('supertest');
 const app = require('../router');
 const getTestToken = require('./utils').getTestToken;
 const exec = require('child_process').exec;
-
+console.log(getTestToken());
 /*
   Function to call mongoimport
 */
@@ -258,6 +258,61 @@ describe('Test Topic Update', () => {
   })
 })
 
+
+describe('Test Topic Remove', () => {
+  /*author: Massimo Girondi*/
+  test('Remove correct Topic without authentication', async () => {
+    return request(app)
+      .delete('/api/topics/0')
+      .then(response => {
+        expect(response.statusCode).toBe(400)
+      })
+  })
+
+  /*author: Massimo Girondi*/
+  test('Remove correct Topic', async () => {
+    return request(app)
+      .delete('/api/topics/1')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        return request(app)
+          .get('/api/topics/1')
+      }).then((response) => {
+        expect(response.statusCode).toBe(404)
+      })
+  })
+  /*author: Massimo Girondi*/
+  test('Remove invalid Topic', async () => {
+    return request(app)
+      .delete('/api/topics/1')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(400)
+      })
+  })
+
+  /*author: Massimo Girondi*/
+  test('Remove wrong Topic, wrong id', async () => {
+    return request(app)
+      .put('/api/topics/8')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(400)
+      })
+  })
+
+  /*author: Massimo Girondi*/
+  test('Remove wrong Topic, other topic', async () => {
+    return request(app)
+      .put('/api/topics/0')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(400)
+      })
+  })
+})
+
 describe('Test Professor Remove', () => {
   /*author: Matteo Battilana*/
   test('Remove correct Professor without authentication', async () => {
@@ -281,6 +336,15 @@ describe('Test Professor Remove', () => {
         expect(response.statusCode).toBe(404)
       })
   })
+  /*author: Massimo Girondi*/
+  test('Remove invalid Professor', async () => {
+    return request(app)
+      .delete('/api/professors/1')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(400)
+      })
+  })
 
   /*author: Matteo Battilana*/
   test('Remove wrong Professor, wrong id', async () => {
@@ -301,5 +365,4 @@ describe('Test Professor Remove', () => {
         expect(response.statusCode).toBe(403)
       })
   })
-
 })

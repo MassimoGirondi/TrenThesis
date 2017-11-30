@@ -192,28 +192,35 @@ router
    * @apiPermission GoogleAuthenticatedProfessor
    */
   .get('/token', loggedIn, function(req, res, next) {
-    var token = jwt.sign({
+
+    req.app.get('db').collection('users').findOne({
       googleId: req.user._json.id
-    }, process.env.AuthSecret, {
-      expiresIn: '1d'
-    });
-    if (req.session.callback) {
-      try {
-        var url = decodeURIComponent(req.session.callback);
-        res.redirect(url + "?token=" + token);
-      } catch (e) {
-        console.log(e);
-        var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
-        err.status = 422;
-        next(err);
-      }
-
-    } else {
-
-      return res.json({
-        "token": token
+    }).then((data) => {
+      var token = jwt.sign({
+        googleId: req.user._json.id,
+        professor_id: data.id
+      }, process.env.AuthSecret, {
+        expiresIn: '1d'
       });
-    }
+      if (req.session.callback) {
+        try {
+          var url = decodeURIComponent(req.session.callback);
+          res.redirect(url + "?token=" + token);
+        } catch (e) {
+          console.log(e);
+          var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
+          err.status = 422;
+          next(err);
+        }
+
+      } else {
+
+        return res.json({
+          "token": token
+        });
+      }
+    })
+
   })
 
   /**

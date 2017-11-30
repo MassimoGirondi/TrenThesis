@@ -371,21 +371,20 @@ router
    * @apiGroup Topics
    *
    * @apiSuccess {status} Boolean value, true if the deletion was successful.
-   * @apiError  {404} TopicNotDeleted An information message (encapsulated in a JSON Object named error).
+   * @apiError  {400} TopicNotDeleted An information message (encapsulated in a JSON Object named error).
    * @apiError  {505} InternalError An information message (encapsulated in a JSON Object named error).
    * @apiPermission AuthenticatedProfessor
    */
-  .delete('/topics/:id', isAuthenticated, (req, res, next) => isAuthorized(req, res, next, req.body.professor_id),
+  .delete('/topics/:id', isAuthenticated,
     function(req, res, next) {
       var db = req.app.get("db");
       var id = parseInt(req.params.id);
-      var professor_id = parseInt(req.body.professor_id);
+      var professor_id = req.decodedToken.professor_id;
 
       db.collection("topics").deleteOne({
         "id": id,
         'professor_id': professor_id
       }, req.body, function(err, status) {
-
         if (err) {
           console.error("Failed to delete topic with id=" + id + " : " + err.message);
           var err = new Error('Something is broken!');
@@ -395,8 +394,8 @@ router
           if (status.deletedCount === 1) {
             res.status(200).json(true);
           } else {
-            var err = new Error('Topic not found!');
-            err.status = 404;
+            var err = new Error('Topic not found or not authorized!');
+            err.status = 400;
             next(err);
           }
         }

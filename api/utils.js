@@ -68,8 +68,7 @@ if (process.env.debug && process.env.debug == 'true') {
                 });
               } else {
                 req.decodedToken = decoded;
-                //req.decodedToken.professor_id = data.googleId;
-                //req.decodedToken.profileData = data;
+                req.decodedToken.profileData = data;
                 next();
               }
             })
@@ -108,7 +107,8 @@ module.exports.isUpdateSafe = (req, res, next) => {
  */
 module.exports.getTestToken = () => {
   var token = jwt.sign({
-    googleId: '116652383299820429186'
+    googleId: '116652383299820429186',
+    professor_id: 1
   }, process.env.AuthSecret, {
     expiresIn: '1d'
   });
