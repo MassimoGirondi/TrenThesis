@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "start": "node router.js",
+    "start": "export $(cat .env | xargs)  && node router.js",
     "test": "export $(cat .env | xargs)  && $(npm bin)/jest --forceExit"
   },
   "jest": {

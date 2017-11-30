@@ -21,7 +21,7 @@ module.exports.isAuthorized = (req, res, next, id) => {
 /**
  * Check if the request is authenticated and the token is valid
  */
-if (process.env.debug) {
+if (process.env.debug && process.env.debug == 'true') {
   var jwtAuth = (req, res, next) => {
     req.decodedToken = {
       'professor_id': 1,

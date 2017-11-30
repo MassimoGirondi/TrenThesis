@@ -37,7 +37,7 @@ passport.use(new GoogleStrategy({
     var db = req.app.get("db");
 
     // Check email
-    if (process.env.debug || profile._json.hd === 'unitn.it') {
+    if ((process.env.debug && process.env.debug == 'true') || profile._json.hd === 'unitn.it') {
 
       db.collection("users").findOne({
         googleId: profile._json.id
