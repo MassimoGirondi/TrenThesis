@@ -36,6 +36,5 @@
     "verbose": true,
     "collectCoverage": true,
     "testResultsProcessor": "./node_modules/jest-html-reporter"
-
   }
 }

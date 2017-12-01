@@ -181,6 +181,19 @@ describe('Test Get Topics', () => {
   //Must add the same as 'Test Professor Update' cases
 });
 
+describe('Test Get Categories', () => {
+    /*author: Daniele Isoni*/
+    test('Get all Categories correct', async () => {
+    return request(app)
+      .get('/api/categories')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]).toEqual("machine_learning")
+        expect(response.body[1]).toEqual("web")
+      })
+  })
+});
+
 
 describe('Test Professor Update', () => {
   /*author: Massimo Girondi*/
