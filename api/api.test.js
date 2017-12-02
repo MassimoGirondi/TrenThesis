@@ -34,13 +34,18 @@ class TelegramBot extends EventEmitter {
     this.setWebHook = (url) => {}
     this.processUpdate = (update) => {
       const message = update.message;
+      const data = update.data;
       if (message) {
-        this.emit(message, () => {})
+        this.emit(message, data)
       } else {
         console.error('no message provided')
       }
     }
-    this.answerCallbackQuery = (callbackQueryId) => {}
+    this.answerCallbackQuery = (callbackQueryId) => {
+      return new Promise(function(resolve, reject) {
+        resolve()
+      })
+    }
     this.sendMessage = () => {}
   }
 }
@@ -51,6 +56,7 @@ telegramBotApi.mockImplementation(
 
 const request = require('supertest');
 const app = require('../router');
+const constants = require('../bot/constants')
 const getTestToken = require('./utils').getTestToken;
 const strategyCallback = require('./auth_routes').strategyCallback
 const exec = require('child_process').exec;
@@ -622,7 +628,7 @@ describe('Test the authenticaton API', () => {
 describe('Test bot', () => {
 
   /*author: Riccardo Capraro*/
-  test('Post bot root url, /bot', async () => {
+  test('Test POST on bot root url, /bot', async () => {
     return request(app)
       .post('/bot/bot' + TOKEN)
       .then(response => {
@@ -631,23 +637,169 @@ describe('Test bot', () => {
   });
 
   /*author: Riccardo Capraro*/
-  test('Post bot on callback_query', async () => {
+  test('Test POST on callback_query with invalid callback_query', async () => {
     return request(app)
       .post('/bot/bot' + TOKEN)
       .send({
         message: 'callback_query'
       })
       .then(response => {
+        expect(response.statusCode).toBe(500)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on callback_query with valid callback_query and target = p(professor)', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'callback_query',
+        data: {
+          data: 'p1',
+          message: {
+            chat: {
+              id: 0
+            }
+          }
+        }
+      })
+      .then(response => {
         expect(response.statusCode).toBe(200)
       })
   });
 
   /*author: Riccardo Capraro*/
-  test('Post bot on message', async () => {
+  test('Test POST on callback_query with valid callback_query and target = t(topic)', async () => {
     return request(app)
       .post('/bot/bot' + TOKEN)
       .send({
-        message: 'message'
+        message: 'callback_query',
+        data: {
+          data: 't1',
+          message: {
+            chat: {
+              id: 0
+            }
+          }
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on callback_query with valid callback_query and target = c(category)', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'callback_query',
+        data: {
+          data: 'c1',
+          message: {
+            chat: {
+              id: 0
+            }
+          }
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on callback_query with valid callback_query and target = u(unmatched character)', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'callback_query',
+        data: {
+          data: 'u',
+          message: {
+            chat: {
+              id: 0
+            }
+          }
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /* IN ORDER FOR THESE TESTS TO RUN NOMINALLY WE NEED TO PROVIDE A MOCK IMPLEMENTATION OF
+   * FUNCTIONS.GETJSONFROMURL OR PASS VALID DATA IN THE BODY OF THE REQUESTS*/
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on message with valid body and action = START', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'message',
+        data: {
+          text: constants.START
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on message with valid body and action = PROFEMOJ + PREFEREDPROFESSOR', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'message',
+        data: {
+          text: constants.PROFEMOJI + constants.PREFEREDPROFESSOR
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on message with valid body and action = ARGEMOJI + ANARGUMENT', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'message',
+        data: {
+          text: constants.ARGEMOJI + constants.ANARGUMENT
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on message with valid body and action = CATEGEMOJI + PREFEREDCATEGORY', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'message',
+        data: {
+          text: constants.CATEGEMOJI + constants.PREFEREDCATEGORY
+        }
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test POST on message with valid body and action = u(unmatched action)', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'message',
+        data: {
+          text: 'u'
+        }
       })
       .then(response => {
         expect(response.statusCode).toBe(200)
