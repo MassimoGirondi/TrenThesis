@@ -24,67 +24,65 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-passport.use(new GoogleStrategy({
-    clientID: process.env.googleClientID,
-    clientSecret: process.env.googleClientSecret,
-    callbackURL: "/auth/google/callback",
-    userProfileURL: "https://www.googleapis.com/oauth2/v2/userinfo",
-    proxy: true,
-    passReqToCallback: true,
-  },
-  function(req, token, tokenSecret, profile, cb) {
+/*Token should be accessToken and tokenSecret -> refreshToken
+https://github.com/jaredhanson/passport-google-oauth2/blob/master/lib/strategy.js  */
+const strategyCallback = function(req, token, tokenSecret, profile, cb) {
 
-    var db = req.app.get("db");
+  var db = req.app.get("db");
+  // Check email
+  if ((process.env.debug && process.env.debug == 'true') || profile._json.hd === 'unitn.it') {
 
-    // Check email
-    if (true) { //((process.env.debug && process.env.debug == 'true') || profile._json.hd === 'unitn.it') {
-
-      db.collection("users").findOne({
-        googleId: profile._json.id
-      }, function(err, user) {
-        if (err || !user) {
-
-          //
-
-          db.collection("users").find({}, {
-              _id: 0,
-              id: 1
-            }).sort({
-              id: -1
-            }).limit(1)
-            .toArray()
-            .then((max_id) => {
-              var new_id = (max_id[0].id || -1) + 1;
-              db.collection("users").insertOne({
-                googleId: profile._json.id,
-                id: new_id
-              }).then(() => {
-                console.log("Inserted new user, id:" + new_id);
-                //console.log(user);
-                db.collection("professors").insertOne({
-                  id: new_id,
-                  first_name: profile._json.given_name,
-                  last_name: profile._json.family_name,
-                  email: profile._json.email,
-                }).then((professor) => {
-                  console.log("Inserted new professor, id:" + new_id);
-                  cb(null, profile);
-                })
+    db.collection("users").findOne({
+      googleId: profile._json.id
+    }, function(err, user) {
+      if (err || !user) {
+        db.collection("users").find({}, {
+            _id: 0,
+            id: 1
+          }).sort({
+            id: -1
+          }).limit(1)
+          .toArray()
+          .then((max_id) => {
+            var new_id = (max_id[0].id || -1) + 1;
+            db.collection("users").insertOne({
+              googleId: profile._json.id,
+              id: new_id
+            }).then(() => {
+              console.log("Inserted new user, id:" + new_id);
+              //console.log(user);
+              db.collection("professors").insertOne({
+                id: new_id,
+                first_name: profile._json.given_name,
+                last_name: profile._json.family_name,
+                email: profile._json.email,
+              }).then((professor) => {
+                console.log("Inserted new professor, id:" + new_id);
+                cb(null, profile);
               })
+            })
 
-            });
-        } else {
-          console.log("Existing: " + user.googleId);
-          cb(null, profile);
-        }
-      });
-    } else {
-      console.log("Not authorized: " + profile._json.email);
-      var err = new Error('Not authorized: ' + profile._json.email);
-      cb(null, false, err);
-    }
+          });
+      } else {
+        console.log("Existing: " + user.googleId);
+        cb(null, profile);
+      }
+    });
+  } else {
+    console.log("Not authorized: " + profile._json.email);
+    var err = new Error('Not authorized: ' + profile._json.email);
+    cb(null, false, err);
+  }
+}
 
-  }));
+passport.use(new GoogleStrategy({
+  clientID: process.env.googleClientID,
+  clientSecret: process.env.googleClientSecret,
+  callbackURL: "/auth/google/callback",
+  userProfileURL: "https://www.googleapis.com/oauth2/v2/userinfo",
+  proxy: true,
+  passReqToCallback: true,
+}, strategyCallback));
 
 
 
@@ -136,7 +134,6 @@ router
 
       if (req.query.callback)
         req.session.callback = req.query.callback;
-      //console.log(req.session.callback);
       next();
     },
     passport.authenticate('google', {
@@ -192,10 +189,10 @@ router
    * @apiPermission GoogleAuthenticatedProfessor
    */
   .get('/token', loggedIn, function(req, res, next) {
-
     req.app.get('db').collection('users').findOne({
       googleId: req.user._json.id
     }).then((data) => {
+      console.error('Might raise error if data is empty')
       var token = jwt.sign({
         googleId: req.user._json.id,
         professor_id: data.id
@@ -244,5 +241,7 @@ router
     res.status(200).json(req.decodedToken.profileData);
   });
 
-
 module.exports = router;
+if (process.env.debug && process.env.debug == 'true') {
+  module.exports.strategyCallback = strategyCallback
+}

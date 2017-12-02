@@ -182,8 +182,8 @@ describe('Test Get Topics', () => {
 });
 
 describe('Test Get Categories', () => {
-    /*author: Daniele Isoni*/
-    test('Get all Categories correct', async () => {
+  /*author: Daniele Isoni*/
+  test('Get all Categories correct', async () => {
     return request(app)
       .get('/api/categories')
       .then(response => {
