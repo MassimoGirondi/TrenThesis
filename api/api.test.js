@@ -22,6 +22,33 @@ loggedInModule.ensureLoggedIn.mockImplementation((options) => {
   }
 });
 
+/*Mockup bot*/
+const TOKEN = process.env.tokenTelegramBot;
+const EventEmitter = require('eventemitter3');
+
+jest.mock('node-telegram-bot-api');
+let telegramBotApi = require('node-telegram-bot-api');
+class TelegramBot extends EventEmitter {
+  constructor(token) {
+    super()
+    this.setWebHook = (url) => {}
+    this.processUpdate = (update) => {
+      const message = update.message;
+      if (message) {
+        this.emit(message, () => {})
+      } else {
+        console.error('no message provided')
+      }
+    }
+    this.answerCallbackQuery = (callbackQueryId) => {}
+    this.sendMessage = () => {}
+  }
+}
+telegramBotApi.mockImplementation(
+  (token) => new TelegramBot(TOKEN)
+);
+
+
 const request = require('supertest');
 const app = require('../router');
 const getTestToken = require('./utils').getTestToken;
@@ -592,6 +619,42 @@ describe('Test the authenticaton API', () => {
   });
 })
 
+describe('Test bot', () => {
+
+  /*author: Riccardo Capraro*/
+  test('Post bot root url, /bot', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Post bot on callback_query', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'callback_query'
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Post bot on message', async () => {
+    return request(app)
+      .post('/bot/bot' + TOKEN)
+      .send({
+        message: 'message'
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+})
+
 
 
 /* MIND THAT AFTER THIS LINE WE CLOSE THE DATABASE */
@@ -690,7 +753,4 @@ describe('Test internal errors in API', () => {
         expect(response.statusCode).toBe(505)
       })
   })
-
-
-
 })
