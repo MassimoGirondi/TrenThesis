@@ -29,8 +29,7 @@ router
    * @apiSuccess {String} message message informing the service is working.
    */
   .get('/', function(req, res) {
-
-    res.json({
+    res.status(200).json({
       message: 'hooray! Benvenuto nelle nostre API!'
     });
   })
@@ -42,7 +41,7 @@ router
    *
    * @apiSuccess {Object[]} JSON array with all professors in DB.
    */
-  .get('/professors', function(req, res) {
+  .get('/professors', function(req, res, next) {
 
     var db = req.app.get("db");
     db.collection("professors").find({}, {
