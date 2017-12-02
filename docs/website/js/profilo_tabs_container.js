@@ -1,7 +1,10 @@
 $(document).ready(function() {
   profile();
   $("#container-settings").hide();
+    
+  //Aggiungere le checkbox dinamiche sia per le discipline preferita sia per le competenze preferite
 });
+
 
 function profile() {
   let profile = Cookies.getJSON('profile');

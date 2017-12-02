@@ -49,6 +49,16 @@ body{
     background-color: rgb(16, 84, 135);
 }
 
+.tab-container-settings{
+    
+    padding: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+    background-color: rgb(16, 84, 135);
+    font-size: 0.9em;
+}
+
 .img-circle{
     max-width:45%;
     max-height:45%;
@@ -70,9 +80,10 @@ body{
 }
 
 .list-header{
+    padding-top: 25px;
     text-decoration: underline;
     font-style: italic;
-    font-size: 1em;
+    font-size: 1.3em!important;
 }
 
 .list-container{
@@ -85,6 +96,7 @@ body{
     list-style-type: none;
     padding: 10px 20px;
     font-size: 0.9em;
+    color: black;
 }
 
 .no-settings{

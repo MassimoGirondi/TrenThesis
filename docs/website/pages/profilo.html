@@ -37,10 +37,10 @@
         </div>
         <div class="col-md-4">
           <div class="btn-right">
-            <div class="btn-edit" onclick="showModal('#modalEditProfile')">
+            <!--<div class="btn-edit" onclick="showModal('#modalEditProfile')">
               <span class="fa fa-pencil" aria-hidden="true"></span>
-            </div><!--NON RIMUOVERE IL COMMENTO
-            --><div class="btn-remove" onclick="unsubscribe()">
+            </div>NON RIMUOVERE IL COMMENTO
+            --><div class="btn-delete" onclick="unsubscribe()">
               <span class="fa fa-times" aria-hidden="true"></span>
             </div>
           </div>
@@ -55,6 +55,14 @@
       <div id="container-profile" class="tab-container">
          <div class="tab-container-informations">
             <div class="profile-informations">
+                <div class="btn-right">
+                    <!--<div class="btn-edit" onclick="showModal('#modalEditProfile')">
+                      <span class="fa fa-pencil" aria-hidden="true"></span>
+                    </div>NON RIMUOVERE IL COMMENTO
+                    --><div class="btn-edit-1" onclick="showModal('#modalEditProfile')">
+                      <span class="fa fa-pencil" aria-hidden="true"></span>
+                    </div>
+                </div>
                 <div>
                     <h2 class="title-profile"><span id="name"></span> <span id="surname"></span></h2>
                 </div>
@@ -73,6 +81,12 @@
           <div id="career-information"></div>
       </div>
       <div id="container-settings" class="tab-container">
+          <div class="tab-container-settings">
+              <div class="btn-right">
+                <div class="btn-edit-1" onclick="showModal('#modalEditSettings')">
+                <span class="fa fa-pencil" aria-hidden="true"></span>
+                </div>
+              </div>
         <div class="settings">
           <div class="list-header">Discipline preferite</div>
           <div class="list-container">
@@ -82,6 +96,7 @@
         </div>
         <hr>
         <div class="settings">
+            
           <div class="list-header">Competenze richieste per gli studenti</div>
           <div class="list-container">
             <ul id="skills-list" class="list">
@@ -130,6 +145,35 @@
       </div>
     </div>
   </div>
+      
+  <div id="modalEditSettings" class="modal">
+    <div class="modalWindow">
+      <div><span class="fa fa-times close"></span></div>
+      <div class="modal-title">Modifica impostazioni</div>
+      <div class="modal-body">
+        <div class="modal-section">
+            <div class="modal-label">Discipline preferite</div>
+            <div id="checkboxes-topics" class="modal-checkbox">
+            </div>
+          </div>
+        <div class="modal-section">
+            <div class="modal-label">Competenze richieste</div>
+            <div id="checkboxes-skills" class="modal-checkbox">
+            </div>
+          </div>
+        </div>
+      <div class="modal-footer">
+        <div class="btn-container">
+          <div class="btn-group">
+            <div class="btn-done" onclick="editSettings()"><span class="fa fa-check"></span></div>
+          </div><!--NON MODIFICARE IL COMMENTO
+           --><div class="btn-group">
+            <div class="btn-clear" onclick="resetSettings()"><span class="fa fa-repeat"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <div class="footer">
@@ -146,6 +190,7 @@
   <script src="../js/profilo_tabs_container.js"></script>
   <script src="../js/modal.js"></script>
   <script src="../js/profilo.js"></script>
+  <script src="../js/settings.js"></script>
 
 </body>
 
