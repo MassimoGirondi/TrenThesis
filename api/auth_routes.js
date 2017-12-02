@@ -172,9 +172,6 @@ router
   .get('/login', function(req, res) {
 
     var msg = "To login visit this URL:";
-    if (req.user) {
-      msg += " Note that you are already loggedIn."
-    }
     res.send({
       message: msg,
       url: req.protocol + "://" + req.get('host') + "/auth/google"

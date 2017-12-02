@@ -6,7 +6,7 @@ const request = require('supertest');
 const app = require('../router');
 const getTestToken = require('./utils').getTestToken;
 const exec = require('child_process').exec;
-console.log(getTestToken());
+//console.log(getTestToken());
 /*
   Function to call mongoimport
 */
@@ -182,8 +182,8 @@ describe('Test Get Topics', () => {
 });
 
 describe('Test Get Categories', () => {
-    /*author: Daniele Isoni*/
-    test('Get all Categories correct', async () => {
+  /*author: Daniele Isoni*/
+  test('Get all Categories correct', async () => {
     return request(app)
       .get('/api/categories')
       .then(response => {
@@ -378,4 +378,39 @@ describe('Test Professor Remove', () => {
         expect(response.statusCode).toBe(403)
       })
   })
+})
+
+
+describe("Test authentication", () => {
+  /*author: Massimo Girondi*/
+  test("Test Google Login URL", async () => {
+    return request(app)
+      .get('/auth/google?callback=URL')
+      .then(response => {
+        expect(response.statusCode).toBe(302)
+        expect(response.header.location).toEqual(expect.stringMatching(/^https:\/\/accounts\.google\.com\/o\/oauth2\/v2\/auth\?prompt=consent&response_type=code&redirect_uri=.*%2Fauth%2Fgoogle%2Fcallback&scope=profile%20email&client_id=.*\.apps\.googleusercontent\.com/))
+      })
+  })
+
+  /*author: Massimo Girondi*/
+  test("Test Login Instruction and URL", async () => {
+    return request(app)
+      .get('/auth/login')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body.url).toEqual(expect.stringMatching(/^https?:\/\/.*:.*\/auth\/google/))
+        expect(response.body.message).toEqual("To login visit this URL:")
+      })
+  })
+
+  /*author: Massimo Girondi*/
+  test("Test not authorized error", async () => {
+    return request(app)
+      .get('/auth/not_authorized')
+      .then(response => {
+        expect(response.statusCode).toBe(401)
+        expect(response.body.error.message).toEqual(expect.stringMatching(/^You are not authorized to use this API; please try with an authorized account \(https?:\/\/.*:.*\/auth\/google\)/))
+      })
+  })
+
 })
