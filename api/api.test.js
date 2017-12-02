@@ -2,11 +2,33 @@
 process.env.mongoDBUrl = 'mongodb://localhost:27017/trenthesis';
 process.env.debug = 'true';
 
+const profile = {
+  '_json': {
+    'id': "116652383299820429186"
+  }
+}
+/* Mockup loggedIn function */
+jest.mock('connect-ensure-login');
+const loggedInModule = require('connect-ensure-login');
+const getCallbackUrl = jest.fn()
+  .mockReturnValueOnce(undefined)
+  .mockReturnValueOnce('valid_url')
+  .mockReturnValueOnce('%%%%%'); //invalid url
+loggedInModule.ensureLoggedIn.mockImplementation((options) => {
+  return (req, res, next) => {
+    req.user = profile
+    req.session.callback = getCallbackUrl()
+    next();
+  }
+});
+
 const request = require('supertest');
 const app = require('../router');
 const getTestToken = require('./utils').getTestToken;
+const strategyCallback = require('./auth_routes').strategyCallback
 const exec = require('child_process').exec;
 console.log(getTestToken());
+
 /*
   Function to call mongoimport
 */
@@ -59,11 +81,52 @@ afterAll((done) => {
     });
   });
 })
+
 test('Test if there is a DB connection', () => {
   var status = app.get('db').serverConfig.isConnected()
   expect(status).toBe(true);
 })
 
+
+describe('Test router', () => {
+  /*author: Riccardo Capraro*/
+  /*test('Check if options headers are set correctly calling root', async () => {
+    return request(app)
+      .get('/')
+      .then(response => {
+        console.error(response.headers)
+        expect(response.statusCode).toBe(200)
+        expect(response.headers['Access-Control-Allow-Methods']).toBe('GET, PUT, POST, DELETE ')
+      })
+  });*/
+
+  /*author: Riccardo Capraro*/
+  test('Get invalid url, /invalidurl', async () => {
+    return request(app)
+      .get('/invalidurl')
+      .then(response => {
+        expect(response.statusCode).toBe(404)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Get invalid url, /invalidurl', async () => {
+    return request(app)
+      .get('/invalidurl')
+      .then(response => {
+        expect(response.statusCode).toBe(404)
+      })
+  });
+})
+
+/*author: Riccardo Capraro*/
+test('Get api root url, /api', async () => {
+  return request(app)
+    .get('/api')
+    .then(response => {
+      expect(response.statusCode).toBe(200)
+    })
+});
 
 describe('Test Get professors', () => {
   /*author: Matteo Battilana*/
@@ -194,7 +257,6 @@ describe('Test Get Categories', () => {
   })
 });
 
-
 describe('Test Professor Update', () => {
   /*author: Massimo Girondi*/
   test('Update correct Professor', async () => {
@@ -272,8 +334,8 @@ describe('Test Topic Update', () => {
 })
 
 
+/*author: Massimo Girondi*/
 describe('Test Topic Remove', () => {
-  /*author: Massimo Girondi*/
   test('Remove correct Topic without authentication', async () => {
     return request(app)
       .delete('/api/topics/0')
@@ -295,6 +357,7 @@ describe('Test Topic Remove', () => {
         expect(response.statusCode).toBe(404)
       })
   })
+
   /*author: Massimo Girondi*/
   test('Remove invalid Topic', async () => {
     return request(app)
@@ -349,6 +412,7 @@ describe('Test Professor Remove', () => {
         expect(response.statusCode).toBe(404)
       })
   })
+
   /*author: Massimo Girondi*/
   test('Remove invalid Professor', async () => {
     return request(app)
@@ -378,4 +442,255 @@ describe('Test Professor Remove', () => {
         expect(response.statusCode).toBe(403)
       })
   })
+})
+
+
+/*author: Riccardo Capraro*/
+describe('Test the authenticaton API', () => {
+
+  /*author: Riccardo Capraro*/
+  test('Test auth root url, /auth', async () => {
+    return request(app)
+      .get('/auth')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test auth login url, /auth/login, without user in request', async () => {
+    let invariableResponseSubstring = /.*" Note that you are already loggedIn."/
+    return request(app)
+      .get('/auth/login')
+      .then(response => {
+        let itsResponse = invariableResponseSubstring.exec(response.body.message)
+        expect(response.statusCode).toBe(200)
+        expect(itsResponse).toBe(null)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test authentication, /auth/google', async () => {
+    return request(app)
+      .get('/auth/google?callback=/')
+      .then(response => {
+        expect(response.statusCode).toBe(302)
+      })
+  });
+
+
+  /*author: Riccardo Capraro*/
+  describe('Test the auth_routes strategy callback', () => {
+
+    const mockRequest = {
+      'app': app
+    }
+
+    /* Set DEBUG to false to test passport auth strategy callback before test*/
+    beforeAll(() => {
+      process.env.debug = false
+    });
+    /*reset DEBUG to true after test */
+    afterAll(() => {
+      process.env.debug = 'true'
+    });
+
+    /*author: Riccardo Capraro*/
+    test('Test strategyCallback with invalid email address (no hd provided)', async () => {
+      strategyCallback(mockRequest, null, null, profile, () => {})
+    });
+
+    /*author: Riccardo Capraro*/
+    test('Test strategyCallback with valid email address (hd provided and valid)', async () => {
+      let validProfile = profile;
+      profile._json.hd = 'unitn.it'
+      strategyCallback(mockRequest, null, null, validProfile, () => {})
+    });
+
+    /*author: Riccardo Capraro*/
+    test('Test strategyCallback with valid email address and with id not in db', async () => {
+      let invalidProfile = profile;
+      profile._json.id = '5653546'
+      strategyCallback(mockRequest, null, null, invalidProfile, () => {})
+    });
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Test authentication, /auth/google', async () => {
+    return request(app)
+      .get('/auth/google?callback=/')
+      .then(response => {
+        expect(response.statusCode).toBe(302)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test to get the token with a correct logged in user and no callback url', async () => {
+    let invariableTokenSubstring = /[a-zA-Z0-9]+"."[a-zA-Z0-9]+"."/
+
+    return request(app)
+      .get('/auth/token')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        let itsResponse = invariableTokenSubstring.exec(response.body.token)
+        let itsExpected = invariableTokenSubstring.exec(getTestToken())
+        expect(itsResponse).toBe(itsExpected)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test to get the token with a correct logged in user and valid callback url', async () => {
+    let invariableTokenSubstring = /[a-zA-Z0-9]+"."[a-zA-Z0-9]+"."/
+
+    return request(app)
+      .get('/auth/token')
+      .then(response => {
+        expect(response.statusCode).toBe(302)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test to get the token with a correct logged in user and invalid callback url', async () => {
+    let invariableTokenSubstring = /[a-zA-Z0-9]+"."[a-zA-Z0-9]+"."/
+
+    return request(app)
+      .get('/auth/token')
+      .then(response => {
+        expect(response.statusCode).toBe(422)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test GET not authorized url, /auth/not_authorized', async () => {
+    return request(app)
+      .get('/auth/not_authorized')
+      .then(response => {
+        expect(response.statusCode).toBe(401)
+      })
+  });
+
+  /*author: Riccardo Capraro*/
+  test('Test GET profile with token, /auth/profile', async () => {
+    return request(app)
+      .get('/auth/profile')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toEqual({
+          "id": 1,
+          "first_name": "Riccardo",
+          "last_name": "Capraro",
+          "email": "trenthesis@unitn.it",
+          "department": "DISI",
+          "website": "https://github.com/MassimoGirondi/TrenThesis",
+          "further_info": {
+            "office hours": "Mon-Tue 7AM-7PM",
+            "career": "This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career. This is my career."
+          }
+        })
+      })
+  });
+})
+
+
+
+/* MIND THAT AFTER THIS LINE WE CLOSE THE DATABASE */
+describe('Test internal errors in API', () => {
+
+  /*author: Riccardo Capraro*/
+  test('Try to close the db connection', () => {
+    app.get('db').close()
+    var status = app.get('db').serverConfig.isConnected()
+    expect(status).toBe(false);
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Get Professor with no db connectio', async () => {
+    return request(app)
+      .get('/api/professors/1')
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Get all professors with no db connection', async () => {
+    return request(app)
+      .get('/api/professors')
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Get all topics with no db connection', async () => {
+    return request(app)
+      .get('/api/topics')
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Get specific topic with no db connection', async () => {
+    return request(app)
+      .get('/api/topics/1')
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Remove correct Topic with no db connection', async () => {
+    return request(app)
+      .delete('/api/topics/1')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Update correct Topic with no db connection', async () => {
+    return request(app)
+      .put('/api/topics/1')
+      .send({
+        id: 1,
+        professor_id: 1,
+        title: 'Clustering algorithms with sklearn modified',
+        description: 'Empty description empty description'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Remove correct Professor with no db connection', async () => {
+    return request(app)
+      .delete('/api/professors/1')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Update correct Professor with no db connection', async () => {
+    return request(app)
+      .put('/api/professors/1')
+      .send({
+        id: 1,
+        first_name: 'Guido',
+        last_name: 'La Barca'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(505)
+      })
+  })
+
+
+
 })
