@@ -2,9 +2,20 @@
 process.env.mongoDBUrl = 'mongodb://localhost:27017/trenthesis';
 process.env.debug = 'true';
 
-const profile = {
+const validProfile = {
+  '_json': {
+    'id': "116652383299820429186",
+    'hd': 'unitn.it'
+  }
+}
+const validProfileNoHd = {
   '_json': {
     'id': "116652383299820429186"
+  }
+}
+const invalidProfile = {
+  '_json': {
+    'id': "9876545678976545678765"
   }
 }
 /* Mockup loggedIn function */
@@ -16,7 +27,7 @@ const getCallbackUrl = jest.fn()
   .mockReturnValueOnce('%%%%%'); //invalid url
 loggedInModule.ensureLoggedIn.mockImplementation((options) => {
   return (req, res, next) => {
-    req.user = profile
+    req.user = validProfile
     req.session.callback = getCallbackUrl()
     next();
   }
@@ -538,20 +549,16 @@ describe('Test the authenticaton API', () => {
 
     /*author: Riccardo Capraro*/
     test('Test strategyCallback with invalid email address (no hd provided)', async () => {
-      strategyCallback(mockRequest, null, null, profile, () => {})
+      strategyCallback(mockRequest, null, null, validProfileNoHd, () => {})
     });
 
     /*author: Riccardo Capraro*/
     test('Test strategyCallback with valid email address (hd provided and valid)', async () => {
-      let validProfile = profile;
-      profile._json.hd = 'unitn.it'
       strategyCallback(mockRequest, null, null, validProfile, () => {})
     });
 
     /*author: Riccardo Capraro*/
     test('Test strategyCallback with valid email address and with id not in db', async () => {
-      let invalidProfile = profile;
-      profile._json.id = '5653546'
       strategyCallback(mockRequest, null, null, invalidProfile, () => {})
     });
   })
@@ -572,6 +579,7 @@ describe('Test the authenticaton API', () => {
     return request(app)
       .get('/auth/token')
       .then(response => {
+        //expect(response.body).toBe(1)
         expect(response.statusCode).toBe(200)
         let itsResponse = invariableTokenSubstring.exec(response.body.token)
         let itsExpected = invariableTokenSubstring.exec(getTestToken())

@@ -193,32 +193,34 @@ router
       googleId: req.user._json.id
     }).then((data) => {
       if (!data) {
-        var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
+        console.error(data, req.user);
+        var err = new Error('User not found');
         err.status = 404;
         next(err);
-      }
-      var token = jwt.sign({
-        googleId: req.user._json.id,
-        professor_id: data.id
-      }, process.env.AuthSecret, {
-        expiresIn: '1d'
-      });
-      if (req.session.callback) {
-        try {
-          var url = decodeURIComponent(req.session.callback);
-          res.redirect(url + "?token=" + token);
-        } catch (e) {
-          console.log(e);
-          var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
-          err.status = 422;
-          next(err);
-        }
-
       } else {
+          var token = jwt.sign({
+            googleId: req.user._json.id,
+            professor_id: data.id
+          }, process.env.AuthSecret, {
+            expiresIn: '1d'
+          });
+          if (req.session.callback) {
+            try {
+              var url = decodeURIComponent(req.session.callback);
+              res.redirect(url + "?token=" + token);
+            } catch (e) {
+              console.log(e);
+              var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
+              err.status = 422;
+              next(err);
+            }
 
-        return res.json({
-          "token": token
-        });
+          } else {
+
+            return res.json({
+              "token": token
+            });
+          }
       }
     })
 
