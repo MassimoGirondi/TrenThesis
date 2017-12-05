@@ -192,7 +192,11 @@ router
     req.app.get('db').collection('users').findOne({
       googleId: req.user._json.id
     }).then((data) => {
-      console.error('Might raise error if data is empty')
+      if (!data) {
+        var err = new Error('Malformed URL in callback parameter: ' + req.session.callback + ' (Maybe is not encoded through encodeURIComponent?)');
+        err.status = 404;
+        next(err);
+      }
       var token = jwt.sign({
         googleId: req.user._json.id,
         professor_id: data.id

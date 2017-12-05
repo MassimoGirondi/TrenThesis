@@ -53,6 +53,14 @@ telegramBotApi.mockImplementation(
   (token) => new TelegramBot(TOKEN)
 );
 
+/* Mockup getJsonFromUrl function */
+jest.mock('../bot/functions');
+const functionsModule = require('../bot/functions');
+const getJsonFromUrl = functionsModule.getJsonFromUrl;
+
+functionsModule.getJsonFromUrl.mockImplementation(
+  (url, cb, chatid, bot) => {}
+);
 
 const request = require('supertest');
 const app = require('../router');
@@ -738,7 +746,10 @@ describe('Test bot', () => {
       .send({
         message: 'message',
         data: {
-          text: constants.START
+          text: constants.START,
+          chat: {
+            id: 0
+          }
         }
       })
       .then(response => {
@@ -753,7 +764,10 @@ describe('Test bot', () => {
       .send({
         message: 'message',
         data: {
-          text: constants.PROFEMOJI + constants.PREFEREDPROFESSOR
+          text: constants.PROFEMOJI + constants.PREFEREDPROFESSOR,
+          chat: {
+            id: 0
+          }
         }
       })
       .then(response => {
@@ -768,7 +782,10 @@ describe('Test bot', () => {
       .send({
         message: 'message',
         data: {
-          text: constants.ARGEMOJI + constants.ANARGUMENT
+          text: constants.ARGEMOJI + constants.ANARGUMENT,
+          chat: {
+            id: 0
+          }
         }
       })
       .then(response => {
@@ -783,7 +800,10 @@ describe('Test bot', () => {
       .send({
         message: 'message',
         data: {
-          text: constants.CATEGEMOJI + constants.PREFEREDCATEGORY
+          text: constants.CATEGEMOJI + constants.PREFEREDCATEGORY,
+          chat: {
+            id: 0
+          }
         }
       })
       .then(response => {
@@ -798,7 +818,10 @@ describe('Test bot', () => {
       .send({
         message: 'message',
         data: {
-          text: 'u'
+          text: 'u',
+          chat: {
+            id: 0
+          }
         }
       })
       .then(response => {
