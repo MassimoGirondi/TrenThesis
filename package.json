@@ -18,7 +18,8 @@
     "jest": "^21.2.1",
     "child_process": "^1.0.2",
     "jest-html-reporter": "^0.5.3",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "babel-core": "^6.0.0"
   },
   "apidoc": {
     "name": "Trenthesis",
