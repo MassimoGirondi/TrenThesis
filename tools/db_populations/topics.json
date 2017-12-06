@@ -1,0 +1,91 @@
+{
+  "id": 0,
+  "professor_id": 0,
+  "title": "Machine learning web micro-services",
+  "short_abstract": "Machine learning micro-services with Node.js",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": false,
+  "categories": ["web", "machine_learning"]
+} {
+  "id": 1,
+  "professor_id": 1,
+  "title": "Clustering algorithms with sklearn",
+  "short_abstract": "Add a clustering algorithm to the scikit-learn library",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": false,
+  "categories": ["machine_learning"]
+} {
+  "id": 2,
+  "professor_id": 1,
+  "title": "Web frameworks analysis",
+  "short_abstract": "Describe pros and cons of python web frameworks",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["web"]
+} {
+  "id": 3,
+  "professor_id": 1,
+  "title": "Jsp Tag library development",
+  "short_abstract": "Develop a tag library for the JSP environment",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["web"]
+} {
+  "id": 4,
+  "professor_id": 2,
+  "title": "Application in Android",
+  "short_abstract": "Develop an application in Android ",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["web", "mobile"]
+} {
+  "id": 5,
+  "professor_id": 4,
+  "title": "Application in iOS",
+  "short_abstract": "Develop an application in iOS",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["web", "mobile"]
+} {
+  "id": 6,
+  "professor_id": 2,
+  "title": "Peer 2 Peer Comparison Complexity",
+  "short_abstract": "Make a research about peer 2 peer comparison complexity",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["network"]
+} {
+  "id": 7,
+  "professor_id": 2,
+  "title": "Blockchain in IOT",
+  "short_abstract": "Make a research about blockchain in IOT",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["security"]
+} {
+  "id": 8,
+  "professor_id": 4,
+  "title": "Blockchain in Hard Wallet",
+  "short_abstract": "Make a research about blockchain in Hard Wallet",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["security"]
+} {
+  "id": 9,
+  "professor_id": 0,
+  "title": "State of the Art of Blockchains",
+  "short_abstract": "Make a research about the State of the Art of Blockchains",
+  "description": "Empty description",
+  "resource": "folder/rewritten_url",
+  "assigned": true,
+  "categories": ["security"]
+}

@@ -10,7 +10,8 @@ connect_to_mongo:
 
 upload_test_population:
 	./tools/test_populations/upload_test_population.sh
-
+upload_db_population:
+	./tools/db_populations/upload_db_population.sh
 push:
 	make documentation
 	git commit -a
