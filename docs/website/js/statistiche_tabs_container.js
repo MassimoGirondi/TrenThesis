@@ -1,6 +1,6 @@
 function professors(statistics) {
 
-  var ctx = document.getElementById("chartBestTopicsProfessors").getContext('2d');
+  /*var ctx = document.getElementById("chartBestTopicsProfessors").getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -86,7 +86,7 @@ function professors(statistics) {
         }]
       }
     }
-  });
+  });*/
 }
 
 
@@ -95,7 +95,7 @@ function students(statistics) {
   let labels = []
   let data = []
 
-  let statistic = statistics['top_categories']
+  let statistic = statistics[0]['top_categories']
   for (elem of statistic) {
     labels.push(elem['_id'])
     data.push(elem['count'])
@@ -108,13 +108,46 @@ function students(statistics) {
       labels: labels,
       datasets: [{
         data: data,
-        borderWidth: 1
+        borderWidth: 1,
+        backgroundColor: [
+          'rgba(237, 51, 30, 0.4)',
+          'rgba(255, 0, 110, 0.4)',
+          'rgba(255, 238, 0, 0.4)',
+          'rgba(0, 165, 255, 0.4)',
+          'rgba(136, 79, 221, 0.4)',
+          'rgba(255, 136, 33, 0.4)',
+
+          'rgba(35, 8, 168, 0.4)',
+          'rgba(95, 214, 36, 0.4)',
+          'rgba(29, 195, 214, 0.4)',
+          'rgba(214, 90, 29, 0.4)',
+          'rgba(61, 211, 139, 0.4)',
+          'rgba(59, 94, 104, 0.4)',
+          'rgba(59, 94, 104, 0.4)'
+
+        ],
+        borderColor: [
+          'rgba(237, 51, 30,1)',
+          'rgba(255, 0, 110, 1)',
+          'rgba(255, 238, 0, 1)',
+          'rgba(0, 165, 255, 1)',
+          'rgba(136, 79, 221, 1)',
+          'rgba(255, 136, 33, 1)',
+
+          'rgba(35, 8, 168,1)',
+          'rgba(95, 214, 36, 1)',
+          'rgba(29, 195, 214, 1)',
+          'rgba(214, 90, 29, 1)',
+          'rgba(61, 211, 139, 1)',
+          'rgba(59, 94, 104, 1)',
+          'rgba(59, 94, 104, 1)'
+        ]
       }]
     },
     options: {}
   });
 
-  var ctx = document.getElementById("chartAvarage").getContext('2d');
+  /*var ctx = document.getElementById("chartAvarage").getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -167,5 +200,5 @@ function students(statistics) {
         }]
       }
     }
-  });
+  });*/
 }
