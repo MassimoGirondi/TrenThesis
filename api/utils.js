@@ -102,6 +102,46 @@ module.exports.isUpdateSafe = (req, res, next) => {
   }
 }
 
+/*
+ * Compute statistics
+ */
+module.exports.computeStatistic = (req, res, target) => {
+  return new Promise(function(resolve, reject) {
+    var db = req.app.get("db");
+
+    switch (target) {
+      case 'top_categories':
+        db.collection('topics').aggregate(
+          [{
+            '$project': {
+              'categories': 1,
+              '_id': 0
+            }
+          }, {
+            '$unwind': '$categories'
+          }, {
+            '$group': {
+              '_id': '$categories',
+              'count': {
+                '$sum': 1
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_categories statistic'
+              });
+            } else {
+              resolve(data)
+            }
+          })
+        break;
+    }
+  })
+}
+
+
 /**
  * Return a token to test authenticated API
  */

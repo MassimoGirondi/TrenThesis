@@ -18,6 +18,7 @@ Import utils for requst authentication and authorization
 var isAuthenticated = require('./utils.js').isAuthenticated;
 var isAuthorized = require('./utils.js').isAuthorized;
 var isUpdateSafe = require('./utils.js').isUpdateSafe;
+var computeStatistic = require('./utils.js').computeStatistic;
 
 router
 
@@ -493,6 +494,51 @@ router
         }
       });
     }
+  })
+
+  /**
+   * @api {get} /api/statistics Get system statistics
+   * @apiName  Get system statistics
+   * @apiGroup Statistics
+   *
+   * @apiParam target Get a specific statistic
+   * @apiSuccess {Object} JSON object contain a list of statistics.
+   * @apiError {505} InternalError An information message (encapsulated in a JSON Object named error).
+   */
+  .get('/statistics', function(req, res, next) {
+
+    const IMPLEMENTED_STATISTICS = ['top_categories']
+
+
+    let promise = new Promise(function(resolve, reject) {
+
+      let target = req.query.target;
+      let statistics = [];
+      let promises = [];
+
+      if (target) {
+        if (IMPLEMENTED_STATISTICS.includes(target)) {
+          promises.push(computeStatistic(req, res, target).then((result) => {
+            statistics.push(result)
+            resolve(statistics)
+          }))
+        }
+      } else {
+        for (statistic of IMPLEMENTED_STATISTICS) {
+          promises.push(computeStatistic(req, res, statistic).then((result) => {
+            statistics.push(result)
+          }))
+        }
+      }
+
+      Promise.all(promises).then(() => {
+        resolve(statistics)
+      })
+    })
+
+    promise.then((statistics) => {
+      res.status(200).json(statistics);
+    })
   });
 
 module.exports = router;
