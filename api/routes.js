@@ -519,14 +519,18 @@ router
       if (target) {
         if (IMPLEMENTED_STATISTICS.includes(target)) {
           promises.push(computeStatistic(req, res, target).then((result) => {
+            let json = {}
+            json[statistic] = result
+            statistics.push(json)
             statistics.push(result)
-            resolve(statistics)
           }))
         }
       } else {
         for (statistic of IMPLEMENTED_STATISTICS) {
           promises.push(computeStatistic(req, res, statistic).then((result) => {
-            statistics.push(result)
+            let json = {}
+            json[statistic] = result
+            statistics.push(json)
           }))
         }
       }

@@ -10,12 +10,22 @@ function openTab(name) {
     $(this).hide();
   });
 
-  if (name = "professors") {
-    professors();
-  } else if (name = "students") {
-    students();
-  }
+  getStatistics.then((statistics) => {
+    if (name = "professors") {
+      professors(statistics);
+    } else if (name = "students") {
+      students(statistics);
+    }
+  })
 
   $(tabName).addClass("tab-selected");
   $(containerName).show();
+}
+
+function getStatistics() {
+  return $.ajax({
+    url: api_url + '/api/statistics',
+    type: 'GET',
+    dataType: 'json'
+  });
 }
