@@ -844,6 +844,8 @@ describe('Test bot', () => {
 /* MIND THAT AFTER THIS LINE WE CLOSE THE DATABASE */
 describe('Test internal errors in API', () => {
 
+
+
   /*author: Riccardo Capraro*/
   test('Try to close the db connection', () => {
     app.get('db').close()

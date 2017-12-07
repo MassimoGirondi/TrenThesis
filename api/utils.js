@@ -110,6 +110,40 @@ module.exports.computeStatistic = (req, res, target) => {
     var db = req.app.get("db");
 
     switch (target) {
+      case 'top_student_categories':
+        db.collection('topics').aggregate(
+          [{
+            '$match': {
+              'assigned': {
+                '$ne': false
+              }
+            }
+          }, {
+            '$project': {
+              'categories': 1,
+              '_id': 0
+            }
+          }, {
+            '$unwind': '$categories'
+          }, {
+            '$group': {
+              '_id': '$categories',
+              'count': {
+                '$sum': 1
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_student_categories statistic'
+              });
+            } else {
+              resolve(data)
+            }
+          })
+        break;
+
       case 'top_categories':
         db.collection('topics').aggregate(
           [{

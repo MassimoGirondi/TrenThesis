@@ -507,7 +507,7 @@ router
    */
   .get('/statistics', function(req, res, next) {
 
-    const IMPLEMENTED_STATISTICS = ['top_categories']
+    const IMPLEMENTED_STATISTICS = ['top_categories', 'top_student_categories']
 
 
     let promise = new Promise(function(resolve, reject) {
