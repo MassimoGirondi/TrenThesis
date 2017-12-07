@@ -18,6 +18,8 @@ Import utils for requst authentication and authorization
 var isAuthenticated = require('./utils.js').isAuthenticated;
 var isAuthorized = require('./utils.js').isAuthorized;
 var isUpdateSafe = require('./utils.js').isUpdateSafe;
+var computeStatistic = require('./utils.js').computeStatistic;
+var computeProfessorProfileStatistics = require('./utils.js').computeProfessorProfileStatistics;
 
 router
 
@@ -497,6 +499,70 @@ router
         }
       });
     }
+  })
+
+  /**
+   * @api {get} /profile Get your profile statistics
+   * @apiName Get Profile statistics
+   * @apiGroup Statistics
+   */
+  .get('/statistics/profile', isAuthenticated, function(req, res, next) {
+    const professor_id = req.decodedToken.professor_id;
+    computeProfessorProfileStatistics(req, res, professor_id).then((data) => {
+      res.status(200).json(data);
+    })
+  })
+
+  /**
+   * @api {get} /api/statistics Get system statistics
+   * @apiName  Get system statistics
+   * @apiGroup Statistics
+   *
+   * @apiParam target Get a specific statistic
+   * @apiSuccess {Object} JSON object contain a list of statistics.
+   * @apiError {505} InternalError An information message (encapsulated in a JSON Object named error).
+   */
+  .get('/statistics', function(req, res, next) {
+
+    const IMPLEMENTED_STATISTICS = ['top_categories', 'top_professors', 'top_student_categories', 'top_professor_categories']
+
+
+    let promise = new Promise(function(resolve, reject) {
+
+      const target = req.query.target;
+      let statistics = [];
+      let promises = [];
+
+      if (target) {
+        if (IMPLEMENTED_STATISTICS.includes(target)) {
+          promises.push(computeStatistic(req, res, target).then((result) => {
+            statistics.push(result)
+          }))
+        } else {
+          reject()
+        }
+      } else {
+        for (statistic of IMPLEMENTED_STATISTICS) {
+          promises.push(computeStatistic(req, res, statistic).then((result) => {
+            statistics.push(result)
+          }))
+        }
+      }
+
+      Promise.all(promises).then(() => {
+        resolve(statistics)
+      }, (reason) => {
+        reject(reason)
+      })
+    })
+
+    promise.then((statistics) => {
+      res.status(200).json(statistics);
+    }, (reason) => {
+      res.status(404).json({
+        'message': reason
+      });
+    })
   });
 
 module.exports = router;

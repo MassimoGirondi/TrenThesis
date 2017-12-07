@@ -102,6 +102,227 @@ module.exports.isUpdateSafe = (req, res, next) => {
   }
 }
 
+/*
+ * Compute statistics
+ */
+
+module.exports.computeProfessorProfileStatistics = (req, res, professor_id) => {
+  return new Promise(function(resolve, reject) {
+    var db = req.app.get("db");
+    db.collection('topics').aggregate(
+      [{
+        '$match': {
+          'professor_id': professor_id
+        }
+      }, {
+        '$project': {
+          'categories': 1,
+          '_id': 0
+        }
+      }, {
+        '$unwind': '$categories'
+      }, {
+        '$group': {
+          '_id': '$categories',
+          'count': {
+            '$sum': 1
+          }
+        }
+      }],
+      function(err, data) {
+        if (err) {
+          res.status(505).send({
+            message: 'Error in computing top_categories statistic'
+          });
+        } else {
+          resolve(data)
+        }
+      })
+  })
+}
+
+module.exports.computeStatistic = (req, res, target) => {
+  return new Promise(function(resolve, reject) {
+    var db = req.app.get("db");
+
+    switch (target) {
+      case 'top_student_categories':
+        db.collection('topics').aggregate(
+          [{
+            '$match': {
+              'assigned': {
+                '$ne': false
+              }
+            }
+          }, {
+            '$project': {
+              'categories': 1,
+              '_id': 0
+            }
+          }, {
+            '$unwind': '$categories'
+          }, {
+            '$group': {
+              '_id': '$categories',
+              'count': {
+                '$sum': 1
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_student_categories statistic'
+              });
+            } else {
+              let json = {}
+              json[target] = data
+              resolve(json)
+            }
+          })
+        break;
+
+      case 'top_categories':
+        db.collection('topics').aggregate(
+          [{
+            '$project': {
+              'categories': 1,
+              '_id': 0
+            }
+          }, {
+            '$unwind': '$categories'
+          }, {
+            '$group': {
+              '_id': '$categories',
+              'count': {
+                '$sum': 1
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_categories statistic'
+              });
+            } else {
+              let json = {}
+              json[target] = data
+              resolve(json)
+            }
+          })
+        break;
+
+      case 'top_professors':
+        db.collection('topics').aggregate(
+          [{
+            '$project': {
+              'professor_id': 1,
+              '_id': 0
+            }
+          }, {
+            '$group': {
+              '_id': '$professor_id',
+              'count': {
+                '$sum': 1
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_professors statistic'
+              });
+            } else {
+              db.collection('topics').aggregate(
+                [{
+                  '$project': {
+                    'professor_id': 1,
+                    '_id': 0
+                  }
+                }, {
+                  '$group': {
+                    '_id': '$professor_id',
+                    'count': {
+                      '$sum': 1
+                    }
+                  }
+                }, {
+                  '$limit': 5
+                }],
+                function(err, data) {
+                  let json = {}
+                  json[target] = data
+                  resolve(json)
+                })
+            }
+          })
+        break;
+
+      case 'top_professor_categories':
+        db.collection('topics').aggregate(
+          [{
+            '$project': {
+              'professor_id': 1,
+              'categories': 1,
+              '_id': 0
+            }
+          }, {
+            '$unwind': '$categories'
+          }, {
+            '$group': {
+              '_id': {
+                'professor_id': '$professor_id',
+                'category': '$categories'
+              },
+              'count': {
+                '$sum': 1
+              },
+            }
+          }, {
+            '$group': {
+              '_id': {
+                'professor_id': '$_id.professor_id',
+                'category': '$_id.category'
+              },
+              'count': {
+                '$max': '$count'
+              }
+            }
+          }, {
+            '$sort': {
+              '_id.professor_id': 1,
+              'count': 1
+            }
+          }, {
+            '$group': {
+              '_id': {
+                'professor_id': '$_id.professor_id'
+              },
+              'count': {
+                '$last': '$count'
+              },
+              'category': {
+                '$last': '$_id.category'
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_professor_categories statistic'
+              });
+            } else {
+              let json = {}
+              json[target] = data
+              resolve(json)
+            }
+          })
+        break;
+    }
+  })
+}
+
+
 /**
  * Return a token to test authenticated API
  */
