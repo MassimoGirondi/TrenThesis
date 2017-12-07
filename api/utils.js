@@ -212,7 +212,53 @@ module.exports.computeStatistic = (req, res, target) => {
           })
         break;
 
-      case 'top_categories_per_professor':
+      case 'top_professors':
+        db.collection('topics').aggregate(
+          [{
+            '$project': {
+              'professor_id': 1,
+              '_id': 0
+            }
+          }, {
+            '$group': {
+              '_id': '$professor_id',
+              'count': {
+                '$sum': 1
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_professors statistic'
+              });
+            } else {
+              db.collection('topics').aggregate(
+                [{
+                  '$project': {
+                    'professor_id': 1,
+                    '_id': 0
+                  }
+                }, {
+                  '$group': {
+                    '_id': '$professor_id',
+                    'count': {
+                      '$sum': 1
+                    }
+                  }
+                }, {
+                  '$limit': 5
+                }],
+                function(err, data) {
+                  let json = {}
+                  json[target] = data
+                  resolve(json)
+                })
+            }
+          })
+        break;
+
+      case 'top_professor_categories':
         db.collection('topics').aggregate(
           [{
             '$project': {
