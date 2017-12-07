@@ -45,8 +45,7 @@ body{
     padding: 15px;
     padding-left: 25px;
     padding-right: 25px;
-    color: white;
-    background-color: rgb(16, 84, 135);
+    color: black;
 }
 
 .tab-container-settings{
@@ -54,8 +53,7 @@ body{
     padding: 15px;
     padding-left: 25px;
     padding-right: 25px;
-    color: white;
-    background-color: rgb(16, 84, 135);
+    color: black;
     font-size: 0.9em;
 }
 
@@ -123,6 +121,13 @@ body{
 }
 
 hr{
-    color: white;
+    height: 1px;
+    color:  rgba(12, 60, 96, 1);
+    background-color: rgba(12, 60, 96, 1);
+    border: none;
+}
+
+#btn-edit-settings{
+    cursor: not-allowed;
 }
 
