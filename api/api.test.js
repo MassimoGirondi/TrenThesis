@@ -358,11 +358,7 @@ describe('Test Professor Update', () => {
       .set('x-access-token', getTestToken())
       .then(response => {
         expect(response.statusCode).toBe(200)
-        return request(app)
-          .get('/api/professors/1')
-      }).then((response) => {
-        expect(response.body.first_name).toEqual('Guido')
-        expect(response.body.last_name).toEqual('La Barca')
+				expect(response.body.modify).toEqual(false)
       })
 	})
 })
@@ -404,6 +400,23 @@ describe('Test Topic Update', () => {
         expect(response.statusCode).toBe(403)
       })
   })
+
+	test('Update correct Topic without edit data', async () => {
+		return request(app)
+      .put('/api/topics/1')
+      .send({
+        id: 1,
+        professor_id: 1,
+        title: 'Clustering algorithms with sklearn modified',
+        description: 'Empty description empty description'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+				expect(response.body.modify).toEqual(false)
+      })
+
+	})
 })
 
 
