@@ -15,7 +15,8 @@ const validProfileNoHd = {
 }
 const invalidProfile = {
   '_json': {
-    'id': "9876545678976545678765"
+    'id': "9876545678976545678765",
+    'hd': 'unitn.it'
   }
 }
 /* Mockup loggedIn function */
