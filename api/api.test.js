@@ -496,6 +496,45 @@ describe('Test Professor Remove', () => {
   })
 })
 
+/*author: Valentina Odorizzi*/
+describe('Test Topic Insert', () => {
+
+	/*author: Valentina Odorizzi*/
+	test('Insert new correct topic', async () => {
+		return request(app)
+			.post('/api/topics')
+			.send({
+				professor_id: 1,
+				title: 'Title',
+				description: 'Description'
+		 	})
+		  	.then(response => {
+				expect(response.statusCode).toBe(200)
+				return request(app)
+				.get('/api/topics/' + response.body.id)
+				.then(response => {
+					expect(response.body.title).toBe('Title')
+					expect(response.body.description).toBe('Description')
+				})
+			})
+	});
+
+	/*author: Valentina Odorizzi*/
+	test('Insert new topic without authentication', async () => {
+		return request(app)
+			.post('/api/topics')
+			.set('x-access-token', getTestToken())
+			.send({
+				professor_id: 2,
+				title: 'Title',
+				description: 'Description'
+		 	})
+			.then(response => {
+				expect(response.statusCode).toBe(403)
+			})	
+	});
+})
+
 
 /*author: Riccardo Capraro*/
 describe('Test the authenticaton API', () => {

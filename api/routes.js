@@ -254,7 +254,11 @@ router
       }).limit(1)
       .toArray()
       .then((max_id) => {
-        body.id = (max_id[0].id || -1) + 1;
+		if(max_id[0].id == 0){
+			body.id = 1	
+		} else{
+			body.id = (max_id[0].id || -1) + 1;
+		}
         db.collection("topics").insert(body)
           .then((topic) => {
 
