@@ -345,6 +345,26 @@ describe('Test Professor Update', () => {
         expect(response.statusCode).toBe(403)
       })
   })
+
+	/*author: Valentina Odorizzi*/
+  test('Update correct professor without edit data', async() => {
+		return request(app)
+			.put('/api/professors/1')
+      .send({
+        id: 1,
+        first_name: 'Guido',
+        last_name: 'La Barca'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        return request(app)
+          .get('/api/professors/1')
+      }).then((response) => {
+        expect(response.body.first_name).toEqual('Guido')
+        expect(response.body.last_name).toEqual('La Barca')
+      })
+	})
 })
 
 describe('Test Topic Update', () => {
