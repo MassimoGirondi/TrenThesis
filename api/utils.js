@@ -105,6 +105,42 @@ module.exports.isUpdateSafe = (req, res, next) => {
 /*
  * Compute statistics
  */
+
+module.exports.computeProfessorProfileStatistics = (req, res, professor_id) => {
+  return new Promise(function(resolve, reject) {
+    var db = req.app.get("db");
+    db.collection('topics').aggregate(
+      [{
+        '$match': {
+          'professor_id': professor_id
+        }
+      }, {
+        '$project': {
+          'categories': 1,
+          '_id': 0
+        }
+      }, {
+        '$unwind': '$categories'
+      }, {
+        '$group': {
+          '_id': '$categories',
+          'count': {
+            '$sum': 1
+          }
+        }
+      }],
+      function(err, data) {
+        if (err) {
+          res.status(505).send({
+            message: 'Error in computing top_categories statistic'
+          });
+        } else {
+          resolve(data)
+        }
+      })
+  })
+}
+
 module.exports.computeStatistic = (req, res, target) => {
   return new Promise(function(resolve, reject) {
     var db = req.app.get("db");
@@ -176,7 +212,7 @@ module.exports.computeStatistic = (req, res, target) => {
           })
         break;
 
-      case 'top_professor_categories':
+      case 'top_categories_per_professor':
         db.collection('topics').aggregate(
           [{
             '$project': {

@@ -19,6 +19,7 @@ var isAuthenticated = require('./utils.js').isAuthenticated;
 var isAuthorized = require('./utils.js').isAuthorized;
 var isUpdateSafe = require('./utils.js').isUpdateSafe;
 var computeStatistic = require('./utils.js').computeStatistic;
+var computeProfessorProfileStatistics = require('./utils.js').computeProfessorProfileStatistics;
 
 router
 
@@ -497,6 +498,18 @@ router
   })
 
   /**
+   * @api {get} /profile Get your profile statistics
+   * @apiName Get Profile statistics
+   * @apiGroup Statistics
+   */
+  .get('/statistics/profile', isAuthenticated, function(req, res, next) {
+    const professor_id = req.decodedToken.professor_id;
+    computeProfessorProfileStatistics(req, res, professor_id).then((data) => {
+      res.status(200).json(data);
+    })
+  })
+
+  /**
    * @api {get} /api/statistics Get system statistics
    * @apiName  Get system statistics
    * @apiGroup Statistics
@@ -507,12 +520,12 @@ router
    */
   .get('/statistics', function(req, res, next) {
 
-    const IMPLEMENTED_STATISTICS = ['top_categories', 'top_student_categories', 'top_professor_categories']
+    const IMPLEMENTED_STATISTICS = ['top_categories', 'top_student_categories', 'top_categories_per_professor']
 
 
     let promise = new Promise(function(resolve, reject) {
 
-      let target = req.query.target;
+      const target = req.query.target;
       let statistics = [];
       let promises = [];
 
