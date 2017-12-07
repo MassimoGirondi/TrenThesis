@@ -323,6 +323,22 @@ describe('Test Get Categories', () => {
         expect(response.body[1]).toEqual("web")
       })
   })
+
+	/*author: Valentina Odorizzi*/
+  test('Get correct default Categories', async () => {
+    return request(app)
+      .get('/api/categories?get_defaults=true')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]).toEqual("web")
+        expect(response.body[1]).toEqual("operating systems")
+				expect(response.body[2]).toEqual("compilers")
+				expect(response.body[3]).toEqual("machine learning")
+				expect(response.body[4]).toEqual("electronics")
+				expect(response.body[5]).toEqual("mathematics")
+				expect(response.body[6]).toEqual("science fiction")
+      })
+  })
 });
 
 describe('Test Professor Update', () => {
