@@ -295,6 +295,21 @@ describe('Test Get Topics', () => {
       })
   })
   //Must add the same as 'Test Professor Update' cases
+
+	/*author: Valentina Odorizzi*/
+	test('Get Topics by filters', async () => {
+		return request(app)
+			.get('/api/topics?professor_id=1&category=web')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+
+        expect(response.body[0].professor_id).toEqual(1)
+				expect(response.body[0].categories).toEqual(['web'])
+
+        expect(response.body[1].professor_id).toEqual(1)
+				expect(response.body[1].categories).toEqual(['web'])
+      })
+	})
 });
 
 describe('Test Get Categories', () => {
@@ -401,6 +416,7 @@ describe('Test Topic Update', () => {
       })
   })
 
+	/*author: Valentina Odorizzi*/
 	test('Update correct Topic without edit data', async () => {
 		return request(app)
       .put('/api/topics/1')
