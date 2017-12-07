@@ -139,7 +139,9 @@ module.exports.computeStatistic = (req, res, target) => {
                 message: 'Error in computing top_student_categories statistic'
               });
             } else {
-              resolve(data)
+              let json = {}
+              json[target] = data
+              resolve(json)
             }
           })
         break;
@@ -167,7 +169,70 @@ module.exports.computeStatistic = (req, res, target) => {
                 message: 'Error in computing top_categories statistic'
               });
             } else {
-              resolve(data)
+              let json = {}
+              json[target] = data
+              resolve(json)
+            }
+          })
+        break;
+
+      case 'top_professor_categories':
+        db.collection('topics').aggregate(
+          [{
+            '$project': {
+              'professor_id': 1,
+              'categories': 1,
+              '_id': 0
+            }
+          }, {
+            '$unwind': '$categories'
+          }, {
+            '$group': {
+              '_id': {
+                'professor_id': '$professor_id',
+                'category': '$categories'
+              },
+              'count': {
+                '$sum': 1
+              },
+            }
+          }, {
+            '$group': {
+              '_id': {
+                'professor_id': '$_id.professor_id',
+                'category': '$_id.category'
+              },
+              'count': {
+                '$max': '$count'
+              }
+            }
+          }, {
+            '$sort': {
+              '_id.professor_id': 1,
+              'count': 1
+            }
+          }, {
+            '$group': {
+              '_id': {
+                'professor_id': '$_id.professor_id'
+              },
+              'count': {
+                '$last': '$count'
+              },
+              'category': {
+                '$last': '$_id.category'
+              }
+            }
+          }],
+          function(err, data) {
+            if (err) {
+              res.status(505).send({
+                message: 'Error in computing top_professor_categories statistic'
+              });
+            } else {
+              let json = {}
+              json[target] = data
+              resolve(json)
             }
           })
         break;

@@ -507,7 +507,7 @@ router
    */
   .get('/statistics', function(req, res, next) {
 
-    const IMPLEMENTED_STATISTICS = ['top_categories', 'top_student_categories']
+    const IMPLEMENTED_STATISTICS = ['top_categories', 'top_student_categories', 'top_professor_categories']
 
 
     let promise = new Promise(function(resolve, reject) {
@@ -519,18 +519,13 @@ router
       if (target) {
         if (IMPLEMENTED_STATISTICS.includes(target)) {
           promises.push(computeStatistic(req, res, target).then((result) => {
-            let json = {}
-            json[statistic] = result
-            statistics.push(json)
             statistics.push(result)
           }))
         }
       } else {
         for (statistic of IMPLEMENTED_STATISTICS) {
           promises.push(computeStatistic(req, res, statistic).then((result) => {
-            let json = {}
-            json[statistic] = result
-            statistics.push(json)
+            statistics.push(result)
           }))
         }
       }
