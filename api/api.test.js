@@ -839,6 +839,47 @@ describe('Test bot', () => {
   });
 })
 
+describe('Test GET statistics', () => {
+
+  /*author: Riccardo Capraro*/
+  test('Test GET statistics with no target param', () => {
+    return request(app)
+      .get('/api/statistics')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Test GET statistics with target param = top_topics', () => {
+    return request(app)
+      .get('/api/statistics?target=top_professor_categories')
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Test GET statistics with wrong target param = wrong', () => {
+    return request(app)
+      .get('/api/statistics?target=wrong')
+      .then(response => {
+        expect(response.statusCode).toBe(404)
+      })
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Test GET statistics/profile with an authenticated token', () => {
+    return request(app)
+      .get('/api/statistics/profile')
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        console.error(response.body)
+        expect(response.statusCode).toBe(200)
+      })
+  })
+})
+
 
 
 /* MIND THAT AFTER THIS LINE WE CLOSE THE DATABASE */

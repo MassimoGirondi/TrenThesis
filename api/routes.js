@@ -534,6 +534,8 @@ router
           promises.push(computeStatistic(req, res, target).then((result) => {
             statistics.push(result)
           }))
+        } else {
+          reject()
         }
       } else {
         for (statistic of IMPLEMENTED_STATISTICS) {
@@ -545,11 +547,17 @@ router
 
       Promise.all(promises).then(() => {
         resolve(statistics)
+      }, (reason) => {
+        reject(reason)
       })
     })
 
     promise.then((statistics) => {
       res.status(200).json(statistics);
+    }, (reason) => {
+      res.status(404).json({
+        'message': reason
+      });
     })
   });
 
