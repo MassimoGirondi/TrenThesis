@@ -1,8 +1,9 @@
 $(document).ready(function() {
   profile();
   $("#container-settings").hide();
-    
+
   //Aggiungere le checkbox dinamiche sia per le discipline preferita sia per le competenze preferite
+  getTopTopics();
 });
 
 
@@ -25,31 +26,46 @@ function profile() {
 }
 
 function settings() {
+
   $("#topics-list").empty();
   $("#skills-list").empty();
-  //Sostituire con il numero totale di topic preferiti dal professore
-  var topicsNumber = 0;
-  //Sostituire con il numero totale di topic preferiti dal professore
-  var skillsNumber = 0;
 
-  if (topicsNumber == 0) {
-    $("#topics-list").append("<li class='no-settings'>Nessuna disciplina preferita</li>");
-  }
-  if (skillsNumber == 0) {
-    $("#skills-list").append("<li class='no-settings'>Nessuna competenza preferita</li>");
-  }
+  getTopTopics()
+    .then((data) => {
+      var topicsNumber = data.length;;
+      var skillsNumber = 0;
 
-  for (var i = 0; i < topicsNumber; i++) {
-    //Sostituire Topic con l'elemento i-esimo del json
-    $("#topics-list").append("<li>Topic" + i + "</li>");
-  }
+      if (topicsNumber == 0) {
+        $("#topics-list").append("<li class='no-settings'>Nessuna disciplina preferita</li>");
+      }
+      if (skillsNumber == 0) {
+        $("#skills-list").append("<li class='no-settings'>Nessuna competenza preferita</li>");
+      }
 
-  for (var i = 0; i < skillsNumber; i++) {
-    //Sostituire Skill con l'elemento i-esimo del json
-    $("#skills-list").append("<li>Skill" + i + "</li>");
-  }
+      for (var i = 0; i < topicsNumber; i++) {
+        //Sostituire Topic con l'elemento i-esimo del json
+        $("#topics-list").append("<li>" + data[i].count + " topic pubblicati <b>" + data[i]._id + "</b></li>");
+      }
 
+      for (var i = 0; i < skillsNumber; i++) {
+        //Sostituire Skill con l'elemento i-esimo del json
+        $("#skills-list").append("<li>Skill" + i + "</li>");
+      }
+
+    })
+    .catch((err) => {
+      console.log("Failure in top topics retrieval" + err);
+    })
 }
+
+function getTopTopics() {
+  return $.ajax({
+    url: api_url + '/api/statistics/profile?token=' + Cookies.getJSON('token'),
+    type: 'GET',
+    dataType: 'json'
+  })
+}
+
 
 
 function unsubscribe() {

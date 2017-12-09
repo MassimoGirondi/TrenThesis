@@ -990,7 +990,6 @@ describe('Test GET statistics', () => {
 describe('Test internal errors in API', () => {
 
 
-
   /*author: Riccardo Capraro*/
   test('Try to close the db connection', () => {
     app.get('db').close()

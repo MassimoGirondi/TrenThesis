@@ -128,6 +128,12 @@ module.exports.computeProfessorProfileStatistics = (req, res, professor_id) => {
             '$sum': 1
           }
         }
+      }, {
+        '$sort': {
+          'count': -1
+        }
+      }, {
+        '$limit': 5
       }],
       function(err, data) {
         if (err) {
