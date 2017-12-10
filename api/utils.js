@@ -232,6 +232,23 @@ module.exports.computeStatistic = (req, res, target) => {
                 '$sum': 1
               }
             }
+          }, {
+            '$limit': 5
+          }, {
+            '$lookup': {
+              'from': 'professors',
+              'localField': '_id',
+              'foreignField': 'id',
+              'as': 'professor_details'
+            }
+          }, {
+            '$unwind': '$professor_details'
+          }, {
+            '$project': {
+              '_id': 0,
+              'professor_details.id': 0,
+              'professor_details._id': 0
+            }
           }],
           function(err, data) {
             if (err) {
@@ -239,27 +256,9 @@ module.exports.computeStatistic = (req, res, target) => {
                 message: 'Error in computing top_professors statistic'
               });
             } else {
-              db.collection('topics').aggregate(
-                [{
-                  '$project': {
-                    'professor_id': 1,
-                    '_id': 0
-                  }
-                }, {
-                  '$group': {
-                    '_id': '$professor_id',
-                    'count': {
-                      '$sum': 1
-                    }
-                  }
-                }, {
-                  '$limit': 5
-                }],
-                function(err, data) {
-                  let json = {}
-                  json[target] = data
-                  resolve(json)
-                })
+              let json = {}
+              json[target] = data
+              resolve(json)
             }
           })
         break;
@@ -301,14 +300,19 @@ module.exports.computeStatistic = (req, res, target) => {
             }
           }, {
             '$group': {
-              '_id': {
-                'professor_id': '$_id.professor_id'
-              },
+              '_id': '$_id.professor_id',
               'count': {
                 '$last': '$count'
               },
               'category': {
                 '$last': '$_id.category'
+              }
+            }
+          }, {
+            '$group': {
+              '_id': '$category',
+              'count': {
+                '$sum': 1
               }
             }
           }],
