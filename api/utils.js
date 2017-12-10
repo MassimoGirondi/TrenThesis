@@ -235,6 +235,10 @@ module.exports.computeStatistic = (req, res, target) => {
           }, {
             '$limit': 5
           }, {
+            '$sort': {
+              'count': -1
+            }
+          }, {
             '$lookup': {
               'from': 'professors',
               'localField': '_id',
@@ -296,7 +300,7 @@ module.exports.computeStatistic = (req, res, target) => {
           }, {
             '$sort': {
               '_id.professor_id': 1,
-              'count': 1
+              'count': -1
             }
           }, {
             '$group': {

@@ -11,7 +11,7 @@ function professors(statistics) {
   let data = []
 
   let target = 'top_categories'
-  let statistic = getStatistic(target)
+  var statistic = getStatistic(target)
 
   for (elem of statistic) {
     labels.push(elem['_id']);
@@ -46,6 +46,62 @@ function professors(statistics) {
     },
     options: {}
   });
+
+  statistic = getStatistic('top_professor_categories')
+  labels = []
+  data = []
+
+  for (elem of statistic) {
+    labels.push(elem['_id']);
+    data.push(elem['count'])
+  }
+
+  ctx = document.getElementById("chartProfessorsPreferencies").getContext('2d');
+  myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Professori',
+        data: data,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.4)',
+          'rgba(54, 162, 235, 0.4)',
+          'rgba(255, 206, 86, 0.4)',
+          'rgba(75, 192, 192, 0.4)',
+          'rgba(153, 102, 255, 0.4)',
+          'rgba(255, 159, 64, 0.4)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
+  let top_professors = $('#top_professors')
+  statistic = getStatistic('top_professors')
+
+  for (elem of statistic) {
+    top_professors.append("<p>" + elem.professor_details.first_name + " " + elem.professor_details.last_name + '<br>' +
+      elem.count + " tesi pubblicate <br>" +
+      'email: ' + elem.professor_details.email + "</p>");
+  }
 }
 
 function students(statistics) {
