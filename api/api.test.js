@@ -142,16 +142,15 @@ test('Test if there is a DB connection', () => {
 
 
 describe('Test router', () => {
+
   /*author: Riccardo Capraro*/
-  /*test('Check if options headers are set correctly calling root', async () => {
+  test('Get server root url, /', async () => {
     return request(app)
       .get('/')
       .then(response => {
-        console.error(response.headers)
         expect(response.statusCode).toBe(200)
-        expect(response.headers['Access-Control-Allow-Methods']).toBe('GET, PUT, POST, DELETE ')
       })
-  });*/
+  });
 
   /*author: Riccardo Capraro*/
   test('Get invalid url, /invalidurl', async () => {
@@ -296,20 +295,20 @@ describe('Test Get Topics', () => {
   })
   //Must add the same as 'Test Professor Update' cases
 
-	/*author: Valentina Odorizzi*/
-	test('Get Topics by filters', async () => {
-		return request(app)
-			.get('/api/topics?professor_id=1&category=web')
+  /*author: Valentina Odorizzi*/
+  test('Get Topics by filters', async () => {
+    return request(app)
+      .get('/api/topics?professor_id=1&category=web')
       .then(response => {
         expect(response.statusCode).toBe(200)
 
         expect(response.body[0].professor_id).toEqual(1)
-				expect(response.body[0].categories).toEqual(['web'])
+        expect(response.body[0].categories).toEqual(['web'])
 
         expect(response.body[1].professor_id).toEqual(1)
-				expect(response.body[1].categories).toEqual(['web'])
+        expect(response.body[1].categories).toEqual(['web'])
       })
-	})
+  })
 });
 
 describe('Test Get Categories', () => {
@@ -324,7 +323,7 @@ describe('Test Get Categories', () => {
       })
   })
 
-	/*author: Valentina Odorizzi*/
+  /*author: Valentina Odorizzi*/
   test('Get correct default Categories', async () => {
     return request(app)
       .get('/api/categories?get_defaults=true')
@@ -332,11 +331,11 @@ describe('Test Get Categories', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body[0]).toEqual("web")
         expect(response.body[1]).toEqual("operating systems")
-				expect(response.body[2]).toEqual("compilers")
-				expect(response.body[3]).toEqual("machine learning")
-				expect(response.body[4]).toEqual("electronics")
-				expect(response.body[5]).toEqual("mathematics")
-				expect(response.body[6]).toEqual("science fiction")
+        expect(response.body[2]).toEqual("compilers")
+        expect(response.body[3]).toEqual("machine learning")
+        expect(response.body[4]).toEqual("electronics")
+        expect(response.body[5]).toEqual("mathematics")
+        expect(response.body[6]).toEqual("science fiction")
       })
   })
 });
@@ -377,10 +376,10 @@ describe('Test Professor Update', () => {
       })
   })
 
-	/*author: Valentina Odorizzi*/
-  test('Update correct professor without edit data', async() => {
-		return request(app)
-			.put('/api/professors/1')
+  /*author: Valentina Odorizzi*/
+  test('Update correct professor without edit data', async () => {
+    return request(app)
+      .put('/api/professors/1')
       .send({
         id: 1,
         first_name: 'Guido',
@@ -389,9 +388,25 @@ describe('Test Professor Update', () => {
       .set('x-access-token', getTestToken())
       .then(response => {
         expect(response.statusCode).toBe(200)
-				expect(response.body.modify).toEqual(false)
+        expect(response.body.modify).toEqual(false)
       })
-	})
+  })
+
+  /*author: Riccardo Capraro*/
+  test('Update correct professor with mismatching id in body', async () => {
+    return request(app)
+      .put('/api/professors/1')
+      .send({
+        id: 2,
+        first_name: 'Guido',
+        last_name: 'La Barca'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+        expect(response.body.message).toEqual('Malicious update detected: you are not allowed to put a different id in the body of the request.')
+      })
+  })
 })
 
 describe('Test Topic Update', () => {
@@ -432,9 +447,9 @@ describe('Test Topic Update', () => {
       })
   })
 
-	/*author: Valentina Odorizzi*/
-	test('Update correct Topic without edit data', async () => {
-		return request(app)
+  /*author: Valentina Odorizzi*/
+  test('Update correct Topic without edit data', async () => {
+    return request(app)
       .put('/api/topics/1')
       .send({
         id: 1,
@@ -445,10 +460,26 @@ describe('Test Topic Update', () => {
       .set('x-access-token', getTestToken())
       .then(response => {
         expect(response.statusCode).toBe(200)
-				expect(response.body.modify).toEqual(false)
+        expect(response.body.modify).toEqual(false)
       })
+  })
 
-	})
+  /*author: Riccardo Capraro*/
+  test('Update correct topic with mismatching id in body', async () => {
+    return request(app)
+      .put('/api/topics/1')
+      .send({
+        id: 2,
+        professor_id: 1,
+        title: 'Clustering algorithms with sklearn modified',
+        description: 'Empty description empty description'
+      })
+      .set('x-access-token', getTestToken())
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+        expect(response.body.message).toEqual('Malicious update detected: you are not allowed to put a different id in the body of the request.')
+      })
+  })
 })
 
 
@@ -565,40 +596,40 @@ describe('Test Professor Remove', () => {
 /*author: Valentina Odorizzi*/
 describe('Test Topic Insert', () => {
 
-	/*author: Valentina Odorizzi*/
-	test('Insert new correct topic', async () => {
-		return request(app)
-			.post('/api/topics')
-			.send({
-				professor_id: 1,
-				title: 'Title',
-				description: 'Description'
-		 	})
-		  	.then(response => {
-				expect(response.statusCode).toBe(200)
-				return request(app)
-				.get('/api/topics/' + response.body.id)
-				.then(response => {
-					expect(response.body.title).toBe('Title')
-					expect(response.body.description).toBe('Description')
-				})
-			})
-	});
+  /*author: Valentina Odorizzi*/
+  test('Insert new correct topic', async () => {
+    return request(app)
+      .post('/api/topics')
+      .send({
+        professor_id: 1,
+        title: 'Title',
+        description: 'Description'
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200)
+        return request(app)
+          .get('/api/topics/' + response.body.id)
+          .then(response => {
+            expect(response.body.title).toBe('Title')
+            expect(response.body.description).toBe('Description')
+          })
+      })
+  });
 
-	/*author: Valentina Odorizzi*/
-	test('Insert new topic without authentication', async () => {
-		return request(app)
-			.post('/api/topics')
-			.set('x-access-token', getTestToken())
-			.send({
-				professor_id: 2,
-				title: 'Title',
-				description: 'Description'
-		 	})
-			.then(response => {
-				expect(response.statusCode).toBe(403)
-			})	
-	});
+  /*author: Valentina Odorizzi*/
+  test('Insert new topic without authentication', async () => {
+    return request(app)
+      .post('/api/topics')
+      .set('x-access-token', getTestToken())
+      .send({
+        professor_id: 2,
+        title: 'Title',
+        description: 'Description'
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(403)
+      })
+  });
 })
 
 
@@ -978,7 +1009,6 @@ describe('Test GET statistics', () => {
       .get('/api/statistics/profile')
       .set('x-access-token', getTestToken())
       .then(response => {
-        console.error(response.body)
         expect(response.statusCode).toBe(200)
       })
   })
