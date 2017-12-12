@@ -36,6 +36,7 @@
   "jest": {
     "verbose": true,
     "collectCoverage": true,
-    "testResultsProcessor": "./node_modules/jest-html-reporter"
+    "testResultsProcessor": "./node_modules/jest-html-reporter",
+    "setupFiles": ["./jestSetup"]
   }
 }
