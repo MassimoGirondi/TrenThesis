@@ -11,3 +11,4 @@ The purpose of this project is to create a platform that allows students and pro
 ### [Website (on GitHub Pages)](https://massimogirondi.github.io/TrenThesis/)
 ### [API Documentation (on GitHub Pages with APIDOC.JS)](https://massimogirondi.github.io/TrenThesis/apidoc/)
 ### [API endpoint (on Heroku)](https://trenthesis.herokuapp.com/)
+### [TrenThesisBot (Telegram Bot)](t.me/TrenThesis_bot)
