@@ -44,7 +44,7 @@ body{
     background-color: rgba(12, 60, 96, 1);
     color: white;
     padding: 25px 25px 40px 25px;
-    height: 280px;
+    height: 100%
 }
 
 .body-text-title{
