@@ -19,7 +19,7 @@ router
 
     var hostname = req.headers.host;
     res.json({
-      message: 'hooray! Benvenuto nelle nostre API. Usa ' + hostname + '/api/ per chiamare una qualsiasi API!'
+      message: 'hooray! Hooray! Welcome to our API server. Use ' + hostname + '/api/ to call any API!'
     });
   })
 

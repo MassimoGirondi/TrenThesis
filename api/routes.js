@@ -32,7 +32,7 @@ router
    */
   .get('/', function(req, res) {
     res.status(200).json({
-      message: 'hooray! Benvenuto nelle nostre API!'
+      message: 'Hooray! Welcome to our API!'
     });
   })
 
@@ -256,11 +256,11 @@ router
       }).limit(1)
       .toArray()
       .then((max_id) => {
-		if(max_id[0].id == 0){
-			body.id = 1	
-		} else{
-			body.id = (max_id[0].id || -1) + 1;
-		}
+        if (max_id[0].id == 0) {
+          body.id = 1
+        } else {
+          body.id = (max_id[0].id || -1) + 1;
+        }
         db.collection("topics").insert(body)
           .then((topic) => {
 
