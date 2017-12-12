@@ -42,8 +42,9 @@ body{
 
 .column-background{
     background-color: rgba(12, 60, 96, 1);
-    color: #eeeeee;
+    color: white;
     padding: 25px 25px 40px 25px;
+    height: 280px;
 }
 
 .body-text-title{
